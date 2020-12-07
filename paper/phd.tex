@@ -1,0 +1,105 @@
+\documentclass[
+	fontsize=10pt, % Base font size
+	twoside=false, % Use different layouts for even and odd pages (in particular, if twoside=true, the margin column will be always on the outside)
+	%open=any, % If twoside=true, uncomment this to force new chapters to start on any page, not only on right (odd) pages
+	%chapterprefix=true, % Uncomment to use the word "Chapter" before chapter numbers everywhere they appear
+	%chapterentrydots=true, % Uncomment to output dots from the chapter name to the page number in the table of contents
+	numbers=noenddot, % Comment to output dots after chapter numbers; the most common values for this option are: enddot, noenddot and auto (see the KOMAScript documentation for an in-depth explanation)
+	%draft=true, % If uncommented, rulers will be added in the header and footer
+	%overfullrule=true, % If uncommented, overly long lines will be marked by a black box; useful for correcting spacing problems
+]{kaobook}
+
+% Choose the language
+\usepackage[english]{babel} % Load characters and hyphenation
+\usepackage[english=british]{csquotes}	% English quotes
+
+% Load the bibliography package
+\usepackage{styles/kaobiblio}
+\addbibresource{main.bib} % Bibliography file
+
+% Load the package for hyperreferences
+\usepackage{styles/kaorefs}
+
+% Set the paths where to look for images
+\usepackage{subcaption}
+\graphicspath{{res/}{img/}}
+
+\usepackage{amsmath}
+\usepackage{styles/mdftheorems}
+
+\begin{document}
+
+\title{Application of machine learning, witch special focus on neural networks, for GPS satellite clock bias prediction.}
+
+
+\author[PG]{Piotr Gny\'{s}}
+\date{\today}
+
+%----------------------------------------------------------------------------------------
+%	DEDICATION
+%----------------------------------------------------------------------------------------
+
+\dedication{
+  I would like to thank my supervisor dr hab. Romuald Kotowski as well as dr Adam Szmigielski and prof. Lech Polkowski
+  for introducing me to world of scientific work.
+}
+
+%----------------------------------------------------------------------------------------
+%	OUTPUT TITLE PAGE AND PREVIOUS
+%----------------------------------------------------------------------------------------
+
+% Note that \maketitle outputs the pages before here
+
+% If twoside=false, \uppertitleback and \lowertitleback are not printed
+% To overcome this issue, we set twoside=semi just before printing the title pages, and set it back to false just after the title pages
+\KOMAoptions{twoside=semi}
+\maketitle
+\KOMAoptions{twoside=false}
+
+
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS & LIST OF FIGURES/TABLES
+%----------------------------------------------------------------------------------------
+
+\begingroup % Local scope for the following commands
+
+% Define the style for the TOC, LOF, and LOT
+%\setstretch{1} % Uncomment to modify line spacing in the ToC
+%\hypersetup{linkcolor=blue} % Uncomment to set the colour of links in the ToC
+\setlength{\textheight}{23cm} % Manually adjust the height of the ToC pages
+
+% Turn on compatibility mode for the etoc package
+\etocstandarddisplaystyle % "toc display" as if etoc was not loaded
+\etocstandardlines % "toc lines as if etoc was not loaded
+
+\tableofcontents % Output the table of contents
+
+\listoffigures % Output the list of figures
+
+% Comment both of the following lines to have the LOF and the LOT on different pages
+\let\cleardoublepage\bigskip
+\let\clearpage\bigskip
+
+\listoftables % Output the list of tables
+
+\endgroup
+
+
+%----------------------------------------------------------------------------------------
+%	MAIN BODY
+%----------------------------------------------------------------------------------------
+
+\mainmatter % Denotes the start of the main document content, resets page numbering and uses arabic numbers
+\setchapterstyle{kao} % Choose the default chapter heading style
+\pagelayout{wide} % No margins
+\pagelayout{margin} % Restore margins
+
+
+\input{chapters/introduction.tex}
+\input{chapters/time_metrology.tex}
+\input{chapters/classic_ml.tex}
+\input{chapters/neural_networks.tex}
+\input{chapters/ml_gps.tex}
+
+
+\end{document}

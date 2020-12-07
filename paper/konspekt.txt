@@ -1,0 +1,52 @@
+\documentclass[...]{memoir}
+
+\usepackage[...]{hyperref}
+\usepackage{memhfixc}
+
+\begin{document}
+
+%-------------------------------------------------------------------------------
+%                                   CHAPTERS
+%-------------------------------------------------------------------------------
+\chapter{Introduction}
+ \section{Abstract}
+ \section{Motivation}
+ \section{Acknowledgements}
+\chapter{Spacecraft automatics}
+\chapter{Introduction to machine learning}
+ \section{What is machine learning}
+ \section{Conventional algorithms}
+ \section{Modern trends in machine learning}
+\chapter{Neural networks}
+ \section{Organic neural networks}
+ \section{History of artificial neural networks}
+ \section{Type of neurons and neural network}
+ \section{Signal path analysis of neural networks}
+\chapter{Evolutionary algorithms}
+ \section{Biological justification of evolutionary algorithms}
+ \section{Basic concepts of evolutionary algorithms}
+ \section{Adjustment of hyperparameters}
+\chapter{Time metrology}
+ \section{Nature of time and history of its measurement}
+ \section{Crystal oscillators}
+ \section{Atomic clocks}
+ \section{Spaceborn time measurement}
+\chapter{Experiments}
+ \section{Use of regression}
+ \section{Adaptive algorithms}
+ \section{Recurrent neural networks}
+ \section{Wavelet recurrent networks}
+
+
+%-------------------------------------------------------------------------------
+%                                   APPENDICES
+%-------------------------------------------------------------------------------
+\begin{appendices}
+  \chapter{Used software}
+  \chapter{Noise models}
+  \chapter{Laplace transform}
+  \chapter{File formats}
+\end{appendices}
+
+
+\end{document}

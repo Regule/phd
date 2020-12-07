@@ -1,0 +1,14 @@
+*.aux
+*.pdf
+*.log
+*.out
+*.gz
+*.bbl
+*.blg
+*.dvi
+*.toc
+*.lof
+*.lot
+__pycache__
+env
+local
