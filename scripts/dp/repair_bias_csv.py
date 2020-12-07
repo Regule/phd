@@ -1,7 +1,7 @@
 import argparse
 import os
-import pandas as pd
 from datetime import datetime, timedelta
+import pandas as pd
 
 MSG_SAT_INFO = 'Attempting to fix csv for satellite {}.'
 MSG_FIX_SUMMARY = 'For satellite {} generated {} entries for {} original entries. {}'
@@ -12,9 +12,10 @@ def fix_csv(csv_file, output_file, log_file, bias_column, epoch_column, sampling
     sat_name = csv_file.split('.')[0].split('/')[-1]
     print(MSG_SAT_INFO.format(sat_name))
     clock_data = pd.read_csv(csv_file, sep=';')
-    clock_data[epoch_column] = clock_data[epoch_column].map(lambda x: datetime.strptime(x, '%Y-%m-%d %H:%M:%S'))
+    clock_data[epoch_column] = clock_data[epoch_column].map(
+            lambda x: datetime.strptime(x, '%Y-%m-%d %H:%M:%S'))
     clock_data.sort_values(epoch_column)
-    
+
     generated_entries = []
     idx = 0
     last_timestamp = clock_data[epoch_column][0]
@@ -26,7 +27,8 @@ def fix_csv(csv_file, output_file, log_file, bias_column, epoch_column, sampling
             generated_timestamp = last_timestamp + timedelta(minutes=sampling_period)
             if not idx == clock_data.shape[0]-1:
                 generated_bias = (generated_bias + clock_data[bias_column][idx+1]) / 2
-            generated_entries.append({epoch_column: generated_timestamp, bias_column: generated_bias})
+            generated_entries.append(
+                    {epoch_column: generated_timestamp, bias_column: generated_bias})
             last_timestamp = generated_timestamp
         else:
             last_timestamp = timestamp
@@ -34,7 +36,7 @@ def fix_csv(csv_file, output_file, log_file, bias_column, epoch_column, sampling
     summary = MSG_FIX_SUMMARY.format(sat_name, len(generated_entries), clock_data.shape[0],
                                      MSG_FIX if len(generated_entries)>0 else MSG_NO_FIX)
     print(summary)
-    
+
     if len(generated_entries) != 0:
         fixed_data = clock_data.to_dict('records') + generated_entries
         fixed_data = pd.DataFrame(fixed_data)
@@ -47,7 +49,7 @@ def fix_csv(csv_file, output_file, log_file, bias_column, epoch_column, sampling
             log.write('\n')
             for entry in generated_entries:
                 log.write(f'{entry}\n')
-        
+
 
 
 def main(csv_dir, output_dir, log_dir, bias_column, epoch_column, sampling_period):
