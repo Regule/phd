@@ -1,0 +1,3 @@
+
+BIAS_COLUMN_NAME = 'Clock_bias'
+EPOCH_COLUMN_NAME = 'Epoch'

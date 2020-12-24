@@ -1,5 +1,5 @@
-import numpy as np
 from datetime import datetime, timedelta
+import numpy as np
 
 EPOCH_STR_FORMAT = '%Y-%m-%d %H:%M:%S'
 
@@ -7,8 +7,7 @@ def epoch_str_to_timestamp(epoch_str):
     return datetime.strptime(epoch_str, EPOCH_STR_FORMAT).timestamp()
 
 def timestamp_to_epoch_str(timestamp):
-    dt = datetime.fromtimestamp(timestamp)
-    return dt.strftime(EPOCH_STR_FORMAT)
+    return datetime.fromtimestamp(timestamp).strftime(EPOCH_STR_FORMAT)
 
 def date_str_to_datetime(date_str):
     return datetime.strptime(date_str,'%Y-%m-%d')
