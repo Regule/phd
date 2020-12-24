@@ -9,6 +9,8 @@
 *.toc
 *.lof
 *.lot
+*.bcf
+*.run.xml
 __pycache__
 env
 local
