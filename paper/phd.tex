@@ -40,7 +40,7 @@ headsepline, % Uncomment to get a line under the header
 
 \usepackage[utf8]{inputenc} % Required for inputting international characters
 \usepackage[T1]{fontenc} % Output font encoding for international characters
-
+\usepackage[english,russian]{babel}
 \usepackage{mathpazo} % Use the Palatino font by default
 
 \usepackage[backend=bibtex,style=authoryear,natbib=true]{biblatex} % Use the bibtex backend with the authoryear citation style (which resembles APA)
@@ -169,10 +169,15 @@ satellite clock bias prediction}
 
 \vspace*{0.2\textheight}
 
-\noindent\enquote{\itshape Thanks to my solid academic training, today I can write hundreds of words on virtually any topic without possessing a shred of information, which is how I got a good job in journalism.}\bigbreak
+\noindent\enquote{\foreignlanguage{russian}{\itshape 
+Все должны быть познающими и всё должно быть предметом знания}}\bigbreak
 
-\hfill Dave Barry
+\hfill Николай Федорович Федоров
 
+\noindent\enquote{\foreignlanguage{russian}{\itshape 
+Everyone should be a researcher and everything should be a subject of research}}\bigbreak
+
+\hfill Nikolai Fyodorovich Fyodorov
 %----------------------------------------------------------------------------------------
 %	ABSTRACT PAGE
 %----------------------------------------------------------------------------------------
@@ -207,8 +212,7 @@ The acknowledgments and the people to thank go here, don't forget to include you
 
 \begin{abbreviations}{ll} % Include a list of abbreviations (a table of two columns)
 
-\textbf{LAH} & \textbf{L}ist \textbf{A}bbreviations \textbf{H}ere\\
-\textbf{WSF} & \textbf{W}hat (it) \textbf{S}tands \textbf{F}or\\
+\include{others/abbreviations}
 
 \end{abbreviations}
 

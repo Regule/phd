@@ -43,11 +43,26 @@ Another is \emph{coordinate time (CT)} which denotes a perfect clock residing in
 internal coordinate system \textbf{CITATION}.
 In real life measurements CT is highest quality time measurement that we can achieve as a 
 physical clock must reside in a physical space which by itself binds it to a coordinate system.
-\textbf{WRITE ABOUT GENERAL TIME REFERENCE FRAMES}
+The highest precision time standad currently available is International Atomic Time (TAI)
+that is based upon an ensemble of primary frequency standards locaed in multiple locations
+around the globe. \textbf{CITATION} With TAI as a fequency standard the Coordinated Universal
+Time (UTC) is calculated by adding a leap seconds for synchronization with earth rotation
+period \textbf{CITATION}. UTC is now widely used standard for civilian timekeeping.
 
 \paragraph{Temporal reference frames in GNSS systems}
-
-
+While TAI provides highest precision it is not accessible in a real time and as such is 
+not usefull for navigation purposes.
+This is why each GNNS uses its own time refererence, in case of GPS a World Geodetic System
+1984(WGS84) is used. In that standard timescales are provided by an aptly named GPS System Time
+(GPST) which is realised by United States Naval Observatory (USNO). 
+GPTS is used as a reference clock for both satellites and Earth components of GPS system and 
+unlike UTC it is a continous timescale without leap seconds.
+Relationship between GPTS and UTC can be described by an equation:
+\begin{equation}
+	b_{gps} = T_{utc} - T_{gps} = 19 + C_{0}.
+\end{equation}
+Where $C_{0}$ represents level of consistency between GPST and UTC.
+\textbf{PLOT OF BIAS AND SOMETHING MORE ABOUT OTHER GNSS}
 %====================================================================================================
 \section{Mathematical clock model}
 
