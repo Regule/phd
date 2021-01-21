@@ -13,7 +13,41 @@
 \subsection{Time metrology through ages}
 
 %----------------------------------------------------------------------------------------------------
-\subsection{Modern standarts}
+\subsection{Modern approach with fous on GNSS related standards}
+In modern day all measurement systems used in science and egineering are governed by international
+standars. One of most well known set of standards are those provided by the International 
+Organization for Standardization (IOS) \textbf{CITATION}.
+In case of GNSS systems a standarized spatial and temporal frame must be decided on in order
+for all element of system to work correctly.
+
+\paragraph{Spatial reference frames}
+In case of spatial information GNSS use two reference frames\textbf{CITATION}:
+\begin{itemize}
+	\item Earth-centered internal (ECI) for satellites
+	\item Earth-centered Earth-fixed (ECEF) for ground recievers.
+\end{itemize}
+\textbf{SOME ECI RELATED IMAGE}
+In case of satellites ECI is used as it is default reference frame for modelling spacecraft
+motion \textbf{CITATION}. However in case of ground recievers that that are either fixed to 
+specific point on earth or are moving from one geographical location to another ECEF is much
+more natural way of describing position.
+Reference frames for spatial data in GNSS systems are provief by:
+\begin{itemize}
+	\item International Terrestial Reference System (ITRS)
+	\item International Celestial Reference System (ICRF)
+\end{itemize}
+
+\paragraph{Temporal reference frames}
+When talking about time measurement reference frames in context of spaceborn objects a basic
+concept from general relativity theory must be introduced.
+One of those concept is \emph{proper time (PT)} which \textbf{WRITE THIS}.
+Another is \emph{coordinate time (CT)} which denotes a perfect clock residing in a specific 
+internal coordinate system \textbf{CITATION}.
+In real life measurements CT is highest quality time measurement that we can achieve as a 
+physical clock must reside in a physical space which by itself binds it to a coordinate system.
+\textbf{WRITE ABOUT GENERAL TIME REFERENCE FRAMES}
+
+\paragraph{Temporal reference frames in GNSS systems}
 
 
 %====================================================================================================
@@ -21,6 +55,24 @@
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Discrete and continous clock models}
+A mahematical model of a clock is a description of the bias in a sequence of time measurements.
+Bias is a difference between the clock time, denoted as $T_{c}$, and the reference time,
+denoted as a $T_{r}$. Both clock time and refeence time are going to be indexed with either
+measurement number $i$ for a discrete model or a measurement timestamp  $t$ for a continous 
+model. In case of continous model $T_{r}(t)=t$ as the reference clock is considered a
+time source in model. Therefore bias can be described as a:
+\begin{equation}
+	b_{c}(i) = T_{r}(i) - T_{c}(i),
+\end{equation}
+for discrete model or a \textbf{FIX CONTINOUS EQUATION}
+\begin{equation}
+	b_{c}(t) = T_{r}(t) + \int_{t_0}^{t_1}T_{c}(\tau),
+\end{equation}
+for continous model.
+In this work only discrete model in any furhter descriptions a term \emph{clock model} and
+\emph{discreete clock model} will be used interchangably.
+
+
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Basic clock model}
