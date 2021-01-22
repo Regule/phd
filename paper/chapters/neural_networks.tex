@@ -154,9 +154,6 @@ problem a new approach must be taken.
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Simple recurrent networks}
-
-%----------------------------------------------------------------------------------------------------
-\subsection{Long short term memory networks}
 Simple solution to problem of time independence is to concatenate response of neural layer
 from previous cycle to it input $x'(t)=[x(t)|y(t-1)]$.
 Such solution results in signal propagating trough time and influencing responses of future cycles,
@@ -177,6 +174,9 @@ be detected.
 Making weights on feedback bigger will not eliminate the problem and instead replace it with signal
 an explosion that causes a response to reach maximum value if a strong signal appeared on input at
 least once.
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Long short term memory networks}
 One of the possible solutions to this issue is the addition of long term memory which will regulate
 forward and loopback path influence on neuron response, such a solution is used in long short
 term memory (LSTM) networks \cite{Hochreiter1997}.
