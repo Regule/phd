@@ -48,12 +48,6 @@ its basic structure were used to create most of modern day models.
 Essentialy in this model neuron is a finction $f_n(x):\mathbb{R} \rightarrow \{ 0,1 \} $ where $n$
 is size of input.
 In such case equation describing neuron response is as follows:
-
-
-
-
-%----------------------------------------------------------------------------------------------------
-\subsection{Perceptron, abilities and limitations}
 The basic model of the neuron (neural layer) was created in 1943 by McCullough and Pitts 
 \cite{McCulloch1943}. It described response of neural layer to multiple signals with
 equation $y= \chi (W\cdot x+b)$, where $y$ is response, $x$ input, $W$ weights, $b$ bias and
@@ -75,6 +69,68 @@ more simplified. One of those simplifications is the lack of time-domain in the 
 that response of a layer depends only on its current input.
 This is in contrast with biological networks that are sensitive not only for a signal value
 but also for its change over time.
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Perceptron, abilities and limitations}
+Simple perceptron is a McCullouch-Pitts neuron with a learnig alorithm assigned to it.
+Therfore perceptron equation can be described as a :
+\begin{equation}
+	y = \chi (W\cdot x+b),
+\end{equation}
+where $\chi$ is a step function described as:
+\begin{equation}
+	\chi (x) =  
+	\begin{cases}
+		1       & \quad \text{if } u > 0\\
+		0       & \quad \text{if } u \leq \\
+	\end{cases}
+\end{equation}
+As perceptron rule is an example of a supervised learning it reqire a training set where for 
+each input $x_{j}$ a corresponding expected output $d_{j}$ is provided. 
+Then algorithm adjusts weights and bias of given neuron so that it response will 
+correspond to expected one. 
+Weights and biasa together are considered parameters of neuron and described as a:
+\begin{equation}
+	\phi = \{ W,b \}.
+\end{equation}
+\textbf{TODO: ADD A NEURON DIAGRAM}
+Percetron rules works by excuting following steps:
+\begin{itemize}
+	\item If value of $y_{j}$ is equal to expected value $d_{j}$ then weights $W$ and 
+		  bias $b$ remain unmodified.
+	\item If value $y_{j}=0$ and $d_{j}=1$ then weights are to be updated acording to 
+		  equation $W:=W+x_{j}$ and bias acording to equation $b:=b+1$.
+	\item If value $y_{j}=1$ and $d_{j}=0$ then weights are to be updated acording to 
+		  equation $W:=W-x_{j}$ and bias acording to equation $b:=b-1$.
+\end{itemize}
+After parameter update a new input-output pair is presented and algorithm repeats until all 
+pairs from learning set are processed.
+Perceptron rule was later generalied into a Widrow-Hoff rule according to which parameters are 
+updated as described in equation :
+\begin{equation}
+	\Delta W_{j} = x_{j}(d_{j}-y_{j}),\\
+	\Delta b_{j} = d_{j} - y_{j},\\
+	W :=  W + \Delta W_{j},\\
+	b := b + \Delta b_{j}.
+\end{equation}
+If only possible responses of neuron are 0 and 1 then Widrow-Hoff rule behaves exactly like a
+perceptron rule.
+Aim of lerning is minimalization of energy function of neuron response which is described as a:
+\begin{equation}
+	E = \sum_{j=0}^{n}(y_{j}-d_{j})^{2}
+\end{equation}
+Because step function is not continous in point 0 it is impossible to calculate it derivative
+an therfore gradient based learing algorithms cannot be used for perceptron.
+This limits this model to a single layer nework which is hightly problematic as such network
+is very limited in its applications.
+One of most basic examples ccan be a inability of perceptron to realize XOR function.
+This is because in case of two dimensional input perceptron divides space into two lineary
+seperable subspaces.
+\textbf{TODO: IMAGE OF LOGIC FUNCTIONS}
+Exculsive alternative do to its nature is not a lineary seperable function. It is however
+possible to create a realization of XOR with perceptron like neurons by recreating a logic
+circuit that is equivalent to XOR while using only OR, NOT, AND gates.
+\textbf{TODO: IMAGE FROM LOGISIM CIRCUIT}
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Multi layer neural networks}
