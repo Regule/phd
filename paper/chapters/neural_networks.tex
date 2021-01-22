@@ -54,6 +54,27 @@ In such case equation describing neuron response is as follows:
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Perceptron, abilities and limitations}
+The basic model of the neuron (neural layer) was created in 1943 by McCullough and Pitts 
+\cite{McCulloch1943}. It described response of neural layer to multiple signals with
+equation $y= \chi (W\cdot x+b)$, where $y$ is response, $x$ input, $W$ weights, $b$ bias and
+$\chi$ is a step function.
+Algorithm for automated adjustment of weights in relation to data was proposed in 1958
+by Rosenblatt \cite{Rosenblatt58}. This model and all its successors can be described
+as an aggregation, dampening, and activation signal path.
+\begin{figure}[h] 
+	\centering
+	\includegraphics[width=10cm]{res/basic_neuron}
+	\caption{Generalized model of a neuron}
+	\label{fig:basic_neuron}
+\end{figure}
+In the case of McCullough-Pitts neuron aggregation is a weighted sum, dampening is the subtraction
+of a bias and activation is a step function. While other models have some differences,
+usually different activation functions, the basic signal flow remains unchanged.
+While this model and its successors were inspired by a biological neuron there are much
+more simplified. One of those simplifications is the lack of time-domain in the model which means
+that response of a layer depends only on its current input.
+This is in contrast with biological networks that are sensitive not only for a signal value
+but also for its change over time.
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Multi layer neural networks}
