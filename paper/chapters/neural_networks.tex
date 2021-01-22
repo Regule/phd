@@ -73,4 +73,54 @@ In such case equation describing neuron response is as follows:
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Long short term memory networks}
+Simple solution to problem of time independence is to concatenate response of neural layer
+from previous cycle to it input $x'(t)=[x(t)|y(t-1)]$.
+Such solution results in signal propagating trough time and influencing responses of future cycles,
+if this is the only modification to the feed-forward model such layer is called Simple Recurrent
+Unit (SRU).
+\begin{figure}[h] 
+	\centering
+	\includegraphics[width=5cm]{res/sru}
+	\caption{Simple Reccurent Unit (SRU)}
+	\label{fig:sru}
+\end{figure}
+While this solution makes model time aware it has its own problems, mainly a signal vanishing
+issue. Since the input signal from a cycle, $n$ has direct influence only on a response of this
+cycle and for each subsequent cycle, it is the only through a feedback loop.
+Influence of input $n$ on response of cycle $n+k$ grows inverse proportional to $k$.
+This means that in this model only those regularities that appear over short time periods can
+be detected.
+Making weights on feedback bigger will not eliminate the problem and instead replace it with signal
+an explosion that causes a response to reach maximum value if a strong signal appeared on input at
+least once.
+One of the possible solutions to this issue is the addition of long term memory which will regulate
+forward and loopback path influence on neuron response, such a solution is used in long short
+term memory (LSTM) networks \cite{Hochreiter1997}.
+% TODO: Move legend below, write more precisely about neuron and no neurn
+\begin{figure}[h] 
+	\centering
+	\includegraphics[width=10cm]{res/lstm}
+	\caption{LSTM layer}
+	\label{fig:lstm}
+\end{figure}
+Single LSTM neuron consists of four basic neurons and two non-neuron operations:
+\begin{itemize}
+	\item $x'(t)=[x(t)|h(t-1)]$,
+	\item $o_t=\sigma (W_o x'_t+b_o)$,
+	\item $r_t=\sigma (W_r x'_t+b_r)$,
+	\item $f_t=\sigma (W_f x'_t+b_f)$,
+	\item $\bar{C}_t=\tanh (W_c x'_t+b_c)$,
+	\item $C_t=f_t\odot C_{t-1}+r_t\odot \bar{C}_t$,
+	\item $h_t=o_t\odot \tanh (C_t)$,
+\end{itemize}
+with $W$ and $b$ being weights and biases for each basic neuron, $x$ input, $y$ output and
+$C$ long term memory. As can be seen, $o_t$ is the equivalent of SRU and is moderated by
+long term memory before propagating as output. Temporary value of long term memory based
+only on current output $\bar{C}_t$ is calculated and then with help of neurons $r$ and $f$
+is transformed into its final value.
+Neuron $r$ is called remembering gate and influences to what degree temporary long term
+a memory from a given cycle affects its final value while $f$ is forgetting gate and
+decides the influence of long-term memory from the last cycle on the current one.
+Thanks to such implementation our model can learn to detect both long term regularities and 
+short term ones.
 

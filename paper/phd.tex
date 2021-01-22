@@ -45,7 +45,8 @@ headsepline, % Uncomment to get a line under the header
 
 \usepackage[backend=bibtex,style=authoryear,natbib=true]{biblatex} % Use the bibtex backend with the authoryear citation style (which resembles APA)
 
-\addbibresource{example.bib} % The filename of the bibliography
+\nocite{*}
+\addbibresource{bibliografia.bib} % The filename of the bibliography
 
 \usepackage[autostyle=true]{csquotes} % Required to generate language-dependent quotes in the bibliography
 
@@ -184,7 +185,13 @@ Everyone should be a researcher and everything should be a subject of research}}
 
 \begin{abstract}
 \addchaptertocentry{\abstractname} % Add the abstract to the table of contents
-The Thesis Abstract is written here (and usually kept to just this page). The page is kept centered vertically so can expand into the blank space above the title too\ldots
+Long Short Term Memory (LSTM) neural networks have prooven to be a powerfull
+prediction algorithm and are used in many areas where data with time series nature 
+must be predicted. In this paper it is demonstrated that it can also be used for
+prediction of the Global Positioning System (GPS) satellite on-board atomic clock bias.
+Results of LSTM predictions were compared with a current state of the art in 
+low latency GPS clock bias prediction and it was demonstrated that approach proposed
+in this work is able to provide better precision of results.
 \end{abstract}
 
 %----------------------------------------------------------------------------------------
