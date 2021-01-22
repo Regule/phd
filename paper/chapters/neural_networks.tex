@@ -126,11 +126,18 @@ is very limited in its applications.
 One of most basic examples ccan be a inability of perceptron to realize XOR function.
 This is because in case of two dimensional input perceptron divides space into two lineary
 seperable subspaces.
-\textbf{TODO: IMAGE OF LOGIC FUNCTIONS}
+\begin{figure}[h] 
+	\centering
+	\includegraphics[width=10cm]{res/neuron_logic}
+	\caption{Logic functions presented on 2D space}
+	\label{fig:logic_neuron}
+\end{figure}
 Exculsive alternative do to its nature is not a lineary seperable function. It is however
 possible to create a realization of XOR with perceptron like neurons by recreating a logic
 circuit that is equivalent to XOR while using only OR, NOT, AND gates.
 \textbf{TODO: IMAGE FROM LOGISIM CIRCUIT}
+However while such network will process data it cannot learn anything new, to solve that 
+problem a new approach must be taken.
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Multi layer neural networks}
