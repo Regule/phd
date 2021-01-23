@@ -193,7 +193,7 @@ Results of complete preprocessing of signal are visualised in Figure \ref{fig:bi
 	\label{fig:bias_normalized}
 \end{figure}
 %----------------------------------------------------------------------------------------------------
-\subsection{Phase 0 validation of approach}
+\subsection{Phase 1 validation of approach}
 
 \subsubsection{Network configuration and experiments}
 For the research a topology with two hidden LSTM layers and a single dense layer as output was 
@@ -404,7 +404,7 @@ Next step in this research will focus mainly on data preprocessing  as well as o
 application of algorithm in low power devices.
 
 %----------------------------------------------------------------------------------------------------
-\subsection{Phase 1 implementation for all satellites}
+\subsection{Phase 2 implementation for all satellites}
 \subsubsection{Experiment scope}
 While initial tests were done only on a single satellite in this phase scope of experiment
 was extended to cover most of active GPS satellites.
@@ -440,13 +440,13 @@ ensemble as a time source. Exception from this are satellites from group IIF wit
 		\hline
 	\end{tabular}
 \end{table}
-
+Just like in previous phase a one time script was used to callculate scaling parameters this 
+time using all satellites data as a reference. This approach was proven as a wrong one as 
+there were large differences between scale and offset between satellites.
 
 %----------------------------------------------------------------------------------------------------
-\subsection{Phase 2 network model updates}
+\subsection{Phase 3 network model updates}
 
-%----------------------------------------------------------------------------------------------------
-\subsection{Phase 3 hyperparameter adjustement}
 
 %====================================================================================================
 \section{Results}
