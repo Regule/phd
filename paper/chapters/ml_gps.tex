@@ -443,7 +443,38 @@ ensemble as a time source. Exception from this are satellites from group IIF wit
 Just like in previous phase a one time script was used to callculate scaling parameters this 
 time using all satellites data as a reference. This approach was proven as a wrong one as 
 there were large differences between scale and offset between satellites.
+\textbf{TODO: DIFFED COMPARE AND SHIFTED COMPARE IMAGES}
 
+\subsubsection{Network models}
+In this phase a multiple network configurations were tested however most of them were based
+on already succesfull architecture from phase 1.
+Two differences that were introduced were :
+\begin{itemize}
+	\item swaping input layer from LSTM to densly connected
+	\item changing size proportion between hidden and input layer
+\end{itemize}
+For each satellite a separate network was trained which resulted in 310 separate networks.
+Then each network was tested by predicting a bias for assigned satellite in timeframe different
+from one that was used for training. Mean squared error was used as a result quality measurement
+and such results were achieved:
+\begin{table}[ht] 
+	\centering
+	\caption{Avarage MSE for network architecture}
+	\label{tab:sats_phase_1}
+	\begin{tabular}{lll}
+		\hline
+		\hline
+		Hidden layer factor& dense & lstm  \\
+		\hline
+		0,5& 562113,16& 4,0898\\
+		1& 1584947,09& 3,8234\\
+		2& 1585881,13& 4,1586\\
+		3& 406851,1& 4,2100\\
+		4& 3569929,8& 4,2396\\
+		\hline
+		\hline
+	\end{tabular}
+\end{table}
 %----------------------------------------------------------------------------------------------------
 \subsection{Phase 3 network model updates}
 
