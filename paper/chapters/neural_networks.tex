@@ -145,9 +145,63 @@ First succesfull atempt at creating learning algorithm for multilayer neural net
 in 1986 year by Rumelhart, Hinton and Williams. That algorithm was a backpropagation and as it
 requires calcualation of simple gradient underlying activation function must be differentiable.
 Because of that step function was repleaced bya logistic function as the neuron activation.
+There is a unipolar variant
 \begin{equation}
-	\sigma(u) = \frac{1}{1+e^{-\beta u}}
+	f_{a}(u) = \sigma(u) = \frac{1}{1+e^{-\beta u}},
 \end{equation}
+which alongside its bipolar eqiuvalent
+\begin{equation}
+	f_{a}(u)=tanh(\beta u),
+\end{equation}
+became most widely used activation functions.
+\textbf{TODO:ADD PLOTS FOR VARIOUS BETA VALUES}
+Important trait of sigmoidal function is it differenciability. In case of unipolar function
+with $\beta = 1$ resulting \textbf{TODO: JAK JEST ROZNICZKA PO ANGIELSKU} is described as a 
+\begin{equation}
+	\frac{df_{a}(u)}{du}=f_{a}(u)(1-f_{a}(u)).
+\end{equation}
+In case of bipolar function with $\beta = 1$ result is as follows:
+\begin{equation}
+	\frac{df_{a}(u)}{du}=1-f_{a}^{2}(u).
+\end{equation}
+Those functions are trivial to calculate nuerically as all they require is value of a base
+function for given input. It is also worth noting that for $\beta \rightarrow \inf$ sigmoidal
+functions start to behave like a step function.
+Backpropagation is an example of supervised learning where a energy function of te neuron
+response is minimmized
+\begin{equation}
+	E=\frac{(y-d)^{2}}{2}
+\end{equation}
+With that we can calculate a gradient for a j-th input, desired output pair with an following
+equation:
+\begin{equation}
+	\Delta_{j}E = \frac{\partial E}{\partial W_{j}} = (y_{j}-d_{j})x_{j}\frac{df_{a}(u_{j})}{du_{j}}. 
+\end{equation}
+For conviniece it is reasonable to write a part related to neuron response as a:
+\begin{equation}
+	\delta_{j} = (y_{j}-d_{j})\frac{df_{a}(u_{j})}{du_{j}}, 
+\end{equation}
+so that discreete weight update function can be written as a 
+\begin{equation}
+	W := W - \eta \delta_{j} x_{j},
+\end{equation}
+where $x_{j}$ is related to network input,  $\delta_{j}$ to output and $\eta \in <0,1>$ is a 
+constant learning factor.
+Learning factor is considered a metaparameter and is set once for whole learning process, 
+therfore a seto of metaparameters for simple backporbagation algortihm can be described as 
+a $\Phi = \{\eta \}$. There is also a continous approach to adjusting network parameters that
+relies on solving differencial equation
+\begin{equation}
+	\frac{dW_{j}}{dt} = -\mu \delta_{j} x_{j},
+\end{equation}
+where $\mu$ is equivalent of $\eta$ from discrete model. However as this work focuses on 
+numerical solutions a discrete model was chosen and no more attention will be given to a 
+continous one.
+Choice of correct learning rate is crucial in designing a efficen backpropagation 
+learning algorithm as two small value can result in slow convergence rate and high risk of 
+getting stuck in local minima. On the other hand high learning rate may result in algorithm
+jumping over desired solution and never converging on it. \textbf{TODO: IMAGE WITH LOCAL MINIMA}
+
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Limitations on neural networks depth}
