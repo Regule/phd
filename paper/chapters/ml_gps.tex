@@ -460,7 +460,7 @@ and such results were achieved:
 \begin{table}[ht] 
 	\centering
 	\caption{Avarage MSE for network architecture}
-	\label{tab:sats_phase_1}
+	\label{tab:phase_2_avarage_results}
 	\begin{tabular}{lll}
 		\hline
 		\hline
@@ -474,6 +474,35 @@ and such results were achieved:
 		\hline
 		\hline
 	\end{tabular}
+\end{table}
+As it is clearly see in Table \ref{tab:phase_2_avarage_results} replacing input layer with
+densly connected one is not a proper approach. That is why those networks will not be taken
+into account in more precise analyzis of result.
+\textbf{TODO:BIG TABLE WITH RESULTS}
+Based on test results satellites were divided into three groups according to how 
+solution presented in this work compares to IGU:
+\begin{itemize}
+	\item better - MSE was smaller than in case of IGU
+	\item comparable - MSE was larger but difference was less than 1
+	\item worse - MSA was larger than 1
+\end{itemize}
+Satellites are divided into this categories as follows:
+\begin{table}[ht] 
+	\centering
+	\caption{Avarage MSE for network architecture}
+	\label{tab:phase_2_groups}
+	\begin{tabular}{cccc}
+		\hline
+		\hline
+		Prediction quality& Satellites& Generations& Clock type  \\
+		\hline
+		Better& 05 08 07 30& IIR IIR-M IIF& Rb Cs\\
+		Comparable& 09 15 20 24 26 27 29& IIR IIR-M IIF& Rb Cs\\
+		Worse& 01 02 03 06 10 11 13 14 16 17 18 19 21 22 23 25 28 31 32& IIR IIR-M IIF IIA& Rb
+		\hline
+		\hline
+	\end{tabular}
+There were no corelation between 
 \end{table}
 %----------------------------------------------------------------------------------------------------
 \subsection{Phase 3 network model updates}
