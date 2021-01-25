@@ -135,7 +135,12 @@ seperable subspaces.
 Exculsive alternative do to its nature is not a lineary seperable function. It is however
 possible to create a realization of XOR with perceptron like neurons by recreating a logic
 circuit that is equivalent to XOR while using only OR, NOT, AND gates.
-\textbf{TODO: IMAGE FROM LOGISIM CIRCUIT}
+\begin{figure}[ht] 
+	\centering
+	\includegraphics[width=\textwidth]{res/xor_circ}
+	\caption{XOR circuit and it equivalent}
+	\label{fig:xor_circ}
+\end{figure}
 However while such network will process data it cannot learn anything new, to solve that 
 problem a new approach must be taken.
 
@@ -200,7 +205,13 @@ continous one.
 Choice of correct learning rate is crucial in designing a efficen backpropagation 
 learning algorithm as two small value can result in slow convergence rate and high risk of 
 getting stuck in local minima. On the other hand high learning rate may result in algorithm
-jumping over desired solution and never converging on it. \textbf{TODO: IMAGE WITH LOCAL MINIMA}
+jumping over desired solution and never converging on it. 
+\begin{figure}[ht] 
+	\centering
+	\includegraphics[width=\textwidth]{res/local_minima}
+	\caption{Example of local and global minima}
+	\label{fig:local_minima}
+\end{figure}
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Other gradient based optimalizators}
