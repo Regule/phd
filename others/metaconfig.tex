@@ -28,6 +28,16 @@ headsepline, % Uncomment to get a line under the header
 
 \usepackage[autostyle=true]{csquotes} % Required to generate language-dependent quotes in the bibliography
 
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+	  basicstyle=\ttfamily,
+	  columns=fullflexible,
+	  breaklines=true,
+	  postbreak=\raisebox{0ex}[0ex][0ex]{\color{red}$\hookrightarrow$\space},
+	  escapeinside={(*@}{@*)}
+}
+
 %----------------------------------------------------------------------------------------
 %	MARGIN SETTINGS
 %----------------------------------------------------------------------------------------
