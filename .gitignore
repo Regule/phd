@@ -10,6 +10,7 @@
 *.lof
 *.lot
 *.bcf
+phd-blx.bib
 *.run.xml
 __pycache__
 env
