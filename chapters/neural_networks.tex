@@ -304,7 +304,11 @@ with $\alpha$ set to zero.
 
 \subsubsection{Nesterov}
 Momentu based optiization was enchanced by Yuri Nesterov in 1983 by presenting a accelerated
-momentum based gradient optimizer.
+momentum based gradient optimizer. This approach introduces only one change, network response
+is calculated using not current weights and bias but one updated with momentum only.
+\begin{equation}
+	\bar{y} = f_{a}((W+))	
+\end{equation}
 
 
 \subsubsection{AdaGrad}
