@@ -94,7 +94,7 @@ better results than those solutions while still working at real-time response la
 In the project, a machine learning pipeline as described in Figure \ref{fig:pipeline} was used.
 \begin{figure}[ht] 
 	\centering
-	\includegraphics[width=\textwidth]{res/pipeline}
+	\includegraphics[width=\textwidth]{figures/pipeline}
 	\caption{Machine learning pipeline}
 	\label{fig:pipeline}
 \end{figure}
@@ -162,7 +162,7 @@ Constant clock drift is a major source of an error it suppresses other error typ
 as seen in figure \ref{fig:raw_bias} in visualization it makes data seams linear.
 \begin{figure}[ht] 
 	\centering
-	\includegraphics[width=10cm]{res/bias_raw}
+	\includegraphics[width=10cm]{figures/bias_raw}
 	\caption{Raw clock bias}
 	\label{fig:raw_bias}
 \end{figure}
@@ -172,7 +172,7 @@ To solve this problems first series is differentiated which returns data where o
 besides constant shift are visible as seen in Figure \ref{fig:diffed_bias}.
 \begin{figure}[ht] 
 	\centering
-	\includegraphics[width=10cm]{res/bias_diffed}
+	\includegraphics[width=10cm]{figures/bias_diffed}
 	\caption{Differentiated clock bias}
 	\label{fig:diffed_bias}
 \end{figure}
@@ -185,7 +185,7 @@ if they appear rarely in series.
 Results of complete preprocessing of signal are visualised in Figure \ref{fig:bias_normalized}
 \begin{figure}[ht] 
 	\centering
-	\includegraphics[width=10cm]{res/bias_normalized}
+	\includegraphics[width=10cm]{figures/bias_normalized}
 	\caption{Comparison of differentiated clock bias}
 	\label{fig:bias_normalized}
 \end{figure}
@@ -207,7 +207,7 @@ Two optimizers will be tested, Root Mean Square Propagation (RMSprop)\cite{Hinto
 Adaptive Momentum Estimation (Adam)\cite{Kingma2015}.
 \begin{figure}[ht] 
 	\centering
-	\includegraphics[width=3cm]{res/topology}
+	\includegraphics[width=3cm]{figures/topology}
 	\caption{Neural Network topology}
 	\label{fig:topology}
 \end{figure}
@@ -245,7 +245,7 @@ In each case, both hidden layers had the same activation function, and the dense
 that served as output had linear activation.
 \begin{figure}[ht] 
 	\centering
-	\includegraphics[width=10cm]{res/activation_to_error}
+	\includegraphics[width=10cm]{figures/activation_to_error}
 	\caption{Activation function effect on prediction error}
 	\label{fig:activation_to_error}
 \end{figure}
