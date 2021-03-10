@@ -21,14 +21,43 @@ class Perceptron:
         '''
         self.weights = weights
         self.bias = bias
+        self.score = 0
 
     def get_response(self, x):
         #print(f'{np.dot(self.weights, x)}')
         return 1 if np.dot(self.weights, x) - self.bias > 0 else 0
 
+    def mutate_weight(self):
+        weight = int((np.random.rand()+1)*self.weights.shape[0])
+        diff = np.random.rand()
+        self.weights[weight] += diff
+
+    def mutate_bias(self):
+        self.bias += np.random.rand()
+
     @staticmethod
     def generate_random(input_size):
         return Perceptron(np.random.rand(input_size), np.random.rand())
+
+
+def simulation_episode(environment, specimen, render=False, render_delay=0.1):
+    observation = environment.reset()
+    if render:
+        environment.render()
+        sleep(render_delay)
+    total_reward = 0
+    finished = False
+    while not finished:
+        action = perceptron.get_response(observation)
+        observation, reward, finished, _ = environment.step(action)
+        total_reward += reward
+        if render:
+            print(f'{observation} {action} -> {reward}')
+            environment.render()
+            sleep(render_delay)
+    perceptron.score = total_reward
+    return perceptron
+
 
 def main(args):
     environment = gym.make('CartPole-v0')
