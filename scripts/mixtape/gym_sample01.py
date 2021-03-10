@@ -2,12 +2,15 @@
 This is a first attempt at creating Ai Gym based script.
 '''
 import argparse
-import gym
 from random import choice
 from time import sleep
+import gym
 
 
-def main(args):
+def main():
+    '''
+    Script main function, it runs single episode of Cart Pole simulation
+    '''
     environment = gym.make('CartPole-v0')
     observation = environment.reset()
     environment.render()
@@ -17,17 +20,22 @@ def main(args):
     total_reward = 0
     while not finished:
         action = choice([0,1])
-        observation, reward, finished, extra_info = environment.step(action)
+        observation, reward, finished, _ = environment.step(action) # last one is extra info
         total_reward += reward
-        print(f'{action} -> {reward}')
+        print(f'{observation} {action} -> {reward}')
         environment.render()
         sleep(0.2)
     print(f'finished, total reward is {total_reward}')
 
 
 def parse_arguments():
+    '''
+    Parsing arguments, this time no arguments are used so it is only for a help
+    functionality.
+    '''
     parser = argparse.ArgumentParser(description='A simple attempt at AiGym')
-    return parser.parse_args()
+    parser.parse_args()
 
 if __name__ == '__main__':
-    main(parse_arguments())
+    parse_arguments()
+    main()
