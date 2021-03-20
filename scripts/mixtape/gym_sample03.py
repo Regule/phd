@@ -133,7 +133,7 @@ def assign_scores(population, environment, show_best=True):
     population.sort()
     if show_best:
         print(f'Best score is {population[-1].score}')
-        run_simulation(population[-1], environment, show=True, delay=0.1)
+        run_simulation(population[-1], environment, show=True, delay=0.01)
 
 
 def selection(population, factor, elite=1):
@@ -183,7 +183,7 @@ def create_initial_population(population_size, input_size, output_size, hidden_l
     
 
 def run_neuroevolution(population_size, generations, elite_size, selection_factor,
-    mutation_factor, show_best=True):
+    mutation_factor, hidden_size, show_best=True):
     environment = gym.make('CartPole-v1')
     observation = environment.reset()
     input_size = observation.shape[0]
@@ -202,7 +202,11 @@ def main(args):
     elif args.test_specimen:
         test_specimen()
     else:
-        run_neuroevolution(200, 20, 1, 0.5, 0.3)
+        run_neuroevolution(args.population_size, args.generations, args.elite_size, 
+                args.selection_factor, args.mutation_factor, args.hidden)
+
+def parse_layer_list(layer_list):
+    return list(map(int,layer_list.split(',')))
 
 def parse_arguments():
     '''
@@ -225,6 +229,13 @@ def parse_arguments():
             type=float,
             default=0.2,
             help='Time is seconds between steps of simulation')
+    parser.add_argument('-g', '--generations', default=5, type=int)
+    parser.add_argument('--hidden', default=[5], type=parse_layer_list)
+    parser.add_argument('--mutation_factor', default=0.5, type=float)
+    parser.add_argument('--selection_factor', default=0.5, type=float)
+    parser.add_argument('--population_size', default=100, type=int)
+    parser.add_argument('--elite_size', default=1, type=int)
+    
     return parser.parse_args()
 
 
