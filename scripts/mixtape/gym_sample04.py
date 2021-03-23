@@ -124,14 +124,17 @@ def parse_layer_list(layer_list):
 #                                    GENETIC ALGORITHM
 #--------------------------------------------------------------------------------------------------
 
-def run_simulation(specimen, environment, assign_score=True, show=False, delay=0.2):
+def run_simulation(specimen, environment, max_steps, assign_score=True, show=False, delay=0.01):
     observation = environment.reset()
     total_reward = 0
     finished = False
     if show:
+        print(f'DELAY = {delay}')
         environment.render()
     
-    while not finished:
+    steps_remining = max_steps
+    while not finished and steps_remining > 0:
+        steps_remining -= 1
         action = specimen.get_response(observation)
         observation, reward, finished , _ = environment.step(action)
         total_reward += reward
@@ -142,13 +145,13 @@ def run_simulation(specimen, environment, assign_score=True, show=False, delay=0
     if assign_score:
         specimen.score = total_reward
 
-def assign_scores(population, environment, show_best=True):
+def assign_scores(population, environment, max_steps, show_best=True):
     for specimen in population:
-        run_simulation(specimen,environment)
+        run_simulation(specimen,environment, max_steps)
     population.sort()
     if show_best:
         print(f'Best score is {population[-1].score}')
-        run_simulation(population[-1], environment, show=True, delay=0.01)
+        run_simulation(population[-1], environment, max_steps, show=True, delay=0.0000000001)
 
 
 def selection(population, factor, elite=1):
@@ -200,7 +203,7 @@ def create_initial_population(population_size, input_size, output_size, hidden_l
     
 
 def run_neuroevolution(environment_name, population_size, generations, 
-        elite_size, selection_factor, mutation_factor, hidden_size, show_best=True):
+        elite_size, selection_factor, mutation_factor, hidden_size, max_steps, show_best=True):
     environment = gym.make(environment_name)
     observation = environment.reset()
     input_size, output_size, discrete = get_input_and_output_size(environment)
@@ -208,7 +211,7 @@ def run_neuroevolution(environment_name, population_size, generations,
     population = create_initial_population(population_size, input_size, output_size, hidden_size,
             discrete)
     for generation in range(generations):
-        assign_scores(population, environment)
+        assign_scores(population, environment, max_steps)
         breeding_base = selection(population, selection_factor, elite_size)
         population = reproduction(breeding_base, population_size, elite_size, mutation_factor)
 
@@ -229,6 +232,7 @@ def parse_arguments():
     parser.add_argument('--population_size', default=100, type=int)
     parser.add_argument('--elite_size', default=1, type=int)
     parser.add_argument('--simulation_step_delay', type=float, default=0.2)
+    parser.add_argument('--max_steps', type=int, default=500)
     return parser.parse_args()
 
 def main(args):
@@ -238,7 +242,7 @@ def main(args):
         test_env(args.test_env)
     else:
         run_neuroevolution(args.env_name, args.population_size, args.generations, args.elite_size, 
-                args.selection_factor, args.mutation_factor, args.hidden)
+                args.selection_factor, args.mutation_factor, args.hidden, args.max_steps)
 
 
 if __name__ == '__main__':
