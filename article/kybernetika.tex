@@ -75,4 +75,95 @@ satellite communication that discourages it frequent use.
 This is why an effort was made to deploy a solution that provides a on-board solution for high
 quality GPS based localisation with low computational overhead.
 
+%--------------------------------------------------------------------------------------------------
+\subsection{Contribution}
+In following paper a new approach for GPS clock bias prediction based on a Long Short Term Memory
+neural networks is presented. For 20 out of 29 satellites that were analysed in this work 
+prediction results were better than current state of the art and for 6 of them results were
+significantly better. Results of presented research can be used in a offline GPS receiver as 
+a alternative for IGU provided products.
+
+
+%==================================================================================================
+\section{Clock bias in GNSS}
+Due to the nature of GNSS precision time measurement is crucial for correct localisation.
+In this section more inforation about why it is so and what is current state of the art on this
+topic will be presented.
+
+%---------------------------------------------------------------------------------------------------
+\subsection{Importance of clock bias in localisation}
+All global satellite navigation systems (GNSS) are variant of beacon based localization
+systems\cite{Blewitt1997}.Such systems require information about beacon position
+and distance between localized object and beacons.
+With that information it is possible to calculate position of object in same reference
+frame as that of beacons.
+Both of those tasks are much more difficult in GNSS due to a nature of the beacons.
+Unlike in case of a stationary beacons GNSS satellites move with high speed so
+their position must be calculated based on satellite ephemeris\cite{Vallado2008}.
+Another problem is distance measurement which without specialised equipment must be
+done with time of arrival (ToA) instead of angle of arrival (AoA) or
+received signal strength (RSS) \cite{Doberstein2012}.
+When measuring distance by ToA  3 properties of a signal must be known:
+\begin{itemize}
+\item $t_o$ : time of origination
+\item $t_a$ time of arrival
+\item $v$ velocity
+\end{itemize}
+In case of GNSS system signal is a electromagnetic wave therefore its speed is equal
+to speed of light $c\approx 3*10^{9} \frac{m}{s}$. Time of arrival is recoded when
+data frame wavefront reaches receiver, this means that receiver time is used.
+Origination time is recorded on satellite according to it local clock and
+included in data frame. Thanks to that distance can be calculated by simple
+equation:
+\begin{equation}
+  d=c*(t_a-t_o)
+\end{equation}
+However $t_a$ and $t_o$ are using different reference frame so for comparison
+to be possible they must be transformed into a common reference frame.
+This is refered to as a synchronisation of the clocks and is very important as
+a desynchronisation on level of single nanosecond results in about 30 cm of
+positioning error\cite{Enge2011}.
+While actual calculations 
+
+%--------------------------------------------------------------------------------------------------
+\subsection{IGU products}
+The most widely used source of precise clock corrections are products provided 
+by International GNSS Service (IGS) \cite{IGS}.
+% TODO:Fix table size so it is not wider than text
+\begin{table}[ht] 
+	\centering
+	\caption{Variants of IGS products}
+	\label{tab:igs_products}
+	\begin{tabular*}{\textwidth}{*{5}{l}}
+		\hline
+		\hline
+		Type& Accuracy& Latency& Update& Sample \\
+		&&&&interval\\
+		\hline
+		Transmitted & 5ns & real time & -- & daily  \\
+		Ultra rapid -- predicted & 3ns & real time & at 03, 09, 15, 21 UTC & 15 min  \\
+		Ultra rapid -- observed & 150ps & 3-9 hours & at 03, 09, 15, 21 UTC & 15 min  \\
+		Rapid & 75ps & 17-41 hours & at 17 UTC daily & 5 min \\
+		Final & 75ps & 12-18 days & every Thursday & 30 s \\
+		\hline
+		\hline
+	\end{tabular*}
+\end{table}
+Values shown in Table \ref{tab:igs_products} refer to satellite clock bias only,  IGS products
+provide other information which full description  is available at  
+\texttt{http://www.igs.org/products}.
+IGS products can be easily divided into two categories:
+\begin{itemize}
+	\item real time consisting of transmitted and ultra rapid predicted half,
+	\item high latency consisting of ultra rapid observed half as well as rapid and final products.
+\end{itemize}
+Solutions that have high latency are not usable in real-time navigation and as such will not be
+considered in this work. Ultra-rapid observed part will be used as a source of
+reference time so that if a bias prediction error is equal to zero it means that is
+the same as provided by Ultra-rapid observed.
+As can be seen in the Table \ref{tab:igs_products} all real-time solutions provide precision 
+at a range of nanoseconds, aim of this work is to show that LSTM networks can provide 
+better results than those solutions while still working at real-time response latency.
+
 \end{document}
+
