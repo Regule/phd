@@ -2,6 +2,9 @@
 %the class kybernetika includes these packages:
 % graphicx, amssymb, amsmath
 
+%DEBUG ONLY
+\usepackage{layouts}
+
 %--------------------------------------------------------------------------------------------------
 % used environment for theorems:
 
@@ -44,6 +47,7 @@ clock bias will be presented and compared against current state of the art in re
 GPS clock bias prediction. Presented approach is intended to better quality of localization
 for marine robots that operate autonomously for long periods of time away from convenient  
 internet uplink.
+textwidth in cm: \printinunitsof{cm}\prntlen{\textwidth}
 \end{abstract}
 
 \keywords{LSTM, Long Short Term Memory, Neural Networks, GPS, Navigation, Time series prediction}
@@ -201,10 +205,56 @@ not present. This was satellite 14 and while no official source of information d
 behaviour
 \begin{figure}[ht] 
 \centering
-\includegraphics[width=10cm]{res/bias_raw.png}
+\includegraphics[width=\textwidth]{figures/bias_raw.png}
 \caption{Raw clock bias}
 \label{fig:bias_raw}
 \end{figure}
+
+\makesubmdate
+
+%==================================================================================================
+\begin{thebibliography}{000}
+% References should be listed in alphabetical order.
+
+% For books, research reports and proceedings
+\bibitem{B}
+Author(s):
+\newblock{Title of book.}
+\newblock{Edition (if other than first). Publisher's name, place and year of publication (For books, research reports and proceedings).}
+
+% Example
+\bibitem{HoTu96}
+R.~Horst and H.~Tuy:
+\newblock{Global Optimization.}
+\newblock{Springer--Verlag, Berlin 1996.}
+
+% For journal article
+\bibitem{P}
+Author(s):
+\newblock{Title of paper.}
+\newblock{Title of the journal (abbreviated in accordance with Math. Reviews), volume, year of publication in brackets, inclusive pagination (For journal article).}
+
+% Example
+\bibitem{No85}
+M.~Nov\'{a}k:
+\newblock{A note on the algorithms for determining the model structure.}
+\newblock{Kybernetika {\mi 21} (1985), 164--178.}
+
+% For a paper in a bound collection
+\bibitem{PC}
+Author(s):
+\newblock{Title of paper.}
+\newblock{In: Title of collection, editor name(s) (in brackets), publisher's name, place and year of publication, inclusive pagination (For a paper in a bound collection).}
+
+% Example
+\bibitem{Pe81}
+V.~Peterka:
+\newblock{Bayesian system identification.}
+\newblock{In: Trends and Progress in System Identification (P.~Eykhoff, ed.), Pergamon Press, Oxford 1981, pp. 239--304.}
+
+\end{thebibliography}
+
+\makecontacts
 
 \end{document}
 
