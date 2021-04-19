@@ -205,11 +205,131 @@ not present. This was satellite 14 and while no official source of information d
 behaviour
 \begin{figure}[ht] 
 \centering
-\includegraphics[width=\textwidth]{figures/bias_raw.png}
+\includegraphics[width=\textwidth]{figures/bias_raw}
 \caption{Raw clock bias}
 \label{fig:bias_raw}
 \end{figure}
 
+%==================================================================================================
+\section{Neural networks}
+
+%--------------------------------------------------------------------------------------------------
+\subsection{Overview}  
+Machine learning (ML) approaches based on a artificial neural networks (ANN) are
+well established as a efficient pattern detectors \cite{Abiodun2019} \cite{Miller1993}
+\cite{Faraway2008} \cite{Herbrich1999} \cite{Khan2019}.
+It has also been used in GNSS systems especially since advent of the deep learning
+algorithms \cite{Wei2016} \cite{Kim2019} \cite{OrusPerez2019}.
+One of it uses is prediction of clock bias \cite{Wang2017} \cite{Indriyatmoko2008}
+which as mentioned in previous section is an essential value in positioning calculations.
+Like all digital signal processing applications software neural networks operate in
+discreet time and discreet amplitude domain. This is the reason why a time series clock model
+was chosen. Basic model of neuron (neural layer) was created by McCullough and Pitts in 1943
+\cite{McCulloch1943}. It described response of neural layer to multiple signals with
+equation $y= \chi (W*x+b)$ where $y$ is response, $x$ input, $W$ weights and $b$ bias.
+Algorithm for automated adjustment of weights in relation to data was proposed in 1958
+While this model and its successors where inspired by a biological neuron there are much
+more simplified. One of those simplification is lack of time domain in model which means
+that response of a layer depends only on its current input.
+This is in contrast with biological networks that are sensitive not only for signal value
+but also for its change over time.
+
+%--------------------------------------------------------------------------------------------------
+\subsection{Long Short Term Memory networks}
+Simple solution to problem of time independence is to concatenate response of neural layer
+from previous cycle to it input $x'(t)=[x(t)|y(t-1)]$.
+Such solution results in signal propagating trough time and influencing responses of future cycles,
+if this is only modification to feed forward model such layer is called simple recurrent
+unit (SRU).
+While this solution makes model time aware it have its own problems, mainly a signal vanishing
+issue. Since the input signal from cycle $n$ have direct influence only on a response of this
+cycle and for each subsequent cycles it is only trough feedback loop. Influence of input $n$ on
+response of cycle $n+k$ grows inverse proportional to $k$.
+This means that in this model only those regularities that appear over short time periods can
+be detected.
+Making weights on feedback bigger will not eliminate problem and instead replace it with signal
+explosion that causes response to reach maximum value if a strong signal appeared on input at
+least once.
+One of possible solutions to this issue is addition of long term memory which will regulate
+forward and loopback path influence on neuron response, such solution is used in long short
+term memory (LSTM) networks \cite{Hochreiter1997}.
+\begin{figure}[ht] 
+\centering
+	\includegraphics[width=10cm]{figures/lstm}
+\caption{LSTM layer}
+\label{fig:lstm}
+\end{figure}
+Single LSTM neuron consists of 4 basic neurons and two non neuron operations:
+\begin{itemize}
+\item $x'(t)=[x(t)|y(t-1)]$
+\item $o_t=\sigma (W_o\cdot x'_t+b_o)$
+\item $r_t=\sigma (W_r\cdot x'_t+b_r)$
+\item $f_t=\sigma (W_f\cdot x'_t+b_f)$
+\item $\bar{C}_t=\tanh (W_c\cdot x'_t+b_c)$
+\item $C_t=f_t\circ C_{t-1}+r_t\circ \bar{C}_t$
+\item $y_t=o_t\circ \tanh (C_t)$
+\end{itemize}
+With $W$ and $b$ being weights and biases for each basic neuron, $x$ input, $y$ output and
+$C$ long term memory. As it can be seen $o_t$ is a equivalent of SRU and is moderated by
+long term memory before propagating as output. Temporary value of long term memory based
+only on current output $\bar{C}_t$ is calculated and then with help of neurons $r$ and $f$
+is transformed into its final value.
+Neuron $r$ is called remembering gate and influences to what degree temporary long term
+memory from given cycle effects its final value while $f$ is forgetting gate and
+decides influence of long term memory from last cycle on current one.
+Thanks to such implementation model can learn to detect long term regularities as well
+as short term ones.
+
+%--------------------------------------------------------------------------------------------------
+\subsection{Overfitting}  
+Overfitting takes place when estimator function is adjusted to training data to such high
+degree that it can no longer function as a general predictor.
+For example if a network that is supposed to recognise cats will be trained on set that contains
+only sphinxes it may be unable to classify other breeds as cats.
+Overfitted networks provide very high quality results as long as input overlap with test set
+otherwise quality of results drop sharply.
+In case of satellite clocks predictor can overfit in regards to following parameters:
+\begin{itemize}
+\item clock type
+\item location (orbit)
+\item epoch
+\end{itemize}
+When selecting a solution a decision must be made on what level of generalisation model should
+represent. Limiting predictions to same epochs that were used for training is in contradiction
+with network main goal, predicting future biases. However as satellites use different models
+of atomic clocks and are placed on different orbit attempts at generalisation for those
+proprieties risk to high precision trade off.
+Therefore a separate network will be used for each satellite that will be unable to generalize
+its predictions to others.
+
+%==================================================================================================
+\section{Experiments}
+
+%--------------------------------------------------------------------------------------------------
+\subsection{Overview}
+Experiments were divided in three phases:
+\begin{enumerate}
+\item In first phase a single satellite was selected and prediction with generic LSTM architecture
+	was made. Then it was compared against polynomial regression as well as IGU rapid predictions.
+	While achieving results better than polynomial regression would be considered acceptable at 
+	this stage would be considered acceptable LSTM proved to be better than IGU example which
+	was considered state of the art. Because of that a decision was made not to adjust network
+	model at this stage, as was originaly intended, but move to next stage with a initial model.
+
+\item In second phase network developed in first phase was tested on set of all active 
+	satellites and compared agains IGU rapid prediction. At this phase comparition against 
+	polynomial regression was dropped as achieving results worse than IGU was no longer 
+	considered acceptable. In this phase for 5 of 31 satellites LSTM achieved better 
+	results than IGU.
+
+\item As second phase provided acceptable results only for a small group of satellites 
+	an alternative arhcitectures were tested, more details about them will be writen in 
+	dedicated section. In this phase results better than IGU were achieved 
+	for 13 od 30 satellites.
+\item Final phase was dedicated to tuning learning metaparameters and it results are described
+	in more details in section dedicated to experiments.
+
+\end{enumerate}
 \makesubmdate
 
 %==================================================================================================
