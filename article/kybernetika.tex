@@ -210,6 +210,38 @@ behaviour
 \label{fig:bias_raw}
 \end{figure}
 
+%--------------------------------------------------------------------------------------------------
+\subsection{Preprocessing}
+IGU provides raw clock bias, this poses two problems for approach used in this work.
+Firs one is that constant clock drift is such a major source of bias that it overshadows other
+sources as seen on figure \ref{fig:raw_bias} in visualisation data seams to be linear.
+Second issue is non-stationary nature of series, this is a problem as neural networks work best
+fro stationary data with mean at 0 and values in between -1 and 1. To solve those problems firs
+series is diffed which returns data where other noises besides constant drift are visible as
+seen on figure \ref{fig:diffed_bias}.
+\begin{figure}[ht] 
+\centering
+\includegraphics[width=10cm]{figures/bias_diffed}
+\caption{Differentiated clock bias}
+\label{fig:diffed_bias}
+\end{figure}
+Constant drift is still present as shift at y axis, to remove it a mean shift must be performed.
+Finally data must be scaled so that there will be no values with absolute value above one. It is
+of course possible for future prediction inputs to have absolute value above one however this will
+not be a problem as network can deal with such inputs especially if they appear rarely in series.
+Another issue is whether to use same preprocessing for all satellites or should each of them 
+have their own parameters.
+Analyse of data shown on figures \ref{fig:diffed_diffs} and \ref{fig:diffed_shifts} shows that
+constant shift as well as value range for mean shifted data can vary radically between satellites.
+Because of that a separate preprocessing parameters are used for each satellite.
+
+\begin{figure}[ht] 
+\centering
+	\includegraphics[width=10cm]{figures/bias_normalized}
+\caption{Comparison of diffed clock bias}
+\label{fig:diffed_shifts}
+\end{figure}
+
 %==================================================================================================
 \section{Neural networks}
 
@@ -330,6 +362,63 @@ Experiments were divided in three phases:
 	in more details in section dedicated to experiments.
 
 \end{enumerate}
+
+%--------------------------------------------------------------------------------------------------
+\subsection{Comparition with state of the art}
+Over the course of experiments a multiple network achitectures were tested, in this paper
+main focus will be given to experiments from phase 4 where general architecture was aleredy
+selected.
+Final architecture is a 3 layer network with 2 hidden LSTM layers, first one with size equal
+to input and second double that size. Third layer consists of single densly conneted neuron
+that outputs a single prediction step.
+
+\begin{figure}[ht] 
+\centering
+	\includegraphics[width=10cm]{figures/error_overwiev}
+\caption{Squared error}
+\label{fig:error_overview}
+\end{figure}
+As can be observed on plots presented on Figure \ref{fig:error_ovevwiew} there are satellites
+for which results achieved by LSTM network are significantly better than current state of the
+art and that difference only deepens with prediction time. Exampes of such situation are
+satellites G07, G10 or G30. Other group represented by satellites G14, G15 or G17 are those 
+for wihich results of LSTM are clearly worse. Another group consists of satellites for which 
+squared error is smaller for initial period of prediction however it rises with time resultin
+in predictions worse than IGU. Examples of such behaviour are visible in satellites G01
+G09 and G29. Last of groups contains satellites for which prediction quality can vary over
+time like in case of G08.
+\begin{figure}[ht] 
+\centering
+	\includegraphics[width=10cm]{figures/brakeoff_compare}
+\caption{Comparition between LSTM and IGU predictions}
+\label{fig:cutoff}
+\end{figure}
+As it is shown on Figure \ref{fig:cutoff} in case of some satellites period for which LSTM
+have adventage over IGU predicted part is longer than 9 hours. This is important value as 
+as after that period a synchronization witch IGU observed product can be made.
+IGU observed products have picosecond level precision which is satisfactionary for most 
+robotic implementation.
+
+\begin{table}[ht] \label{table:result}
+\parindent0pt
+\caption{Quality of reslts }
+\centering
+\begin{tabular}{ l  c  c }
+  \hline
+  \hline
+  Result category & satellites\\  \hline
+  Superior & 07 10 12 19 26 30\\  
+  Superior for acceptable time period& 01 03 09 13 23 27 28 29 31\\ 
+  Superior for short time period& 11 15 \\ 
+  Inferior & 02 06 14 17 21 22 25\\ 
+  Uncomparable & 05 08 24 16\\ \hline \hline
+ \end{tabular}
+\end{table}
+
+As superiority over 9 hour period is enough to consider LSTM solution a preferable one to
+IGU rapid prediction for experiments in this paper success was achieved for \textbf{NAPISZ}
+cases.
+
 \makesubmdate
 
 %==================================================================================================
