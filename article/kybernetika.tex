@@ -91,7 +91,7 @@ a alternative for IGU provided products.
 %==================================================================================================
 \section{Clock bias in GNSS}
 Due to the nature of GNSS precision time measurement is crucial for correct localisation.
-In this section more inforation about why it is so and what is current state of the art on this
+In this section more information about why it is so and what is current state of the art on this
 topic will be presented.
 
 %---------------------------------------------------------------------------------------------------
@@ -115,7 +115,7 @@ When measuring distance by ToA  3 properties of a signal must be known:
 \end{itemize}
 In case of GNSS system signal is a electromagnetic wave therefore its speed is equal
 to speed of light $c\approx 3*10^{9} \frac{m}{s}$. Time of arrival is recoded when
-data frame wavefront reaches receiver, this means that receiver time is used.
+data frame wave front reaches receiver, this means that receiver time is used.
 Origination time is recorded on satellite according to it local clock and
 included in data frame. Thanks to that distance can be calculated by simple
 equation:
@@ -124,8 +124,8 @@ equation:
 \end{equation}
 However $t_a$ and $t_o$ are using different reference frame so for comparison
 to be possible they must be transformed into a common reference frame.
-This is refered to as a synchronisation of the clocks and is very important as
-a desynchronisation on level of single nanosecond results in about 30 cm of
+This is referred to as a synchronisation of the clocks and is very important as
+a de synchronisation on level of single nanosecond results in about 30 cm of
 positioning error\cite{Enge2011}.
 While actual calculations 
 
@@ -154,7 +154,7 @@ by International GNSS Service (IGS) \cite{IGS}.
 	\end{tabular*}
 \end{table}
 Values shown in Table \ref{tab:igs_products} refer to satellite clock bias only,  IGS products
-provide other information which full description  is available at online repositiory. 
+provide other information which full description  is available at online repository. 
 IGS products can be easily divided into two categories:
 \begin{itemize}
 	\item real time consisting of transmitted and ultra rapid predicted half,
@@ -174,11 +174,11 @@ This work focuses only on GPS satellites which are divided into five groups :
 Original (II), IIA, ,IIR ,IIR-M ,IIF.
 As original generation was full retired in 2007 it will not be taken into consideration, while
 a single satellite from generation IIA was used in second phase of experiments it was no longer
-presend in following phases as that generation was fully retired in 2019.
+present in following phases as that generation was fully retired in 2019.
 This results in 31 individual satellites for phases 1 and 2 and 30 for phases 3 and 4.
 Almost all of them are equipped with Rubidium clock ensemble witch exception of two satellites
 from generation IIF that use Cesium clocks instead.
-Each satellite have an assigned space vechicle number (SVN) and pseudo random noise (PRN).
+Each satellite have an assigned space vehicle number (SVN) and pseudo random noise (PRN).
 In this work a PRN will be used as a identifier as it is unique for every active satellite, 
 although it can be used again after said satellite gets retired, and ranges from 1 to 32.
 \begin{table}[ht] \label{table:2}
@@ -188,7 +188,7 @@ although it can be used again after said satellite gets retired, and ranges from
 \begin{tabular}{ l  c  c }
   \hline
   \hline
-  Generation& clock typt& satellites\\  \hline
+  Generation& clock type& satellites\\  \hline
   IIA & Rb& 18\\  
   IIR & Rb& 2 11 13 14 16 19 20 21 22 23 28\\ 
   IIR-M & Rb& 5 7 12 15 17 29\\ 
@@ -196,7 +196,7 @@ although it can be used again after said satellite gets retired, and ranges from
   IIF & Cs& 8 24 \\ \hline \hline
  \end{tabular}
 \end{table}
-For satellites with rubidium based clock ensembles bias have a very disting constant drift
+For satellites with rubidium based clock ensembles bias have a very distinct constant drift
 that makes data appear linear, it can be seen for satellites 01 and 08. 
 On the other hand in case of cesium based clock ensembles for which constant drift is much 
 smaller other sources of bias are visible, like seen for satellite 24.
@@ -283,7 +283,7 @@ Making weights on feedback bigger will not eliminate problem and instead replace
 explosion that causes response to reach maximum value if a strong signal appeared on input at
 least once.
 One of possible solutions to this issue is addition of long term memory which will regulate
-forward and loopback path influence on neuron response, such solution is used in long short
+forward and loop back path influence on neuron response, such solution is used in long short
 term memory (LSTM) networks \cite{Hochreiter1997}.
 \begin{figure}[ht] 
 \centering
@@ -320,7 +320,7 @@ For example if a network that is supposed to recognise cats will be trained on s
 only sphinxes it may be unable to classify other breeds as cats.
 Overfitted networks provide very high quality results as long as input overlap with test set
 otherwise quality of results drop sharply.
-In case of satellite clocks predictor can overfit in regards to following parameters:
+In case of satellite clocks predictor can overfitt in regards to following parameters:
 \begin{itemize}
 \item clock type
 \item location (orbit)
@@ -339,9 +339,9 @@ its predictions to others.
 Main aim of experiments was to determine if it is possible for small LSTM network to 
 achieve results comparable with IGU rapid predictions that are considered state of the art.
 First tests were made on a single satellite and prediction results were compared against 
-plytnomial regression as well as IGU. As results were already better than IGU for first attempts
+polynomial regression as well as IGU. As results were already better than IGU for first attempts
 any following tests were executed on almost complete set of satellites. This set did not included
-those satellites that wer activated or retired during experiment period.
+those satellites that were activated or retired during experiment period.
 %--------------------------------------------------------------------------------------------------
 \subsection{Overview}
 Experiments were divided in three phases:
@@ -351,30 +351,30 @@ Experiments were divided in three phases:
 	While achieving results better than polynomial regression would be considered acceptable at 
 	this stage would be considered acceptable LSTM proved to be better than IGU example which
 	was considered state of the art. Because of that a decision was made not to adjust network
-	model at this stage, as was originaly intended, but move to next stage with a initial model.
+	model at this stage, as was originally intended, but move to next stage with a initial model.
 
 \item In second phase network developed in first phase was tested on set of all active 
-	satellites and compared agains IGU rapid prediction. At this phase comparition against 
+	satellites and compared against IGU rapid prediction. At this phase comparison against 
 	polynomial regression was dropped as achieving results worse than IGU was no longer 
 	considered acceptable. In this phase for 5 of 31 satellites LSTM achieved better 
 	results than IGU.
 
 \item As second phase provided acceptable results only for a small group of satellites 
-	an alternative arhcitectures were tested, more details about them will be writen in 
+	an alternative architectures were tested, more details about them will be written in 
 	dedicated section. In this phase results better than IGU were achieved 
-	for 13 od 30 satellites.
-\item Final phase was dedicated to tuning learning metaparameters and it results are described
+	for 13 of 30 satellites.
+\item Final phase was dedicated to tuning learning meta parameters and it results are described
 	in more details in section dedicated to experiments.
 
 \end{enumerate}
 
 %--------------------------------------------------------------------------------------------------
-\subsection{Comparition with state of the art}
-Over the course of experiments a multiple network achitectures were tested, in this paper
-main focus will be given to experiments from phase 4 where general architecture was aleredy
+\subsection{Comparison with state of the art}
+Over the course of experiments a multiple network architectures were tested, in this paper
+main focus will be given to experiments from phase 4 where general architecture was already
 selected.
 Final architecture is a 3 layer network with 2 hidden LSTM layers, first one with size equal
-to input and second double that size. Third layer consists of single densly conneted neuron
+to input and second double that size. Third layer consists of single densely connected neuron
 that outputs a single prediction step.
 
 \begin{figure}[ht] 
@@ -385,28 +385,28 @@ that outputs a single prediction step.
 \end{figure}
 As can be observed on plots presented on Figure \ref{fig:error_ovevwiew} there are satellites
 for which results achieved by LSTM network are significantly better than current state of the
-art and that difference only deepens with prediction time. Exampes of such situation are
+art and that difference only deepens with prediction time. Examples of such situation are
 satellites G07, G10 or G30. Other group represented by satellites G14, G15 or G17 are those 
-for wihich results of LSTM are clearly worse. Another group consists of satellites for which 
-squared error is smaller for initial period of prediction however it rises with time resultin
+for which results of LSTM are clearly worse. Another group consists of satellites for which 
+squared error is smaller for initial period of prediction however it rises with time resulting
 in predictions worse than IGU. Examples of such behaviour are visible in satellites G01
 G09 and G29. Last of groups contains satellites for which prediction quality can vary over
 time like in case of G08.
 \begin{figure}[ht] 
 \centering
 	\includegraphics[width=10cm]{figures/brakeoff_compare}
-\caption{Comparition between LSTM and IGU predictions}
+\caption{Comparison between LSTM and IGU predictions}
 \label{fig:cutoff}
 \end{figure}
 As it is shown on Figure \ref{fig:cutoff} in case of some satellites period for which LSTM
-have adventage over IGU predicted part is longer than 9 hours. This is important value as 
+have advantage over IGU predicted part is longer than 9 hours. This is important value as 
 as after that period a synchronization witch IGU observed product can be made.
-IGU observed products have picosecond level precision which is satisfactionary for most 
+IGU observed products have picoseconds level precision which is satisfactory for most 
 robotic implementation.
 
 \begin{table}[ht] \label{table:result}
 \parindent0pt
-\caption{Quality of reslts }
+\caption{Quality of results }
 \centering
 \begin{tabular}{ l  c  c }
   \hline
@@ -431,7 +431,7 @@ handle bias prediction well. That indicates possibility of application of this s
 low power embedded system which was motivation for this research. Future modification to network
 may include addition of new layers or utilization of more data from SP3 files.
 However this steps will be made only after network developed in this work will be implemented and
-benchmarked on embedded systems ranging from powerfull ones like Raspberry Pi down to ones
+benchmarked on embedded systems ranging from powerful ones like Raspberry Pi down to ones
 with very limited processing and memory resources like STM32L series.
 \makesubmdate
 
