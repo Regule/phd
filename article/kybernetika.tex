@@ -244,9 +244,6 @@ Because of that a separate preprocessing parameters are used for each satellite.
 
 %==================================================================================================
 \section{Neural networks}
-
-%--------------------------------------------------------------------------------------------------
-\subsection{Overview}  
 Machine learning (ML) approaches based on a artificial neural networks (ANN) are
 well established as a efficient pattern detectors \cite{Abiodun2019} \cite{Miller1993}
 \cite{Faraway2008} \cite{Herbrich1999} \cite{Khan2019}.
@@ -254,6 +251,9 @@ It has also been used in GNSS systems especially since advent of the deep learni
 algorithms \cite{Wei2016} \cite{Kim2019} \cite{OrusPerez2019}.
 One of it uses is prediction of clock bias \cite{Wang2017} \cite{Indriyatmoko2008}
 which as mentioned in previous section is an essential value in positioning calculations.
+
+%--------------------------------------------------------------------------------------------------
+\subsection{Overview}  
 Like all digital signal processing applications software neural networks operate in
 discreet time and discreet amplitude domain. This is the reason why a time series clock model
 was chosen. Basic model of neuron (neural layer) was created by McCullough and Pitts in 1943
@@ -336,7 +336,12 @@ its predictions to others.
 
 %==================================================================================================
 \section{Experiments}
-
+Main aim of experiments was to determine if it is possible for small LSTM network to 
+achieve results comparable with IGU rapid predictions that are considered state of the art.
+First tests were made on a single satellite and prediction results were compared against 
+plytnomial regression as well as IGU. As results were already better than IGU for first attempts
+any following tests were executed on almost complete set of satellites. This set did not included
+those satellites that wer activated or retired during experiment period.
 %--------------------------------------------------------------------------------------------------
 \subsection{Overview}
 Experiments were divided in three phases:
@@ -409,59 +414,30 @@ robotic implementation.
   Result category & satellites\\  \hline
   Superior & 07 10 12 19 26 30\\  
   Superior for acceptable time period& 01 03 09 13 23 27 28 29 31\\ 
+  Varied & 05 08 24 16\\ \hline \hline
   Superior for short time period& 11 15 \\ 
   Inferior & 02 06 14 17 21 22 25\\ 
-  Uncomparable & 05 08 24 16\\ \hline \hline
  \end{tabular}
 \end{table}
 
 As superiority over 9 hour period is enough to consider LSTM solution a preferable one to
-IGU rapid prediction for experiments in this paper success was achieved for \textbf{NAPISZ}
+IGU rapid prediction for experiments in this paper success was achieved for 68/% 
 cases.
 
+%==================================================================================================
+\section{Conclusions}
+Experiments described in this paper have proven that even relatively simple LSTM network can
+handle bias prediction well. That indicates possibility of application of this system in 
+low power embedded system which was motivation for this research. Future modification to network
+may include addition of new layers or utilization of more data from SP3 files.
+However this steps will be made only after network developed in this work will be implemented and
+benchmarked on embedded systems ranging from powerfull ones like Raspberry Pi down to ones
+with very limited processing and memory resources like STM32L series.
 \makesubmdate
 
 %==================================================================================================
-\begin{thebibliography}{000}
-% References should be listed in alphabetical order.
-
-% For books, research reports and proceedings
-\bibitem{B}
-Author(s):
-\newblock{Title of book.}
-\newblock{Edition (if other than first). Publisher's name, place and year of publication (For books, research reports and proceedings).}
-
-% Example
-\bibitem{HoTu96}
-R.~Horst and H.~Tuy:
-\newblock{Global Optimization.}
-\newblock{Springer--Verlag, Berlin 1996.}
-
-% For journal article
-\bibitem{P}
-Author(s):
-\newblock{Title of paper.}
-\newblock{Title of the journal (abbreviated in accordance with Math. Reviews), volume, year of publication in brackets, inclusive pagination (For journal article).}
-
-% Example
-\bibitem{No85}
-M.~Nov\'{a}k:
-\newblock{A note on the algorithms for determining the model structure.}
-\newblock{Kybernetika {\mi 21} (1985), 164--178.}
-
-% For a paper in a bound collection
-\bibitem{PC}
-Author(s):
-\newblock{Title of paper.}
-\newblock{In: Title of collection, editor name(s) (in brackets), publisher's name, place and year of publication, inclusive pagination (For a paper in a bound collection).}
-
-% Example
-\bibitem{Pe81}
-V.~Peterka:
-\newblock{Bayesian system identification.}
-\newblock{In: Trends and Progress in System Identification (P.~Eykhoff, ed.), Pergamon Press, Oxford 1981, pp. 239--304.}
-
-\end{thebibliography}
+\bibliography{bibliografia}{}
+\bibliographystyle{plain}
 
 \makecontacts
 
