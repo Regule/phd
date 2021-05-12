@@ -42,12 +42,13 @@ Koszykowa 86 Street, 02-008 Warsaw}{pprzestrzelski@pjwstk.edu.pl}
 \maketitle
 
 \begin{abstract}
-In this article the results of an application of Long Short Term Memory neural networks for
-clock bias will be presented and compared against current state of the art in real-time
-GPS clock bias prediction. Presented approach is intended to better quality of localization
-for marine robots that operate autonomously for long periods of time away from convenient  
-internet uplink.
-textwidth in cm: \printinunitsof{cm}\prntlen{\textwidth}
+Satellite based localisation systems like GPS or Galileo are one of most commonly used tools
+in outdoors navigation. While for most application, like car navigation or hiking, level of
+precision provided by commercial solutions is satisfactory it is not always a case for mobile
+robots. In case of long time autonomy and robots that operate in remote areas battery usage
+and access to synchronization data becomes a problem. In this paper a solution providing a 
+real-time on-board clock synchronization is presented. Results achieved are better than current
+state of the art solution in real time clock bias prediction for most satellites.
 \end{abstract}
 
 \keywords{LSTM, Long Short Term Memory, Neural Networks, GPS, Navigation, Time series prediction}
@@ -57,10 +58,7 @@ textwidth in cm: \printinunitsof{cm}\prntlen{\textwidth}
 
 %==================================================================================================
 \section{Introduction}
-Research presented in this paper is part of a larger project that aims at developing a long
-term autonomous marine robotics systems. However as Global Positioning System (GPS) is used
-in many application elements specific to one that was intended when working on algorithm will
-be omitted with exception of MOTIVATIONS section.
+Aim of research presented 
 
 %--------------------------------------------------------------------------------------------------
 \subsection{Motivation}
