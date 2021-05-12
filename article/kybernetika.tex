@@ -116,12 +116,12 @@ In case of GNSS system signal is a electromagnetic wave therefore its speed is e
 to speed of light $c\approx 3*10^{9} \frac{m}{s}$. Time of arrival is recoded when
 data frame wave front reaches receiver, this means that receiver time is used.
 Origination time is recorded on satellite according to it local clock and
-included in data frame. Thanks to that distance can be calculated by simple
+included in data frame. Thanks to that distance can be calculated by following 
 equation:
 \begin{equation}
   d=c*(t_a-t_o)
 \end{equation}
-However $t_a$ and $t_o$ are using different reference frame so for comparison
+However $t_a$ and $t_o$ are using different reference frames so for comparison
 to be possible they must be transformed into a common reference frame.
 This is referred to as a synchronisation of the clocks and is very important as
 a de synchronisation on level of single nanosecond results in about 30 cm of
@@ -132,7 +132,6 @@ While actual calculations
 \subsection{IGU products}
 The most widely used source of precise clock corrections are products provided 
 by International GNSS Service (IGS) \cite{IGS}.
-% TODO:Fix table size so it is not wider than text
 \begin{table}[ht] 
 	\centering
 	\caption{Variants of IGS products}
@@ -143,7 +142,7 @@ by International GNSS Service (IGS) \cite{IGS}.
 		Type& Accuracy& Latency& Update& Sample \\
 		&&&&interval\\
 		\hline
-		Transmitted & 5ns & real time & -- & daily  \\
+		Broadcaster & 5ns & real time & -- & daily  \\
 		Ultra rapid -- predicted & 3ns & real time & at 03, 09, 15, 21 UTC & 15 min  \\
 		Ultra rapid -- observed & 150ps & 3-9 hours & at 03, 09, 15, 21 UTC & 15 min  \\
 		Rapid & 75ps & 17-41 hours & at 17 UTC daily & 5 min \\
