@@ -58,24 +58,23 @@ state of the art solution in real time clock bias prediction for most satellites
 
 %==================================================================================================
 \section{Introduction}
-Aim of research presented 
+Aim of research presented in this paper is do develop an algorithm that will predict bias of
+GPS satellites on board atomic clock ensembles bias. Algorithm must be applicable in an 
+environment with low computation power available and where battery charge is a highly limited
+resource.
 
 %--------------------------------------------------------------------------------------------------
 \subsection{Motivation}
-In recent years there was a rise in popularity of autonomous platforms. Examples include, but
-are not limited to, Tesla self driving cars, autonomous container ships or robotic defence 
-systems. All those applications have one thing in common, they require a precise navigation 
-capabilities that will allow them to move without damaging themselves or their environments. 
-This is especially challenging in marine environment as not only there is almost no visual
-reference points on open see but also because any contact with external data source is expensive
-as very often only connection available is satellite uplink.
-In case of large vessels, like already mentioned autonomous container ships, this is only
-problem of bandwidth cost. 
-However in case of small robots like gliders or sailboats that rely on low power consumption 
-any localization system is limited by low computation power and high energy consumption of 
-satellite communication that discourages it frequent use.
-This is why an effort was made to deploy a solution that provides a on-board solution for high
-quality GPS based localisation with low computational overhead.
+During development of an autonomic marine agent one of problems that had to be solved was 
+precise navigation. As robot task is to measure quality of water in lakes and small streams
+it is expected that it will operate for long time periods in regions where services like 
+cellular network may not be available. Additionally a future plans are to develop a model that
+will be able to operate on open sea and navigation issues that robots face in such conditions
+are even more restrictive on algorithms. With that said main localization technique implemented
+will be Global Positioning System which in turn bought issue of limited precision of civilian
+variant of GPS as well as it requirement for synchronization with time reference.
+For that reason it was decided that there is a need for a on board clock bias prediction to limit
+requirement for synchronization.
 
 %--------------------------------------------------------------------------------------------------
 \subsection{Contribution}
