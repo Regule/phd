@@ -189,7 +189,8 @@ that use Cesium clocks instead.
 Each satellite have an assigned space vehicle number (SVN) and pseudo random noise (PRN).
 In this work a PRN will be used as a identifier as it is unique for every active satellite, 
 although it can be used again after said satellite gets retired, and ranges from 1 to 32.
-\begin{table}[ht] \label{table:2}
+Association between satellite PRN, clock and block is shown in Table \ref{table:prn}
+\begin{table}[ht] \label{table:prn}
 \parindent0pt
 \caption{Bias prediction error in relation to regularization and dropout level}
 \centering
@@ -221,7 +222,7 @@ behaviour
 %--------------------------------------------------------------------------------------------------
 \subsection{Preprocessing}
 IGU provides raw clock bias, this poses two problems for approach used in this work.
-Firs one is that constant clock drift is such a major source of bias that it overshadows other
+First one is that constant clock drift is such a major source of bias that it overshadows other
 sources as seen on figure \ref{fig:raw_bias} in visualisation data seams to be linear.
 Second issue is non-stationary nature of series, this is a problem as neural networks work best
 fro stationary data with mean at 0 and values in between -1 and 1. To solve those problems firs
