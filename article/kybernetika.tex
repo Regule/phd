@@ -139,7 +139,7 @@ that is why in case of GPS an atomic clock ensembles are used.
 %--------------------------------------------------------------------------------------------------
 \subsection{IGU products}
 The most widely used source of precise clock corrections are products provided 
-by International GNSS Service (IGS) \cite{IGS}.
+by International GNSS Service (IGS) \cite{Kouba2009}.
 \begin{table}[ht] 
 	\centering
 	\caption{Variants of IGS products}
@@ -176,14 +176,16 @@ better results than those solutions while still working at real-time response la
 
 %--------------------------------------------------------------------------------------------------
 \subsection{Data source}
-This work focuses only on GPS satellites which are divided into five groups :
-Original (II), IIA, ,IIR ,IIR-M ,IIF.
-As original generation was full retired in 2007 it will not be taken into consideration, while
-a single satellite from generation IIA was used in second phase of experiments it was no longer
-present in following phases as that generation was fully retired in 2019.
-This results in 31 individual satellites for phases 1 and 2 and 30 for phases 3 and 4.
-Almost all of them are equipped with Rubidium clock ensemble witch exception of two satellites
-from generation IIF that use Cesium clocks instead.
+This work focuses only on GPS satellites which are divided into following blocks:
+I, II, IIA, \textbf{IIR ,IIR-M ,IIF}, III.
+Blocks I and II were fully retired before research described in that paper began and block
+III satellites were active for to short time to generate enough data.
+That is why those blocks were not used at all, on the other hand single satellite from block
+IIA was used in second phase of experiments however it was retired in mean time and a decision
+was made to not use it in next experiments and as such it is not listed in final satellite pool.
+This results in total of 30 satellite clocks analyzed with almost all of them are equipped 
+with Rubidium clock ensemble witch exception of two satellites from generation IIF 
+that use Cesium clocks instead.
 Each satellite have an assigned space vehicle number (SVN) and pseudo random noise (PRN).
 In this work a PRN will be used as a identifier as it is unique for every active satellite, 
 although it can be used again after said satellite gets retired, and ranges from 1 to 32.
