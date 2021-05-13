@@ -93,8 +93,8 @@ as well as more in depth description of clock ensemble implementation and bias m
 Current state of the art will be presented as well however no details about underlying 
 mathematical model will be shared as this is beyond scope of this paper.
 
-r---------------------------------------------------------------------------------------------------
-\subsection{Importance of clock bias in localisation}
+%---------------------------------------------------------------------------------------------------
+\subsection{Basics of satellite based localization systems}
 All global satellite navigation systems (GNSS) are variant of beacon based localization
 systems\cite{Blewitt1997}.Such systems require information about beacon position
 and distance between localized object and beacons.
@@ -126,7 +126,15 @@ to be possible they must be transformed into a common reference frame.
 This is referred to as a synchronisation of the clocks and is very important as
 a de synchronisation on level of single nanosecond results in about 30 cm of
 positioning error\cite{Enge2011}.
-While actual calculations 
+
+%--------------------------------------------------------------------------------------------------
+\subsection{Clock modelling}
+Clocks are devices that provide a reference time by measuring repetition of periodic 
+process. One of most well known examples of such a process is a pendulum and even before
+mechanical clocks humans used rotation of earth and resulting sun procession on sky.
+Those methods however do not provide precise enough measurements for beacon based localization,
+that is why in case of GPS an atomic clock ensembles are used.
+
 
 %--------------------------------------------------------------------------------------------------
 \subsection{IGU products}
