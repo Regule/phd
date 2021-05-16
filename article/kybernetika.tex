@@ -70,7 +70,8 @@ precise navigation. As robot task is to measure quality of water in lakes and sm
 it is expected that it will operate for long time periods in regions where services like 
 cellular network may not be available. Additionally a future plans are to develop a model that
 will be able to operate on open sea and navigation issues that robots face in such conditions
-are even more restrictive on algorithms. With that said main localization technique implemented
+are even more restrictive on algorithms\cite{Cabrera-Gamez2014}. 
+With that said main localization technique implemented
 will be Global Positioning System which in turn bought issue of limited precision of civilian
 variant of GPS as well as it requirement for synchronization with time reference.
 For that reason it was decided that there is a need for a on board clock bias prediction to limit
@@ -134,7 +135,18 @@ process. One of most well known examples of such a process is a pendulum and eve
 mechanical clocks humans used rotation of earth and resulting sun procession on sky.
 Those methods however do not provide precise enough measurements for beacon based localization,
 that is why in case of GPS an atomic clock ensembles are used.
-
+In case of this research a discreet clock model is used where clock readout is described as 
+\begin{equation}
+	t_{c}(i) = t_{r}(i) + b(i)
+\end{equation}
+Where $t_{c}$ refers to time measured by the analysed clock, $t_{r}$ is time given by a 
+reference clock which we assume to give perfect readouts and $b$ is clock bias.
+Each of those values are indexed by measurement $i$ and in ortder to correct clock readouts
+a value of bias for each step must be predicted.
+There are many approaches for modeling bias however this is beyond scope of this article
+as method used here relies on adjusting arbitrary model to fit already recoded bias data.
+More information about knowledge driven bias modeling can be found in literature related to
+frequency stability analysis\cite{Riley1994}.
 
 %--------------------------------------------------------------------------------------------------
 \subsection{IGU products}
