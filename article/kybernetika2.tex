@@ -363,6 +363,7 @@ First tests were made on a single satellite and prediction results were compared
 polynomial regression as well as IGU. As results were already better than IGU for first attempts
 any following tests were executed on almost complete set of satellites. This set did not included
 those satellites that were activated or retired during experiment period.
+
 %--------------------------------------------------------------------------------------------------
 \subsection{Overview}
 Experiments were divided in three phases:
@@ -388,6 +389,191 @@ Experiments were divided in three phases:
 	in more details in section dedicated to experiments.
 
 \end{enumerate}
+
+%--------------------------------------------------------------------------------------------------
+\subsection{Phase 1 validation of approach}
+For the research a topology with two hidden LSTM layers and a single dense layer as output was 
+used as shown on figure \ref{fig:topology}.
+Most of the parameters as well as a general topology were set up based on suggestions from 
+\cite{Chollet2018}. As an activation function of LSTM layers a rectifier (RELU),
+%TODO: What the fuck is tangensoidal ?
+tangensoidal as well as sigmoidal function was used.
+For dense (output) only a linear activation was used so that there are no limits on predicted 
+value.
+Mean squared error (MSE), mean average error (MAE) and root mean square (RMS)
+was used as a loss function.
+Two optimizers will be tested, Root Mean Square Propagation (RMSprop)\cite{Hinton2012} and 
+Adaptive Momentum Estimation (Adam)\cite{Kingma2015}.
+\begin{figure}[ht] 
+	\centering
+	\includegraphics[width=3cm]{figures/topology}
+	\caption{Neural Network topology}
+	\label{fig:topology}
+\end{figure}
+
+As the network learning process is stochastic by nature 10 experiments were run for each
+configuration and then average results were compared.
+When comparing results RMSProp proven to be a better optimizer, as shown in Table 
+\ref{tab:optimizers} and so it was used in the following experiments.
+All experiments were run on a dataset obtained on 22.07.2018.
+\begin{table}[ht] 
+	\centering
+	\caption{Optimizers and loss functions}
+	\label{tab:optimizers}
+	\begin{tabular}{l*{6}{c}}
+		\hline
+		\hline
+		Parameter& \multicolumn{6}{c}{Optimizer}  \\
+		&\multicolumn{3}{c}{Adam}&\multicolumn{3}{c}{RMSProp}\\
+		\hline
+		& MAE & MSE & RMS & MAE & MSE & RMS  \\
+		Avarage & 1.10 & 1.38 & 1.15 & 0.80 & 0.79 & 0.87  \\
+		$\sigma$ & 0.23 & 0.57 & 0.23 & 0.19 & 0.27 & 0.16  \\
+		Min & 0.82 & 0.78 & 0.89 & 0.48 & 0.37 & 0.61  \\
+		Max & 1.55 & 2.63 & 1.62 & 0.99 & 1.08 & 1.04  \\
+		\hline
+		\hline
+	\end{tabular}
+\end{table}
+Repeatability of results was much better in Adam optimizer however that was only due 
+to the tendency of this algorithm to stuck in the same local minimum every time it was run.
+
+For the next experiment, three possible activation functions for hidden layers were 
+tested with RMSProp as an optimizer. 
+In each case, both hidden layers had the same activation function, and the dense layer 
+that served as output had linear activation.
+\begin{figure}[ht] 
+	\centering
+	\includegraphics[width=10cm]{figures/activation_to_error}
+	\caption{Activation function effect on prediction error}
+	\label{fig:activation_to_error}
+\end{figure}
+As it is seen in Figure \ref{fig:activation_to_error} RELU activation yields the best results,
+this was the expected outcome as it is a function commonly used with LSTM layers.
+Slightly surprising was the rather good result of tanh that yielded results much closer
+to Relu than to sigmoid.
+For the following experiments, only Relu was used as a hidden layer activation.
+In the next experiment a value of loopback was adjusted, its initial value for previous experiments
+was set to 12 as an educated guess.
+\begin{table}[ht] 
+	\centering
+	\caption{Loopback values}
+	\label{tab:loopback}
+	\begin{tabular}{l*{6}{c}}
+		\hline
+		\hline
+		Parameter& \multicolumn{6}{c}{Loopback}  \\
+		& 1& 4& 12& 32& 64& 96\\
+		\hline
+		Avarage & 0.48 & 0.48 & 0.51 & 0.47 & 0.55 & 0.50  \\
+		$\sigma$ & 0.01 & 0.01 & 0.03 & 0.01 & 0.02 & 0.02  \\
+		min & 0.47 & 0.46 & 0.47 & 0.46 & 0.52 & 0.47  \\
+		max & 0.51 & 0.49 & 0.55 & 0.48 & 0.59 & 0.54  \\
+		\hline
+		\hline
+	\end{tabular}
+\end{table}
+As can be seen in Table \ref{tab:loopback} the best result was achieved for a loopback value of 32.
+Finally, a comparison between Adam and RMSProp was made again with all other parameters 
+set according to previous experimental results.
+\begin{table}[ht] 
+	\centering
+	\caption{Optimizers and loss functions for adjusted parameters}
+	\label{tab:optimizers2}
+	\begin{tabular}{l*{6}{c}}
+		\hline
+		\hline
+		Parameter& \multicolumn{6}{c}{Optimizer}  \\
+		&\multicolumn{3}{c}{Adam}&\multicolumn{3}{c}{RMSProp}\\
+		\hline
+		& MAE & MSE & RMS & MAE & MSE & RMS  \\
+		Avarage & 0.87 & 0.95 & 0.94 & 0.66 & 0.63 & 0.76  \\
+		$\sigma$ & 0.29 & 0.56 & 0.28 & 0.23 & 0.43 & 0.24  \\
+		min & 0.44 & 0.30 & 0.55 & 0.43 & 0.29 & 0.54  \\
+		max & 1.38 & 2.06 & 1.43 & 1.12 & 1.71 & 1.31  \\
+		\hline
+		\hline
+	\end{tabular}
+\end{table}
+When using adjusted parameters average errors become better for all configurations and
+results of RMSProp become less consistent due to the higher value of divergence.
+However, RMSProp is still an overall better solution than Adam and so it will be used in final
+configuration.
+
+After running the experiments and comparing results a final set of network parameters was set
+as described in a Table \ref{tab:final_config}.
+\begin{table}[ht] 
+	\centering
+	\caption{Basic network configuration}
+	\label{tab:final_config}
+	\begin{tabular}{lcc}
+		\hline
+		\hline
+		Parameter& \multicolumn{2}{c}{Hidden layer}  \\
+		&First&Second\\
+		\hline
+		Neuron count & 32 & 128  \\
+		Activation function & ReLU & ReLU  \\
+		Dropoff & 0.2 & 0.5   \\
+		Recurrent dropoff & 0.2 & 0.5   \\
+		Regularization & L2 & L2   \\
+		Statefullness & NO & NO   \\
+		\hline
+		\hline
+	\end{tabular}
+\end{table}
+
+%--------------------------------------------------------------------------------------------------
+\subsubsection{Comparition with other solutions}
+After preparing optimal coniguration of prediction network it predictions were compared agains
+linear approximation, polynomial approximation of 2, 4 and 8 degrees as well as against IGU rapid
+product predicted half.
+As difference between results of polynomial approximation were relatively unsignificant between
+polynomials of different degrees all their results will be presented as one rounded to
+two decimal points.
+\begin{table}[ht] 
+	\centering
+	\caption{Prediction errors for 24h range}
+	\label{tab:comparition_1}
+	\begin{tabular}{lccc}
+		\hline
+		\hline
+		Algorithm& \multicolumn{3}{c}{Error value}  \\
+		& MAE& MSE& RMS\\
+		\hline
+		LSTM& 0.47& 0.36& 0.60  \\
+		IGU-predicted& 1.60& 2.76& 1.66  \\
+		Linear& 1.73& 3.21& 1.79  \\
+		Polynomial& 1.33& 1.87& 1.37  \\
+		\hline
+		\hline
+	\end{tabular}
+\end{table}
+As seen in Table \ref{tab:comparition_1} LSTM network yielded significantly better results than
+IGU predicted. What is interesting observation is that polynomial approximation appears to work
+better than IGU for 24 hours prediction period.
+Next comparison was based on shorter prediction time and as seen in Table \ref{tab:comparition_2}
+LSTM gains more advantage over IGU predicted the longer prediction range is.
+What more interesting is that LSTM errors actually drop over time.
+\begin{table}[ht] 
+	\centering
+	\caption{Prediction errors for 24h range}
+	\label{tab:comparition_2}
+	\begin{tabular}{lccc}
+		\hline
+		\hline
+		Algorithm& \multicolumn{3}{c}{RMS for prediction range}  \\
+		& 6h& 12h& 24h\\
+		\hline
+		LSTM& 1.02& 0.76& 0.60  \\
+		IGU-predicted& 1.26& 1.31& 1.66  \\
+		\hline
+		\hline
+	\end{tabular}
+\end{table}
+
+LSTM predictions were of higher accuracy than linear and polynomial as well as IGU Rapid
+predicted which is recognized as a state of the art.
 
 %--------------------------------------------------------------------------------------------------
 \subsection{Comparison with state of the art}
