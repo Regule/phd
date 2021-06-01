@@ -115,18 +115,18 @@ done with time of arrival (ToA) instead of angle of arrival (AoA) or
 received signal strength (RSS) \cite{Doberstein2012}.
 When measuring distance by ToA  3 properties of a signal must be known:
 \begin{itemize}
-\item $t_o$ : time of origination
-\item $t_a$ time of arrival
-\item $v$ velocity
+\item $t_o$ : time of origination,
+\item $t_a$ time of arrival,
+\item $v$ velocity.
 \end{itemize}
 In case of GNSS system signal is a electromagnetic wave therefore its speed is equal
-to speed of light $c\approx 3\dot 10^{9} m/s$. Time of arrival is recoded when
+to speed of light $c\approx 3 \cdot 10^{9} m/s$. Time of arrival is recoded when
 data frame wave front reaches receiver, this means that receiver time is used.
 Origination time is recorded on satellite according to it local clock and
 included in data frame. Thanks to that distance can be calculated by following 
 equation:
 \begin{equation}
-  d=c\dot (t_a-t_o),
+  d=c\cdot (t_a-t_o),
 \end{equation}
 However $t_a$ and $t_o$ are using different reference frames so for comparison
 to be possible they must be transformed into a common reference frame.
@@ -158,7 +158,7 @@ frequency stability analysis \cite{Riley1994}.
 \subsection{IGU products}
 The most widely used source of precise clock corrections are products provided 
 by International GNSS Service (IGS) \cite{Kouba2009}.
-\begin{table}[ht] 
+\begin{table}[htb] 
 	\centering
 	\caption{Variants of IGS products}
 	\label{tab:igs_products}
@@ -208,7 +208,7 @@ Each satellite have an assigned space vehicle number (SVN) and pseudo random noi
 In this work a PRN will be used as a identifier as it is unique for every active satellite, 
 although it can be used again after said satellite gets retired, and ranges from 1 to 32.
 Association between satellite PRN, clock and block is shown in Table \ref{table:prn}
-\begin{table}[ht] \label{table:prn}
+\begin{table}[htb] \label{table:prn}
 \parindent0pt
 \caption{Bias prediction error in relation to regularization and dropout level}
 \centering
@@ -230,7 +230,7 @@ smaller other sources of bias are visible, like seen for satellite 24.
 There is also a single satellite for which, during observed period, constant drift was almost
 not present. This was satellite 14 and while no official source of information describes this 
 behaviour
-\begin{figure}[ht] 
+\begin{figure}[htb] 
 \centering
 \includegraphics[width=\textwidth]{figures/bias_raw}
 \caption{Raw clock bias}
@@ -246,7 +246,7 @@ Second issue is non-stationary nature of series, this is a problem as neural net
 fro stationary data with mean at 0 and values in between -1 and 1. To solve those problems firs
 series is Differentiated which returns data where other noises besides constant drift are visible as
 seen on figure \ref{fig:diffed_bias}.
-\begin{figure}[ht] 
+\begin{figure}[htb] 
 \centering
 \includegraphics[width=10cm]{figures/bias_diffed}
 \caption{Differentiated clock bias}
@@ -262,7 +262,7 @@ Analyse of data on Figures \ref{fig:diffed_bias} and \ref{fig:diffed_shifts} sho
 constant shift as well as value range for mean shifted data can vary radically between satellites.
 Because of that a separate preprocessing parameters are used for each satellite.
 
-\begin{figure}[ht] 
+\begin{figure}[htb] 
 \centering
 	\includegraphics[width=10cm]{figures/bias_normalized}
 \caption{Comparison of diffed clock bias}
@@ -274,9 +274,9 @@ Because of that a separate preprocessing parameters are used for each satellite.
 \section{Neural networks}
 Machine learning (ML) approaches based on a artificial neural networks (ANN) are
 well established as a efficient pattern detectors \cite{Abiodun2019}, \cite{Miller1993},
-\cite{Faraway2008}, \cite{Herbrich1999}, \cite{Khan2019}.
+\cite{Faraway2008}, \cite{Khan2019}.
 It has also been used in GNSS systems especially since advent of the deep learning
-algorithms \cite{Wei2016}, \cite{Kim2019}, \cite{OrusPerez2019}.
+algorithms \cite{Wei2016}, \cite{Kim2019}, \cite{Perez2019}.
 One of it uses is prediction of clock bias \cite{Wang2017}, \cite{Indriyatmoko2008}
 which as mentioned in previous section is an essential value in positioning calculations.
 
@@ -286,7 +286,7 @@ Like all digital signal processing applications software neural networks operate
 discreet time and discreet amplitude domain. This is the reason why a time series clock model
 was chosen. Basic model of neuron (neural layer) was created by McCullough and Pitts in 1943
 \cite{McCulloch1943}. This model described response of neural layer to multiple signals with
-equation $y= \chi (W\dot x+b)$ where $y$ is response, $x$ input, $W$ weights and $b$ bias.
+equation $y= \chi (W\cdot x+b)$ where $y$ is response, $x$ input, $W$ weights and $b$ bias.
 Algorithm for automated adjustment of weights in relation to data was proposed in 1958
 While this model and its successors where inspired by a biological neuron there are much
 more simplified. One of those simplification is lack of time domain in model which means
@@ -313,7 +313,7 @@ least once.
 One of possible solutions to this issue is addition of long term memory which will regulate
 forward and loop back path influence on neuron response, such solution is used in long short
 term memory (LSTM) networks \cite{Hochreiter1997}.
-\begin{figure}[ht] 
+\begin{figure}[htb] 
 \centering
 	\includegraphics[width=10cm]{figures/lstm}
 \caption{LSTM layer}
@@ -401,7 +401,7 @@ Experiments were divided in three phases.
 %--------------------------------------------------------------------------------------------------
 \subsection{Phase 1 validation of approach}
 For the research a topology with two hidden LSTM layers and a single dense layer as output was 
-used as shown on figure \ref{fig:topology}.
+used. 
 Most of the parameters as well as a general topology were set up based on suggestions from 
 \cite{Chollet2018}. As an activation function of LSTM layers a rectifier (RELU),
 unipolar as well as bipolar function was used.
@@ -417,7 +417,7 @@ configuration and then average results were compared.
 When comparing results RMSProp proven to be a better optimizer, as shown in Table 
 \ref{tab:optimizers} and so it was used in the following experiments.
 All experiments were run on a dataset obtained on 22.07.2018.
-\begin{table}[ht] 
+\begin{table}[htb] 
 	\centering
 	\caption{Optimizers and loss functions}
 	\label{tab:optimizers}
@@ -443,7 +443,7 @@ For the next experiment, three possible activation functions for hidden layers w
 tested with RMSProp as an optimizer. 
 In each case, both hidden layers had the same activation function, and the dense layer 
 that served as output had linear activation.
-\begin{figure}[ht] 
+\begin{figure}[htb] 
 	\centering
 	\includegraphics[width=10cm]{figures/activation_to_error}
 	\caption{Activation function effect on prediction error}
@@ -456,7 +456,7 @@ to Relu than to sigmoid.
 For the following experiments, only Relu was used as a hidden layer activation.
 In the next experiment a value of loopback was adjusted, its initial value for previous experiments
 was set to 12 as an educated guess.
-\begin{table}[ht] 
+\begin{table}[htb] 
 	\centering
 	\caption{Loopback values}
 	\label{tab:loopback}
@@ -477,7 +477,7 @@ was set to 12 as an educated guess.
 As can be seen in Table \ref{tab:loopback} the best result was achieved for a loopback value of 32.
 Finally, a comparison between Adam and RMSProp was made again with all other parameters 
 set according to previous experimental results.
-\begin{table}[ht] 
+\begin{table}[htb] 
 	\centering
 	\caption{Optimizers and loss functions for adjusted parameters}
 	\label{tab:optimizers2}
@@ -503,7 +503,7 @@ configuration.
 
 After running the experiments and comparing results a final set of network parameters was set
 as described in a Table \ref{tab:final_config}.
-\begin{table}[ht] 
+\begin{table}[htb] 
 	\centering
 	\caption{Basic network configuration}
 	\label{tab:final_config}
@@ -532,7 +532,7 @@ product predicted half.
 As difference between results of polynomial approximation were relatively unsignificant between
 polynomials of different degrees all their results will be presented as one rounded to
 two decimal points.
-\begin{table}[ht] 
+\begin{table}[htb] 
 	\centering
 	\caption{Prediction errors for 24h range}
 	\label{tab:comparition_1}
@@ -556,7 +556,7 @@ better than IGU for 24 hours prediction period.
 Next comparison was based on shorter prediction time and as seen in Table \ref{tab:comparition_2}
 LSTM gains more advantage over IGU predicted the longer prediction range is.
 What more interesting is that LSTM errors actually drop over time.
-\begin{table}[ht] 
+\begin{table}[htb] 
 	\centering
 	\caption{Prediction errors for 24h range}
 	\label{tab:comparition_2}
@@ -585,7 +585,7 @@ Final architecture is a 3 layer network with 2 hidden LSTM layers, first one wit
 to input and second double that size. Third layer consists of single densely connected neuron
 that outputs a single prediction step.
 
-\begin{figure}[ht] 
+\begin{figure}[htb] 
 \centering
 	\includegraphics[width=10cm]{figures/error_overwiev}
 \caption{Squared error}
@@ -602,11 +602,11 @@ satellites G07, G10 or G30.
 \label{fig:error_comparition}
 \end{figure}
 
-\begin{figure}[ht] 
+\begin{figure}[htb!] 
 \centering
 	\includegraphics[width=10cm]{figures/rel_err_diff}
 \caption{Comparition between relative prediction errors}
-\label{fig:_relative_error_comparition}
+\label{fig:relative_error_comparition}
 \end{figure}
 
 Other group represented by satellites G14, G15 or G17 are those  for which results of LSTM 
@@ -615,7 +615,7 @@ squared error is smaller for initial period of prediction however it rises with 
 in predictions worse than IGU. Examples of such behaviour are visible in satellites G01
 G09 and G29. Last of groups contains satellites for which prediction quality can vary over
 time like in case of G08.
-\begin{figure}[ht] 
+\begin{figure}[htb] 
 \centering
 	\includegraphics[width=10cm]{figures/brakeoff_compare}
 \caption{Comparison between LSTM and IGU predictions}
@@ -627,7 +627,7 @@ as after that period a synchronization witch IGU observed product can be made.
 IGU observed products have picoseconds level precision which is satisfactory for most 
 robotic implementation.
 
-\begin{table}[ht] \label{table:result}
+\begin{table}[htb] \label{table:result}
 \parindent0pt
 \caption{Quality of results }
 \centering
@@ -650,7 +650,7 @@ Difference between LSTM prediction error and IGU error is visualised on Figure
 \ref{fig:error_comparition} where value represented on y axis show by how many nanoseconds 
 solution proposed in this paper is more precise than state of the art.
 Advantage of LSTM solution is even more clear when analysing relative error as in Figure
-\ref{fig:relative_error_comarition}. Proposed solution is capable of providing results 
+\ref{fig:relative_error_comparition}. Proposed solution is capable of providing results 
 comparable or better than state of the art for most satellites.
 
 %==================================================================================================
