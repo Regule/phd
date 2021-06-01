@@ -93,7 +93,8 @@ a alternative for IGU provided products.
 %==================================================================================================
 \FloatBarrier
 \section{Clock bias in GNSS}
-Due to the nature of GNSS precision time measurement is crucial for accurate localisation.
+Due to the nature of Global Satellite Navigation Systems (GNSS) 
+precision time measurement is crucial for accurate localisation.
 In this section information a basic explanation of how GNSS services work will be presented
 as well as more in depth description of clock ensemble implementation and bias modeling.
 Current state of the art will be presented as well however no details about underlying 
@@ -101,7 +102,7 @@ mathematical model will be shared as this is beyond scope of this paper.
 
 %---------------------------------------------------------------------------------------------------
 \subsection{Basics of satellite based localization systems}
-All global satellite navigation systems (GNSS) are variant of beacon based localization
+All GNSS are variant of beacon based localization
 systems\cite{Blewitt1997}.Such systems require information about beacon position
 and distance between localized object and beacons.
 With that information it is possible to calculate position of object in same reference
@@ -119,7 +120,7 @@ When measuring distance by ToA  3 properties of a signal must be known:
 \item $v$ velocity
 \end{itemize}
 In case of GNSS system signal is a electromagnetic wave therefore its speed is equal
-to speed of light $c\approx 3\dot 10^{9} \frac{m}{s}$. Time of arrival is recoded when
+to speed of light $c\approx 3\dot 10^{9} m/s$. Time of arrival is recoded when
 data frame wave front reaches receiver, this means that receiver time is used.
 Origination time is recorded on satellite according to it local clock and
 included in data frame. Thanks to that distance can be calculated by following 
@@ -151,7 +152,7 @@ a value of bias for each step must be predicted.
 There are many approaches for modeling bias however this is beyond scope of this article
 as method used here relies on adjusting arbitrary model to fit already recoded bias data.
 More information about knowledge driven bias modeling can be found in literature related to
-frequency stability analysis\cite{Riley1994}.
+frequency stability analysis \cite{Riley1994}.
 
 %--------------------------------------------------------------------------------------------------
 \subsection{IGU products}
@@ -184,10 +185,10 @@ IGS products can be easily divided into two categories:
 	\item high latency consisting of ultra rapid observed half as well as rapid and final products.
 \end{itemize}
 Solutions that have high latency are not usable in real-time navigation and as such will not be
-considered in this work. Ultra-rapid observed part will be used as a source of
+considered in this work. Ultra-rapid observed will be used as a source of
 reference time so that if a bias prediction error is equal to zero it means that is
-the same as provided by Ultra-rapid observed.
-As can be seen in the Table \ref{tab:igs_products} all real-time solutions provide precision 
+the same as provided by ultra-rapid observed.
+As can be seen in Table \ref{tab:igs_products} all real-time solutions provide precision 
 at a range of nanoseconds, aim of this work is to show that LSTM networks can provide 
 better results than those solutions while still working at real-time response latency.
 
@@ -243,7 +244,7 @@ First one is that constant clock drift is such a major source of bias that it ov
 sources as seen on figure \ref{fig:bias_raw} in visualisation data seams to be linear.
 Second issue is non-stationary nature of series, this is a problem as neural networks work best
 fro stationary data with mean at 0 and values in between -1 and 1. To solve those problems firs
-series is diffed which returns data where other noises besides constant drift are visible as
+series is Differentiated which returns data where other noises besides constant drift are visible as
 seen on figure \ref{fig:diffed_bias}.
 \begin{figure}[ht] 
 \centering
@@ -257,7 +258,7 @@ of course possible for future prediction inputs to have absolute value above one
 not be a problem as network can deal with such inputs especially if they appear rarely in series.
 Another issue is whether to use same preprocessing for all satellites or should each of them 
 have their own parameters.
-Analyse of data shown on figures \ref{fig:diffed_bias} and \ref{fig:diffed_shifts} shows that
+Analyse of data on Figures \ref{fig:diffed_bias} and \ref{fig:diffed_shifts} shows that
 constant shift as well as value range for mean shifted data can vary radically between satellites.
 Because of that a separate preprocessing parameters are used for each satellite.
 
@@ -284,7 +285,7 @@ which as mentioned in previous section is an essential value in positioning calc
 Like all digital signal processing applications software neural networks operate in
 discreet time and discreet amplitude domain. This is the reason why a time series clock model
 was chosen. Basic model of neuron (neural layer) was created by McCullough and Pitts in 1943
-\cite{McCulloch1943}. It described response of neural layer to multiple signals with
+\cite{McCulloch1943}. This model described response of neural layer to multiple signals with
 equation $y= \chi (W\dot x+b)$ where $y$ is response, $x$ input, $W$ weights and $b$ bias.
 Algorithm for automated adjustment of weights in relation to data was proposed in 1958
 While this model and its successors where inspired by a biological neuron there are much
@@ -359,7 +360,7 @@ with network main goal, predicting future biases. However as satellites use diff
 of atomic clocks and are placed on different orbit attempts at generalisation for those
 proprieties risk to high precision trade off.
 Therefore a separate network will be used for each satellite that will be unable to generalize
-its predictions to others.
+its predictions for others.
 
 %==================================================================================================
 \FloatBarrier
@@ -373,7 +374,7 @@ those satellites that were activated or retired during experiment period.
 
 %--------------------------------------------------------------------------------------------------
 \subsection{Overview}
-Experiments were divided in three phases:
+Experiments were divided in three phases.
 \begin{enumerate}
 \item In first phase a single satellite was selected and prediction with generic LSTM architecture
 	was made. Then it was compared against polynomial regression as well as IGU rapid predictions.
@@ -409,7 +410,7 @@ value.
 Mean squared error (MSE), mean average error (MAE) and root mean square (RMS)
 was used as a loss function.
 Two optimizers will be tested, Root Mean Square Propagation (RMSprop)\cite{Hinton2012} and 
-Adaptive Momentum Estimation (Adam)\cite{Kingma2015}.
+Adaptive Momentum Estimation (Adam) \cite{Kingma2015}.
 
 As the network learning process is stochastic by nature 10 experiments were run for each
 configuration and then average results were compared.
@@ -590,7 +591,7 @@ that outputs a single prediction step.
 \caption{Squared error}
 \label{fig:error_overview}
 \end{figure}
-As can be observed on plots presented on Figure \ref{fig:error_ovevwiew} there are satellites
+As can be observed on plots presented on Figure \ref{fig:error_oveview} there are satellites
 for which results achieved by LSTM network are significantly better than current state of the
 art and that difference only deepens with prediction time. Examples of such situation are
 satellites G07, G10 or G30.
@@ -643,8 +644,14 @@ robotic implementation.
 \end{table}
 
 As superiority over 9 hour period is enough to consider LSTM solution a preferable one to
-IGU rapid prediction for experiments in this paper success was achieved for 68/% 
+IGU rapid prediction for experiments in this paper success was achieved for 68\% 
 cases.
+Difference between LSTM prediction error and IGU error is visualised on Figure 
+\ref{fig:error_comparition} where value represented on y axis show by how many nanoseconds 
+solution proposed in this paper is more precise than state of the art.
+Advantage of LSTM solution is even more clear when analysing relative error as in Figure
+\ref{fig:relative_error_comarition}. Proposed solution is capable of providing results 
+comparable or better than state of the art for most satellites.
 
 %==================================================================================================
 \FloatBarrier
