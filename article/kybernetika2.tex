@@ -18,6 +18,9 @@
 \newtheorem{definition}[theorem]{Definition}
 \newtheorem{observation}[theorem]{Observation}
 
+\hyphenpenalty 10000
+\exhyphenpenalty 10000
+
 \begin{document}
 
 %==================================================================================================
@@ -120,7 +123,7 @@ Origination time is recorded on satellite according to it local clock and
 included in data frame. Thanks to that distance can be calculated by following 
 equation:
 \begin{equation}
-  d=c*(t_a-t_o)
+  d=c*(t_a-t_o),
 \end{equation}
 However $t_a$ and $t_o$ are using different reference frames so for comparison
 to be possible they must be transformed into a common reference frame.
@@ -137,7 +140,7 @@ Those methods however do not provide precise enough measurements for beacon base
 that is why in case of GPS an atomic clock ensembles are used.
 In case of this research a discreet clock model is used where clock readout is described as 
 \begin{equation}
-	t_{c}(i) = t_{r}(i) + b(i)
+	t_{c}(i) = t_{r}(i) + b(i),
 \end{equation}
 Where $t_{c}$ refers to time measured by the analysed clock, $t_{r}$ is time given by a 
 reference clock which we assume to give perfect readouts and $b$ is clock bias.
@@ -285,7 +288,7 @@ While this model and its successors where inspired by a biological neuron there 
 more simplified. One of those simplification is lack of time domain in model which means
 that response of a layer depends only on its current input.
 This is in contrast with biological networks that are sensitive not only for signal value
-but also for its change over time.
+but also for its changes over time.
 
 %--------------------------------------------------------------------------------------------------
 \subsection{Long Short Term Memory networks}
@@ -314,13 +317,13 @@ term memory (LSTM) networks \cite{Hochreiter1997}.
 \end{figure}
 Single LSTM neuron consists of 4 basic neurons and two non neuron operations:
 \begin{itemize}
-\item $x'(t)=[x(t)|y(t-1)]$
-\item $o_t=\sigma (W_o\cdot x'_t+b_o)$
-\item $r_t=\sigma (W_r\cdot x'_t+b_r)$
-\item $f_t=\sigma (W_f\cdot x'_t+b_f)$
-\item $\bar{C}_t=\tanh (W_c\cdot x'_t+b_c)$
-\item $C_t=f_t\circ C_{t-1}+r_t\circ \bar{C}_t$
-\item $y_t=o_t\circ \tanh (C_t)$
+\item $x'(t)=[x(t)|y(t-1)]$,
+\item $o_t=\sigma (W_o\cdot x'_t+b_o)$,
+\item $r_t=\sigma (W_r\cdot x'_t+b_r)$,
+\item $f_t=\sigma (W_f\cdot x'_t+b_f)$,
+\item $\bar{C}_t=\tanh (W_c\cdot x'_t+b_c)$,
+\item $C_t=f_t\circ C_{t-1}+r_t\circ \bar{C}_t$,
+\item $y_t=o_t\circ \tanh (C_t)$.
 \end{itemize}
 With $W$ and $b$ being weights and biases for each basic neuron, $x$ input, $y$ output and
 $C$ long term memory. As it can be seen $o_t$ is a equivalent of SRU and is moderated by
