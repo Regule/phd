@@ -272,11 +272,11 @@ Because of that a separate preprocessing parameters are used for each satellite.
 \FloatBarrier
 \section{Neural networks}
 Machine learning (ML) approaches based on a artificial neural networks (ANN) are
-well established as a efficient pattern detectors \cite{Abiodun2019} \cite{Miller1993}
-\cite{Faraway2008} \cite{Herbrich1999} \cite{Khan2019}.
+well established as a efficient pattern detectors \cite{Abiodun2019}, \cite{Miller1993},
+\cite{Faraway2008}, \cite{Herbrich1999}, \cite{Khan2019}.
 It has also been used in GNSS systems especially since advent of the deep learning
-algorithms \cite{Wei2016} \cite{Kim2019} \cite{OrusPerez2019}.
-One of it uses is prediction of clock bias \cite{Wang2017} \cite{Indriyatmoko2008}
+algorithms \cite{Wei2016}, \cite{Kim2019}, \cite{OrusPerez2019}.
+One of it uses is prediction of clock bias \cite{Wang2017}, \cite{Indriyatmoko2008}
 which as mentioned in previous section is an essential value in positioning calculations.
 
 %--------------------------------------------------------------------------------------------------
@@ -403,8 +403,7 @@ For the research a topology with two hidden LSTM layers and a single dense layer
 used as shown on figure \ref{fig:topology}.
 Most of the parameters as well as a general topology were set up based on suggestions from 
 \cite{Chollet2018}. As an activation function of LSTM layers a rectifier (RELU),
-%TODO: What the fuck is tangensoidal ?
-tangensoidal as well as sigmoidal function was used.
+unipolar as well as bipolar function was used.
 For dense (output) only a linear activation was used so that there are no limits on predicted 
 value.
 Mean squared error (MSE), mean average error (MAE) and root mean square (RMS)
