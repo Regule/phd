@@ -5,6 +5,7 @@
 %DEBUG ONLY
 \usepackage{layouts}
 \usepackage{placeins}
+\usepackage{float}
 
 %--------------------------------------------------------------------------------------------------
 % used environment for theorems:
@@ -21,14 +22,16 @@
 
 \hyphenpenalty 10000
 \exhyphenpenalty 10000
+\renewcommand{\floatpagefraction}{.8}%
 
 \begin{document}
 
+\topfraction
 %==================================================================================================
 % TITLE PAGE 
 %==================================================================================================
 \pagestyle{myheadings}
-\title{Application of Long Short Term Memory neural networks for GPS satellite clock 
+\title{Application of Long Short Term Memory \\  neural  networks for GPS satellite \\ clock 
 bias prediction}
 
 \author{Piotr Gny\'{s}, Pawe\l{} Przestrzelski}
@@ -246,7 +249,7 @@ Second issue is non-stationary nature of series, this is a problem as neural net
 fro stationary data with mean at 0 and values in between -1 and 1. To solve those problems firs
 series is Differentiated which returns data where other noises besides constant drift are visible as
 seen on figure \ref{fig:diffed_bias}.
-\begin{figure}[htb] 
+\begin{figure}[H] 
 \centering
 \includegraphics[width=10cm]{figures/bias_diffed}
 \caption{Differentiated clock bias}
@@ -439,21 +442,6 @@ All experiments were run on a dataset obtained on 22.07.2018.
 Repeatability of results was much better in Adam optimizer however that was only due 
 to the tendency of this algorithm to stuck in the same local minimum every time it was run.
 
-For the next experiment, three possible activation functions for hidden layers were 
-tested with RMSProp as an optimizer. 
-In each case, both hidden layers had the same activation function, and the dense layer 
-that served as output had linear activation.
-\begin{figure}[htb] 
-	\centering
-	\includegraphics[width=10cm]{figures/activation_to_error}
-	\caption{Activation function effect on prediction error}
-	\label{fig:activation_to_error}
-\end{figure}
-As it is seen in Figure \ref{fig:activation_to_error} RELU activation yields the best results,
-this was the expected outcome as it is a function commonly used with LSTM layers.
-Slightly surprising was the rather good result of tanh that yielded results much closer
-to Relu than to sigmoid.
-For the following experiments, only Relu was used as a hidden layer activation.
 In the next experiment a value of loopback was adjusted, its initial value for previous experiments
 was set to 12 as an educated guess.
 \begin{table}[htb] 
@@ -654,7 +642,6 @@ Advantage of LSTM solution is even more clear when analysing relative error as i
 comparable or better than state of the art for most satellites.
 
 %==================================================================================================
-\FloatBarrier
 \section{Conclusions}
 Experiments described in this paper have proven that even relatively simple LSTM network can
 handle bias prediction well. That indicates possibility of application of this system in 
