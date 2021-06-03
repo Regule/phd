@@ -244,7 +244,7 @@ behaviour
 \subsection{Preprocessing}
 IGU provides raw clock bias, this poses two problems for approach used in this work.
 First one is that constant clock drift is such a major source of bias that it overshadows other
-sources as seen on Figure \ref{fig:bias_raw} in visualisation data seams to be linear.
+sources as seen in Figure \ref{fig:bias_raw} in visualisation data seams to be linear.
 Second issue is non-stationary nature of series, this is a problem as neural networks work best
 fro stationary data with mean at 0 and values in between -1 and 1. To solve those problems firs
 series is Differentiated which returns data where other noises besides constant drift are visible as
@@ -642,14 +642,17 @@ Advantage of LSTM solution is even more clear when analysing relative error as i
 comparable or better than state of the art for most satellites.
 
 %==================================================================================================
-\section{Conclusions}
+\section{Conclusions and future research}
 Experiments described in this paper have proven that even relatively simple LSTM network can
 handle bias prediction well. That indicates possibility of application of this system in 
-low power embedded system which was motivation for this research. Future modification to network
-may include addition of new layers or utilization of more data from SP3 files.
-However this steps will be made only after network developed in this work will be implemented and
-benchmarked on embedded systems ranging from powerful ones like Raspberry Pi down to ones
-with very limited processing and memory resources like STM32L series.
+low power embedded system which was motivation for this research.
+While proposed network is relatively simple it is still to complex for implementation in 
+embedded system. With 86913 parameters and 64 bit float representation it takes almost 0.7 MB
+memory.
+High memory reqirements as well as need for 64 bit architecture limits choice of hardware that
+is why next step in this resarch will be implementation of 32 bit trainable LSTM newtork
+dedicated for embedded system.
+
 \FloatBarrier
 \makesubmdate
 
