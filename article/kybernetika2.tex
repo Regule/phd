@@ -26,7 +26,7 @@
 
 \begin{document}
 
-\topfraction
+%\topfraction
 %==================================================================================================
 % TITLE PAGE 
 %==================================================================================================
@@ -77,7 +77,7 @@ precise navigation. As robot task is to measure quality of water in lakes and sm
 it is expected that it will operate for long time periods in regions where services like 
 cellular network may not be available. Additionally a future plans are to develop a model that
 will be able to operate on open sea and navigation issues that robots face in such conditions
-are even more restrictive on algorithms \cite{Cabrera-Gamez2014}. 
+are even more restrictive on algorithms \cite{Cabrera2014}. 
 With that said main localization technique implemented
 will be Global Positioning System which in turn bought issue of limited precision of civilian
 variant of GPS as well as it requirement for synchronization with time reference.
@@ -118,7 +118,7 @@ done with time of arrival (ToA) instead of angle of arrival (AoA) or
 received signal strength (RSS) \cite{Doberstein2012}.
 When measuring distance by ToA  3 properties of a signal must be known:
 \begin{itemize}
-\item $t_o$ : time of origination,
+\item $t_o$ time of origination,
 \item $t_a$ time of arrival,
 \item $v$ velocity.
 \end{itemize}
@@ -148,14 +148,14 @@ In case of this research a discreet clock model is used where clock readout is d
 \begin{equation}
 	t_{c}(i) = t_{r}(i) + b(i),
 \end{equation}
-Where $t_{c}$ refers to time measured by the analysed clock, $t_{r}$ is time given by a 
+where $t_{c}$ refers to time measured by the analysed clock, $t_{r}$ is time given by a 
 reference clock which we assume to give perfect readouts and $b$ is clock bias.
 Each of those values are indexed by measurement $i$ and in ortder to correct clock readouts
 a value of bias for each step must be predicted.
 There are many approaches for modeling bias however this is beyond scope of this article
 as method used here relies on adjusting arbitrary model to fit already recoded bias data.
 More information about knowledge driven bias modeling can be found in literature related to
-frequency stability analysis \cite{Riley1994}.
+frequency stability analysis \cite{Riley2007}.
 
 %--------------------------------------------------------------------------------------------------
 \subsection{IGU products}
@@ -244,11 +244,11 @@ behaviour
 \subsection{Preprocessing}
 IGU provides raw clock bias, this poses two problems for approach used in this work.
 First one is that constant clock drift is such a major source of bias that it overshadows other
-sources as seen on figure \ref{fig:bias_raw} in visualisation data seams to be linear.
+sources as seen on Figure \ref{fig:bias_raw} in visualisation data seams to be linear.
 Second issue is non-stationary nature of series, this is a problem as neural networks work best
 fro stationary data with mean at 0 and values in between -1 and 1. To solve those problems firs
 series is Differentiated which returns data where other noises besides constant drift are visible as
-seen on figure \ref{fig:diffed_bias}.
+seen on Figure \ref{fig:diffed_bias}.
 \begin{figure}[H] 
 \centering
 \includegraphics[width=\textwidth]{figures/bias_diffed}
@@ -276,11 +276,11 @@ Because of that a separate preprocessing parameters are used for each satellite.
 \FloatBarrier
 \section{Neural networks}
 Machine learning (ML) approaches based on a artificial neural networks (ANN) are
-well established as a efficient pattern detectors \cite{Abiodun2019}, \cite{Miller1993},
-\cite{Faraway2008}, \cite{Khan2019}.
+well established as a efficient pattern detectors \cite{Abiodun2019}, \cite{Faraway2008},
+\cite{Khan2019}, \cite{Miller1993}.
 It has also been used in GNSS systems especially since advent of the deep learning
-algorithms \cite{Wei2016}, \cite{Kim2019}, \cite{Perez2019}.
-One of it uses is prediction of clock bias \cite{Wang2017}, \cite{Indriyatmoko2008}
+algorithms \cite{Kim2019}, \cite{Perez2019}, \cite{Wei2016}.
+One of it uses is prediction of clock bias  \cite{Indriyatmoko2008}, \cite{Wang2017}.
 which as mentioned in previous section is an essential value in positioning calculations.
 
 %--------------------------------------------------------------------------------------------------
@@ -353,9 +353,9 @@ Overfitted networks provide very high quality results as long as input overlap w
 otherwise quality of results drop sharply.
 In case of satellite clocks predictor can overfitt in regards to following parameters:
 \begin{itemize}
-\item clock type
-\item location (orbit)
-\item epoch
+\item clock type,
+\item location (orbit),
+\item epoch.
 \end{itemize}
 When selecting a solution a decision must be made on what level of generalisation model should
 represent. Limiting predictions to same epochs that were used for training is in contradiction
@@ -579,7 +579,7 @@ that outputs a single prediction step.
 \caption{Squared error}
 \label{fig:error_overview}
 \end{figure}
-As can be observed on plots presented on Figure \ref{fig:error_oveview} there are satellites
+As can be observed on plots presented on Figure \ref{fig:error_overview} there are satellites
 for which results achieved by LSTM network are significantly better than current state of the
 art and that difference only deepens with prediction time. Examples of such situation are
 satellites G07, G10 or G30.
