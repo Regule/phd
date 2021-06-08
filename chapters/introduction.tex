@@ -2,10 +2,7 @@
 
 
 %==================================================================================================
-\section{Introduction}
-
-%--------------------------------------------------------------------------------------------------
-\subsection{Motivation}
+\section{Motivation}
 I have encountered a problem that was insipration for this work during my research in field
 of mobile robotics. While my initial focus was directed more towards emergent behaviour in 
 robotics and a self organizing systems I have encountered a issue with localization in marine 
@@ -16,34 +13,17 @@ correction, to keep error drift to minimum readouts for both local and satellite
 be corrected by predicted bias. In this work I focused on prediction of errors in satellite
 clocks as unlike in case of local clock those can be later reused by other people.
 
-
 %--------------------------------------------------------------------------------------------------
-\subsection{History of robotics}
-
-
-%--------------------------------------------------------------------------------------------------
-\subsection{Acknoweledgements}
+\section{Acknoweledgements}
 
 %==================================================================================================
-\section{Robot navigation}
+\section{Beacon based navigation in robotics}
 
 %--------------------------------------------------------------------------------------------------
-\subsection{Basic concepts}
-Unlike a robotic manipulators for which there is always a single joint fixed to a specific
-location in external reference frame mobile robot must be equipped with a way to localize
-themselves in environment.
-\begin{figure}[hb]
-	\includegraphics[width=0.5\textwidth]{figures/robot_arm_reference}
-	\caption{Kinematic chain of robotic manipulatr}
-	\label{fig:robot_arm_reference}
-\end{figure}
-
+\subsection{Baisc concepts in robot localisation}
 
 %--------------------------------------------------------------------------------------------------
-\subsection{Reference versus dead reckoning}
-
-%--------------------------------------------------------------------------------------------------
-\subsection{Beacon based navigation}
+\subsection{Radio beacon localisation}
 All Global Satellite Navigation systems (GNSS) are variant of beacon-based localization
 systems\cite{Blewitt1997}. Such systems require information about the beacon position
 and distance between the localized object and beacons.
@@ -87,20 +67,9 @@ This is referred to as a synchronization of the clocks and is very important as
 a desynchronization on the level of a single nanosecond results in about 30 cm of
 positioning error\cite{Enge2011}.
 
-%==================================================================================================
-\section{Global navigation satellite systems}
-
 %--------------------------------------------------------------------------------------------------
-\subsection{GPS}
+\subsection{Global navigation satellite systems}
 
-%--------------------------------------------------------------------------------------------------
-\subsection{GLONASS}
-
-%--------------------------------------------------------------------------------------------------
-\subsection{Galileo}
-
-%--------------------------------------------------------------------------------------------------
-\subsection{Others}
 
 
 
