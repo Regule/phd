@@ -2,76 +2,6 @@
 
 
 %====================================================================================================
-\section{History and overview of metrologoy}
-
-%----------------------------------------------------------------------------------------------------
-\subsection{Metrology and reference values}
-
-%----------------------------------------------------------------------------------------------------
-\subsection{Time metrology through ages}
-While precise time metrology is relatively young branch of measurement science humans were
-measuring time from even before civilisation was formed.
-In general it is possible to divide methods of time measurement into two categories based on 
-what type of reference is used:
-\begin{itemize}
-	\item time of process
-	\item count of occurences of periodic process
-\end{itemize}
-
-%----------------------------------------------------------------------------------------------------
-\subsection{Modern approach with fous on GNSS related standards}
-In modern day all measurement systems used in science and egineering are governed by international
-standars. One of most well known set of standards are those provided by the International 
-Organization for Standardization (IOS) \textbf{CITATION}.
-In case of GNSS systems a standarized spatial and temporal frame must be decided on in order
-for all element of system to work correctly.
-
-\paragraph{Spatial reference frames}
-In case of spatial information GNSS use two reference frames\textbf{CITATION}:
-\begin{itemize}
-	\item Earth-centered internal (ECI) for satellites
-	\item Earth-centered Earth-fixed (ECEF) for ground recievers.
-\end{itemize}
-\textbf{SOME ECI RELATED IMAGE}
-In case of satellites ECI is used as it is default reference frame for modelling spacecraft
-motion \textbf{CITATION}. However in case of ground recievers that that are either fixed to 
-specific point on earth or are moving from one geographical location to another ECEF is much
-more natural way of describing position.
-Reference frames for spatial data in GNSS systems are provief by:
-\begin{itemize}
-	\item International Terrestial Reference System (ITRS)
-	\item International Celestial Reference System (ICRF)
-\end{itemize}
-
-\paragraph{Temporal reference frames}
-When talking about time measurement reference frames in context of spaceborn objects a basic
-concept from general relativity theory must be introduced.
-One of those concept is \emph{proper time (PT)} which \textbf{WRITE THIS}.
-Another is \emph{coordinate time (CT)} which denotes a perfect clock residing in a specific 
-internal coordinate system \textbf{CITATION}.
-In real life measurements CT is highest quality time measurement that we can achieve as a 
-physical clock must reside in a physical space which by itself binds it to a coordinate system.
-The highest precision time standad currently available is International Atomic Time (TAI)
-that is based upon an ensemble of primary frequency standards locaed in multiple locations
-around the globe. \textbf{CITATION} With TAI as a fequency standard the Coordinated Universal
-Time (UTC) is calculated by adding a leap seconds for synchronization with earth rotation
-period \textbf{CITATION}. UTC is now widely used standard for civilian timekeeping.
-
-\paragraph{Temporal reference frames in GNSS systems}
-While TAI provides highest precision it is not accessible in a real time and as such is 
-not usefull for navigation purposes.
-This is why each GNNS uses its own time refererence, in case of GPS a World Geodetic System
-1984(WGS84) is used. In that standard timescales are provided by an aptly named GPS System Time
-(GPST) which is realised by United States Naval Observatory (USNO). 
-GPTS is used as a reference clock for both satellites and Earth components of GPS system and 
-unlike UTC it is a continous timescale without leap seconds.
-Relationship between GPTS and UTC can be described by an equation:
-\begin{equation}
-	b_{gps} = T_{utc} - T_{gps} = 19 + C_{0}.
-\end{equation}
-Where $C_{0}$ represents level of consistency between GPST and UTC.
-\textbf{PLOT OF BIAS AND SOMETHING MORE ABOUT OTHER GNSS}
-%====================================================================================================
 \section{Mathematical clock model}
 
 %----------------------------------------------------------------------------------------------------
@@ -99,7 +29,7 @@ In this work only discrete model in any furhter descriptions a term \emph{clock 
 \subsection{Basic clock model}
 
 %----------------------------------------------------------------------------------------------------
-\subsection{Oscilator noise model}
+\subsection{Modeling noise}
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Standard clock model}
@@ -120,11 +50,19 @@ In this work only discrete model in any furhter descriptions a term \emph{clock 
 
 
 %====================================================================================================
-\section{Spaceborn clocks}
+\section{GPS satellite clocks}
 
 %----------------------------------------------------------------------------------------------------
-\subsection{Clocks used in satellites}
+\subsection{Principles of atomic clock design}
 
 %----------------------------------------------------------------------------------------------------
-\subsection{Relativistic time transformation}
+\subsection{Time measurement on orbit}
 
+%----------------------------------------------------------------------------------------------------
+\subsection{Time references in GPS}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Satellite brodcast polynomial}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{IGU products}
