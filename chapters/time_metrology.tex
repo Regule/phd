@@ -36,9 +36,46 @@ on value read from given clock $T_{c}(t)$.
 As relation between those clock is fully described by analyzed clock bias 
 $b_{c}(t)=T_{r}(t)-T_{c}(t)$ clock model is equivalent to just a bias model.
 
-
 %----------------------------------------------------------------------------------------------------
 \subsection{Discrete and continuous clock models}
+There are two possible approaches to mathematical clock modelling, one of them is continuous
+clock model that relies on differential equation for description of its behavior.
+In this approach clock bias is modeled as :
+\begin{equation}
+	\label{equ:continous_clock}
+	b_{c}(t) = T_{r}(t_{0}) +  \int_{t_{0}}^{t} \varepsilon_{c}(\tau) d\tau ,
+\end{equation}
+where:
+\begin{itemize}
+	\item $t$ is the independent time argument,
+	\item $b_{c}(t)$ is the clock bias at time $t$,
+	\item $t_{0}$ is time at which clock was synchronized with reference ($b_{c}(t_{0})=0$),
+	\item $T_{r}(t_{0})$ is value of reference clock at $t_{0}$,
+	\item $\varepsilon_{c}(\tau)$ is the normalized frequency offset of a clock.
+\end{itemize}
+The branch of science that deals with continuous clock modelling is called stability analysis.
+In this work no more attention will be given to that approach as due to nature of data as well as
+choice of prediction algorithms favour a discrete clock model.
+In discrete clock model bias is described as :
+\begin{equation}
+	\label{equ:discrete_clock}
+	b_{c}(i) = T_{r}(i) - T_{c}(i),
+\end{equation}
+where $i \in \mathbb{N}$ is the number of measurement.
+One of main differences between continuous and discrete models is that in latter case bias is 
+considered only as a difference between two individual measurements where in case of 
+continuous model all differences starting from synchronization are taken into account.
+Another important change is that in discrete model clock is a function $\mathbb{N} \to \mathbb{R}$
+instead of $\mathbb{R} \to \mathbb{R}$ like it was in case of continuous model. 
+This requires redefinition of reference clock from $T_r{t}=t$ into:
+\begin{equation}
+	\label{equ:discrete_reference}
+	T_{r}(i) = \Delta T_r i,
+\end{equation}
+where $\Delta T_r$ is the measurement period of reference clock.
+In such model $T_{r}$ as well as $T_{c}$ are time series which means that $b_{c}$ is also one.
+This means that methodologies related to time series analysis like \textbf{TODO : LIST METHODS}
+can be used.
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Basic clock model}
