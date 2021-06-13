@@ -14,15 +14,31 @@ exception of last section that focuses on state of the art in GPS clock predicti
 deals with issues that are more specific do described in this work.
 It is important to understand that this chapter do not provide comprehensive knowledge about
 described field as due to methodology used in presented work that knowledge it is not required.
-For more information about clock modelling and stability analysis 
+For more information about clock modelling and stability analysis Handbook of Frequency Stability
+Analysis is suggested as reading.
 
 
 
 %====================================================================================================
 \section{Mathematical clock model}
+In context of pure mathematical modelling a clock is understood as a function that describes
+offset between two given values for a specific point in time. One of those values is referred 
+to as the reference clock and it is considered to always return correct time $T_{r}(t)=t$.
+It is important to understand that in physical systems value of $t$ is not only inaccessible, as
+every measurement instrument have some degree of uncertainty, but do not exists at all.
+This is due to time dilatation effect, derived from special theory of relativity, that causes
+time to flow differently in systems that move with velocities close to speed of the light.
+This issue is dealt with by selecting most precise physical clock available as the reference
+clock and modelling difference between it and other clocks, including time dilatation effects,
+as their bias.
+Main goal of modeling clocks is to retrieve a value of $t$, which is equal to $T_{r}(t)$, based
+on value read from given clock $T_{c}(t)$. 
+As relation between those clock is fully described by analyzed clock bias 
+$b_{c}(t)=T_{r}(t)-T_{c}(t)$ clock model is equivalent to just a bias model.
+
 
 %----------------------------------------------------------------------------------------------------
-\subsection{Discrete and continous clock models}
+\subsection{Discrete and continuous clock models}
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Basic clock model}
@@ -33,18 +49,6 @@ For more information about clock modelling and stability analysis
 %----------------------------------------------------------------------------------------------------
 \subsection{Standard clock model}
 
-
-%====================================================================================================
-\section{Stability analysis}
-
-%----------------------------------------------------------------------------------------------------
-\subsection{Allan variance}
-
-%----------------------------------------------------------------------------------------------------
-\subsection{Hadamard variance}
-
-%----------------------------------------------------------------------------------------------------
-\subsection{Sigma-tau curves}
 
 
 
@@ -68,7 +72,7 @@ For more information about clock modelling and stability analysis
 \subsection{Time references in GPS}
 
 %----------------------------------------------------------------------------------------------------
-\subsection{Satellite brodcast polynomial}
+\subsection{Satellite broadcast polynomial}
 
 %----------------------------------------------------------------------------------------------------
 \subsection{IGU products}
