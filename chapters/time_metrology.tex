@@ -225,6 +225,15 @@ where
 	\Phi(t,t_{0}) = e^{At-t_{0}} = \sum^{\infty}_{0}\frac{(A(t-t_{0}))^2}{n!},
 \end{equation}
 and $X_{0}$ is the initial condition.
+If $X(t_{0})$ is assumed to be a non-random constant then $X(t)$ is a Gaussian process with 
+stationary increments and clock bias at time $t$ can be calculated with equation:
+\begin{equation}
+	\label{equ:bias_final}
+	x(t)=x(t_{0}) + y(t-t_{0}) + z(t_{0})\frac{(t-t_{0})^2}{2} + \int^{t}_{t_{0}}d\epsilon(\lambda)
+	+ \int^{t}_{t_{0}}(t-\lambda)d\zeta(\lambda) 
+	+ \int^{t}_{t_{0}}\frac{(t-\lambda)^2}{2}d\eta(\lambda),
+\end{equation}
+where the integrals represent noise processes and terms above 2 are excluded.
 
 %====================================================================================================
 \section{Stability analysis}
