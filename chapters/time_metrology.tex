@@ -20,6 +20,7 @@ Analysis is suggested as reading.
 
 %====================================================================================================
 \section{Physical clock implementation}
+\label{sec:physical_clock}
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Introduction to physical clock implementation}
@@ -99,7 +100,7 @@ More information on exact clock and noise models will be given in following sect
 \subsection{Basic clock model}
 Basic clock model is a deterministic representation of clock as a second-order linear differential
 equation.
-\textbf{FIXME: MAKE ALL EQUATIONS USE SAME NOTATION AND DO NOT ADD UNESSECARY SYMBOLS}
+\textbf{FIXME: MAKE ALL EQUATIONS USE SAME NOTATION}
 \begin{equation}
 	\label{equ:basic_clock}
 	\ddot{x}(t)=z(t).
@@ -122,10 +123,61 @@ components that they consist of, fractional frequency drift is sometimes called 
 ageing parameter.
 In this work $z(t)$ will be also referred to as the linear frequency drift. This terminology
 was applied as in case of data used in this research there is a observable deterministic 
-first order frequency drift bahavior.
+first order frequency drift behaviour.
 
 %----------------------------------------------------------------------------------------------------
-\subsection{Oscilator noise model}
+\subsection{Oscillator noise model}
+Basic clock model is limited as it allows only for description of simple deterministic systems 
+while real life implementations of clock are complex system with both deterministic and 
+stochastic components. 
+As described in section \ref{sec:physical_clock} of this chapter central element of every clock,
+including atomic clocks, is an oscillator. That is why to create a more complex clock models 
+an oscillator noise model must be created.
+Role of this model is to derive a clock frequency and phase form an actual physical observation 
+which in case of an atomic clock is voltage signal.
+Equation describing voltage level on quartz oscillator, which is type of oscillator present in
+atomic clocks, can be described by an equation:
+\begin{equation}
+	\label{equ:quartz_voltage}
+	U(t)=(U_{0}+\epsilon(t))sin(2\pi \nu_{0}t + \phi(t)),
+\end{equation}
+where:
+\begin{itemize}
+	\item $U_{0}$ is peak voltage amplitude,
+	\item $\nu_{0}$ is nominal frequency,
+	\item $\phi(t)$ represents random phase deviations,
+	\item $\epsilon(t)$ represents random amplitude deviations.
+\end{itemize}
+Since variation in signal amplitude do not influence measurements of signal frequency, save for
+extreme cases where it drops so low that signal peak is not registered, it can be ignored in 
+equation used for frequency stability analysis.
+This means that equation actually used is:
+\begin{equation}
+	\label{equ:quartz_voltage_simplified}
+	U(t)=U_{0}sin(2\pi \nu_{0}t + \phi(t)).
+\end{equation}
+Instantaneous clock frequency can be defined as the time derivative of the phase as demonstrated
+on following equation:
+\begin{equation}
+	\label{equ:inst_frequency}
+	\nu(t) = \nu_{0}+ \frac{1}{2\pi} \frac{d\phi}{dt},
+\end{equation}
+where $\frac{d\phi}{dt}$ represents instantaneous frequency offset.
+The performance of the clock oscillator is determined by the frequency stability and not 
+total frequency and the value of frequency offset is usually small in relation to measured.
+Because of that it is more meaningful to describe clock stability with normalized, or fractional,
+frequency as described in equation:
+\begin{equation}
+	\label{equ:normalized_frequency}
+	y(t) = \frac{\nu(t)-\nu_{0}}{\nu_{0}} = \frac{dx}{dt}
+\end{equation}
+where
+\begin{equation}
+	\label{equ:what_is_time_offset}
+	x(t) = \frac{\phi(t)}{2\pi \nu_{0}}
+\end{equation}
+is bias described in the units of time.
+
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Standard clock model}
