@@ -18,6 +18,15 @@ For more information about clock modelling and stability analysis Handbook of Fr
 Analysis is suggested as reading.
 
 
+%====================================================================================================
+\section{Physical clock implementation}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Introduction to physical clock implementation}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Principles of atomic clock design}
+
 
 %====================================================================================================
 \section{Mathematical clock model}
@@ -90,26 +99,75 @@ More information on exact clock and noise models will be given in following sect
 \subsection{Basic clock model}
 Basic clock model is a deterministic representation of clock as a second-order linear differential
 equation.
+\textbf{FIXME: MAKE ALL EQUATIONS USE SAME NOTATION AND DO NOT ADD UNESSECARY SYMBOLS}
+\begin{equation}
+	\label{equ:basic_clock}
+	\ddot{x}(t)=z(t).
+\end{equation}
+Solution to that equation is
+\begin{equation}
+	\label{equ:basic_clock_solved}
+	x(t)=x_{0}+y_{0}\tau+0.5z_{0}\tau^{2},
+\end{equation}
+where:
+\begin{itemize}
+	\item $x(t)$ is clock measurement at time $t$, also called time-offset or bias,
+	\item $y(t)$ is fractional frequency offset,
+	\item $z(t)$ is fractional frequency drift,
+	\item $\tau$ is time difference defined as $\tau = t-t_{0}$.
+\end{itemize}
+Values $x_{0}$, $y_{0}$, $z_{0}$ refer to initial state of model at $t=t_{0}$.
+Because frequency stability of clock degrades over time, as a result of ageing of physical 
+components that they consist of, fractional frequency drift is sometimes called clock 
+ageing parameter.
+In this work $z(t)$ will be also referred to as the linear frequency drift. This terminology
+was applied as in case of data used in this research there is a observable deterministic 
+first order frequency drift bahavior.
+
 %----------------------------------------------------------------------------------------------------
-\subsection{Modeling noise}
+\subsection{Oscilator noise model}
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Standard clock model}
 
 
 
+%====================================================================================================
+\section{Stability analysis}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Allan variance}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Hadamard variance}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Sigma tau curves}
+
 
 %====================================================================================================
-\section{Physical clock implementation}
+\section{Modeling noise}
 
 %----------------------------------------------------------------------------------------------------
-\subsection{Introduction to physical clock implementation}
+\subsection{White phase modulation noise}
 
 %----------------------------------------------------------------------------------------------------
-\subsection{Principles of atomic clock design}
+\subsection{Flicker phase modulation noise}
 
 %----------------------------------------------------------------------------------------------------
-\subsection{Time measurement on orbit}
+\subsection{White frequency modulation noise}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Flicker frequency modulation noise}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Random walk frequency modulation noise}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Oscilator noise as linear combination of power-law noises}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Sources of noise specific to orbital clocks}
 
 
 %====================================================================================================
