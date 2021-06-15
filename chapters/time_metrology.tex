@@ -181,8 +181,50 @@ is bias described in the units of time.
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Standard clock model}
-
-
+Standard clock model is most commonly used mathematical description of the clock that models it as
+driven by an oscillator that is in periodic motion around a nominal frequency.
+It models how precise clocks are subject to both deterministic bias as well as stochastic 
+frequency fluctuations.
+Mathematically the standard clock model is represented as a first order stochastic differential
+equation . Two state model, with states representing time offset and fractional frequency offset
+is described by Galleani. However in this work more focus will be given to three state model 
+with states representing clock bias, fractional frequency offset and frequency drift.
+This model was presented by Chaffee in 1987 and is described as :
+\begin{equation}
+	\label{equ:three_state_clock}
+	\left[ \begin{array}{c} dx(t)\\ dy(t)\\ dz(t) \end{array} \right] =
+	\left[ \begin{array}{ccc} 0& 1& 0\\ 0& 0& 1\\ 0& 0& 0 \end{array} \right]
+	\left[ \begin{array}{c} x(t)\\ y(t)\\ z(t) \end{array} \right] dt +
+	\left[ \begin{array}{c} d\epsilon(t)\\ d\zeta(t)\\ d\eta(t) \end{array} \right] 
+\end{equation}
+which is using matrix notation can be described as :
+\begin{equation}
+	\label{equ:clock_matrix}
+	dX(t) = AX(t) +dB(t).
+\end{equation}
+In those equations $x(t)$, $y(t)$ and $z(t)$ are respectively clock bias, fractional frequency and
+fractional frequency drift while $\epsilon(t)$ $\zeta(t)$ and $\eta(t)$ are zero mean Gaussian
+white noise processes. They are described as:
+\begin{itemize}
+	\item $\epsilon(t)$ is white frequency modulation (WFM),
+	\item $\zeta(t)$ is random walk frequency modulation (RWFM),
+	\item $\eta(t)$ is random run frequency modulation (RRFM).
+\end{itemize}
+With this it is clear that in matrix notation $X$ is clock state matrix, $A$ is state transition
+matrix while $B$ is random noise matrix.
+As this work do not focuses on stochastic differential equations only a solution for the equation
+\ref{equ:three_state_clock} will be shown, for those more interested in how it was calculated 
+more basic literature on topic of SDE is suggested.
+\begin{equation}
+	\label{equ:clock_solved}
+	X(t) = \Phi(t,t_{0})X(t_{0}) + \int^{t}_{t_0}\Phi(t,\tau)dB(\tau),
+\end{equation}
+where
+\begin{equation}
+	\label{equ:what_is_phi}
+	\Phi(t,t_{0}) = e^{At-t_{0}} = \sum^{\infty}_{0}\frac{(A(t-t_{0}))^2}{n!},
+\end{equation}
+and $X_{0}$ is the initial condition.
 
 %====================================================================================================
 \section{Stability analysis}
