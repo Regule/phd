@@ -312,7 +312,33 @@ As with Allan variance the overlapping version of equation is used as default:
 
 %====================================================================================================
 \section{Modeling noise}
-
+Noise process is defined as a stochastic time varying phenomenon that at each moment in time is
+represented by a random variable $X(t)$ whose probability density function is denoted as $f_{X}(t)$.
+Such process can be either continuous or discrete depending on model that is worked on, in case 
+of real life application $f_{X}(t)$ may not be known.
+In context of time and frequency metrology such signal components are modelled as a power-law
+noise processes. This is special type of noise process whose frequency and phase noise power 
+spectral densities vary as as a power of the Fourier frequency.
+Power noise process can be described in relation to frequency fluctuations as:
+\begin{equation}
+	\label{equ:power_noise_freq}
+	S_{y}(f) \propto f^{\alpha},
+\end{equation}
+where $S_{y}(f)$ denotes fluctuations of frequency $f$ and $\alpha$ describes a power-law of
+frequency noise.
+When dealing with time measurements it can be more useful to describe a relation between clock 
+bias, also called a phase variation, and noise:
+\begin{equation}
+	\label{equ:power_noise_phase}
+	S_{x}(f)=\frac{S_{y}(f)}{(2\pi f)^2} \propto f^{\beta},
+\end{equation}
+where $\beta$ is description of power-law phase noise and is calculated as $\beta=\alpha-2$.
+Power-law noise can also be described in time domain in relation to Allan variance.
+In this form process is described as :
+\begin{equation}
+	\label{equ:power_noise_time}
+	\sigma^{2}_{y}(\tau)=g_{\gamma}\tau^{\gamma}
+\end{equation}
 
 %----------------------------------------------------------------------------------------------------
 \subsection{White phase modulation noise}
