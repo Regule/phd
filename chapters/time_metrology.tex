@@ -91,7 +91,7 @@ components as shown on Figure \ref{fig:clocks_example}.
 \begin{figure}[htb] 
 \label{fig:clocks_example}
 \centering
-\includegraphics[width=\textwidth]{figures/bias_examples}
+\includegraphics[width=0.5\textwidth]{figures/bias_examples}
 \caption{Example of clock readouts depending of nature of their bias}
 \end{figure}
 More information on exact clock and noise models will be given in following sections.
@@ -243,8 +243,59 @@ As both phase and frequency influence clock readouts so stability analysis must 
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Allan variance}
+Allan variance, also know as the two-sample variance, is the default descriptive statistic
+for time and frequency measurements.
+This is because standard variance is not suitable for modelling non stationary processes.
+The Allan variance is formally adopted as a standard for characterising and reporting instabilities
+in phase, frequency or amplitude measurements in time domain.
+Allan variance is an infinite time average of the square of the difference of two fractional
+frequency measurements:
+\begin{equation}
+	\label{equ:allan_first}
+	\sigma^{2}_{y}(\tau)=0.5\langle (\hat{y}_{k+1}-\hat{y}_k)^{2}  \rangle,
+\end{equation}
+where $\langle \rangle$ denotes the infinite time average operator while $\hat{y}_k$ is a 
+frequency at time $t_{k}$. Hat over variable indicates that value is estimated from phase
+measurements with following equation:
+\begin{equation}
+	\label{equ:y_hat}
+	\hat{y}_{k}=\frac{1}{\tau}\int^{t_{k+1}}_{t_{k}}y(t)dt =
+	\frac{x(t_{k+1})-x(t_{k})}{\tau},
+\end{equation}
+In real world application Allan variance is calculated basing on the set of a measurements which
+is always a finite set. Therefore as data worked upon is finite and discrete in time domain 
+Allan variance can be described as:
+\begin{equation}
+	\label{equ:allan_discrete}
+	\sigma^{2}_{y}(\tau) = \frac{1}{2(M-1)}\sum^{M-1}_{k=1}(\hat{y}_{k+1}-\hat{y}_{k})^2,
+\end{equation}
+where $M$ denotes number of measurements.
+By substituting selected values in equation \ref{equ:allan_discrete} Allan variance can be
+described as a function of phase or time offset
+\begin{equation}
+	\label{equ:allan_discrete2}
+	\sigma^{2}_{y}(\tau) = \frac{1}{2(M-1)\tau^{2}}\sum^{M-1}_{k=1}(x_{k+2}-2x_{k+1}+x_{k})^2.
+\end{equation}
+Even better estimation of Allan variance can be achieved by calculating what it is called a
+overlapping Allan variance. This is because it forms all possible overlapping combinations of
+available data
+\begin{equation}
+	\label{equ:overlapping_allan}
+	\sigma^{2}_{y}(\tau) = \frac{1}{2(N-2m)\tau^{2}}\sum^{N-2m}_{k=1}(x_{k+2m}+2x_{k+m}+x_{k})^2.
+\end{equation}
+As overlapping Allan variance provides better results than its basic version in most cases 
+literature dealing with stability analysis will use term Allan variance to refer to it 
+overlapping version unless specified otherwise.
+There is also one more variant called modified Allan variance that unlike all previous examples
+can distinguish between WPM and FPM.
+In term of phase modified Allan variance is described as:
+\begin{equation}
+	\label{equ:modified_allan}
+	\sigma^{2}_{y}(\tau)=\frac{1}{2m^{2}\tau^{2}(N-3m+1)\tau^{2}}\sum^{N-3m+1}_{j=1}(
+	\sum^{j+m-1}_{k=j}(x_{k+2m}-3x_{k+m}+x_{k})^2)
+\end{equation}
 
-%----------------------------------------------------------------------------------------------------
+%--------------------------------------------------------------------------------------------------
 \subsection{Hadamard variance}
 
 %----------------------------------------------------------------------------------------------------
