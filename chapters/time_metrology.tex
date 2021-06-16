@@ -31,6 +31,7 @@ Analysis is suggested as reading.
 
 %====================================================================================================
 \section{Mathematical clock model}
+\textbf{FIXME: MAKE ALL EQUATIONS USE SAME NOTATION}
 In context of pure mathematical modelling a clock is understood as a function that describes
 offset between two given values for a specific point in time. One of those values is referred 
 to as the reference clock and it is considered to always return correct time $T_{r}(t)=t$.
@@ -100,7 +101,6 @@ More information on exact clock and noise models will be given in following sect
 \subsection{Basic clock model}
 Basic clock model is a deterministic representation of clock as a second-order linear differential
 equation.
-\textbf{FIXME: MAKE ALL EQUATIONS USE SAME NOTATION}
 \begin{equation}
 	\label{equ:basic_clock}
 	\ddot{x}(t)=z(t).
@@ -297,13 +297,22 @@ In term of phase modified Allan variance is described as:
 
 %--------------------------------------------------------------------------------------------------
 \subsection{Hadamard variance}
-
-%----------------------------------------------------------------------------------------------------
-\subsection{Sigma tau curves}
-
+Hadamard variance was derived from the Hadamard transform for use in stability analysis by 
+Baugh.  As the Allan variance describes a second-order phase variation so Hadamard variance 
+describes third-order phase variation.
+Unlike Allan variance Hadamard variance is insensitive to linear frequency drift, this is 
+especially important in context of this work as rubidium clocks used in GPS satellites have a 
+prominent linear drift.
+As with Allan variance the overlapping version of equation is used as default:
+\begin{equation}
+	\label{equ:overlapping_hadamard}
+	\sigma^{2}_{H} = \frac{1}{6(N-3m)\tau^2}
+	\sum^{N-3m}_{k=1}(x_{k+3m}-3x_{k+2m}+3x_{k+m}-x+{k})^{2}
+\end{equation}
 
 %====================================================================================================
 \section{Modeling noise}
+
 
 %----------------------------------------------------------------------------------------------------
 \subsection{White phase modulation noise}
