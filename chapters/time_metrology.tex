@@ -339,10 +339,44 @@ In this form process is described as :
 	\label{equ:power_noise_time}
 	\sigma^{2}_{y}(\tau)=g_{\gamma}\tau^{\gamma}
 \end{equation}
+
+----------------------------------------------------------------------------------------------------
+\subsection{Oscillator noise as linear combination of power-law noises}
 In general there are five distinct power-law processes, white phase modulation (WPM), flicker 
 phase modulation (FPM), white frequency modulation (WFM), flicker frequency modulation (FFM) and
-ranom walk frequency modulation (RWFM).
-
+random walk frequency modulation (RWFM).
+All of them can be described by parameters $\alpha$, $\beta$, $\gamma$
+\begin{table}[htb] 
+	\centering
+	\caption{Parameters of power-law noise variants}
+	\label{tab:power-noise}
+	\begin{tabular}{lccc}
+		\hline
+		\hline
+		Noise type& $\alpha$& $\beta$& $\gamma$\\
+		\hline
+		WPM&   2 &  0& -3\\
+		FPM&   1 & -1& -2\\
+		WFM&   0 & -2& -1\\
+		FFM&  -1 & -3& -0\\
+		RWFM& -2 & -4&  1\\
+		\hline
+		\hline
+	\end{tabular}
+\end{table}
+The power spectral density of oscillator noise is described as a linear combination of 
+those power noise processes:
+\begin{equation}
+	\label{equ:linear_noise_comb}
+	S_{y} = \sum_{\alpha=-2}^{2}h_{\alpha}f^{\alpha},
+\end{equation}
+where $h_{\alpha}$ indicates influence of a specific noise type on overall oscillator noise.
+For general time representation a modified Allan variance can be used:
+\begin{equation}
+	\label{equ:allan_noise_comb}
+	\sigma^{2}_{y} = \sum_{\gamma=-3}^{1}g_{\gamma}\tau^{\gamma},
+\end{equation}
+where $\tau$ is analysis interval.
 %----------------------------------------------------------------------------------------------------
 \subsection{White phase modulation noise}
 
@@ -358,11 +392,7 @@ ranom walk frequency modulation (RWFM).
 %----------------------------------------------------------------------------------------------------
 \subsection{Random walk frequency modulation noise}
 
-%----------------------------------------------------------------------------------------------------
-\subsection{Oscilator noise as linear combination of power-law noises}
 
-%----------------------------------------------------------------------------------------------------
-\subsection{Sources of noise specific to orbital clocks}
 
 
 %====================================================================================================
