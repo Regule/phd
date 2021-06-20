@@ -83,6 +83,58 @@ a frequency equal to resonant frequency $f_{r}$ will be dominant.
 	\includegraphics[width=0.5\textwidth]{figures/wychodek}
 	\caption{White noise signal before and after RLC circuit}
 \end{figure}
+While this describes behavior of RLC circuit as a frequency filter another important role of it,
+especially in context of this work, is a frequency source.
+With assumption that at starting moment $t_{0}$ capacitor is fully loaded and energy stored
+in it is described as $Q_{0}$ as well that initial current $I_{0}=0$.
+Energy stored in capacitor is released trough resistance as a heat so sum of energies in 
+circuit over time can be described as :
+\begin{equation}
+	\label{equ:circuit_energy}
+	\frac{Q^{2}}{2C}+\frac{LI^{2}}{2}+\int_{t_{0}}^{t_{1}}I^{2}R dt = \frac{Q_{0}^{2}}{2C},
+\end{equation}
+which after derivation over time gives:
+\begin{equation}
+	\label{equ:circuit_energy_der}
+	2\frac{dQ}{dt} + 2I \frac{L\frac{dI}{dt} }{2} + I^{2}R = 0.
+\end{equation}
+Since electric current is defined as:
+\begin{equation}
+	\label{equ:current_as_power}
+	I = \frac{dQ}{dt},
+\end{equation}
+equation \ref{equ:circuit_energy_der} can be rewritten as:
+\begin{equation}
+	\label{equ:circuit_energy_der_mod}
+	I(\frac{Q}{C} + L\frac{d^{2}Q}{dt^{2}} + R\frac{dQ}{dt}) = 0.
+\end{equation}
+As $L>0$ from definition of circuit and for every moment beides initial conditions $I>0$ it is
+possible to divide both sides of equation \ref{equ:circuit_energy_der_mod} by $LI$ which will
+produce following second-order differential equation:
+\begin{equation}
+	\label{equ:circuit_energy_der_div}
+	\ddot{Q} + \frac{R}{L}\dot{Q} + \frac{1}{LC}Q=0,
+\end{equation}
+where $\dot{Q}$ is first and $\ddot{Q}$ second derivative of energy over time.
+To solve that equation a Laplace transform can be used, in this work details of such process
+will not be described and only a resulting solution will be shown:
+\begin{equation}
+	\label{equ:circuit_energy_solved}
+	Q_{t}=Q_{0}e^{-\frac{R}{2L}t}cos(\frac{1}{\sqrt{LC}}t+\phi),
+\end{equation}
+which means that voltage on capacitor in such circuit can be described as a function of time:
+\begin{equation}
+	\label{qeu:cap_voltage}
+	U_{C}(t) = \frac{Q_c(t)}{C} = U_{0}e^{-\frac{R}{2L}t}cos(\frac{1}{\sqrt{LC}}t+\phi), 
+\end{equation}
+\begin{figure}[htb] 
+	\label{fig:rlc_voltage}
+	\centering
+	\includegraphics[width=0.5\textwidth]{figures/wychodek}
+	\caption{Voltage on RLC circuit capacitor over time}
+\end{figure}
+%----------------------------------------------------------------------------------------------------
+\subsection{Quartz oscillators}
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Principles of atomic clock design}
