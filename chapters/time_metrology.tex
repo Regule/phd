@@ -213,6 +213,27 @@ Aging occurs at a relatively constant rate per decade for each crystal.
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Principles of atomic clock design}
+Atomic clock are clocks in which timekeeping mechanism is based on the interaction of 
+electromagnetic radiation with the excited states of atoms.
+Specifically a hyperfine transition is used as a frequency standard for the timekeeping element.
+The problem is that this frequency source cannot be accessed directly so atomic clocks combine 
+a quartz crystal oscillator with an ensemble of atoms to achieve greater stability.
+The actual frequency source that is measured is the high precision quartz oscillator while 
+additional system is used to tune said oscillator to cesium based reference.
+\begin{figure}[htb] 
+	\label{fig:atomic_diagram}
+	\centering
+	\includegraphics[width=\textwidth]{figures/atomic_diagram}
+	\caption{Block diagram of atomic clock}
+\end{figure}
+
+\begin{figure}[htb] 
+	\label{fig:atomic_tube}
+	\centering
+	\includegraphics[width=\textwidth]{figures/atomic_tube}
+	\caption{A cesium tube}
+\end{figure}
+
 
 
 %====================================================================================================
@@ -647,6 +668,26 @@ $|X_{USNO}| \le 1\mu s$. Value of $19$ seconds is added as zero epoch of GPST is
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Satellite broadcast polynomial}
+The clock offsets are due to clock synchronism errors referring to GNSS (GPS, GLONASS, Galileo...)
+time scale. The modelling of such offsets, 
+as well as its effect on the navigation solution, is described as follows.
+\begin{itemize}
+	\item Receiver clock offset $x_{rcv}$,
+	\item Satellite clock offset $x_{sat}$. 
+\end{itemize}
+Receiver clock bias prediction is unrelated to this work and will not be analyzed in more detail,
+satellite clock can be divided into two elements:
+\begin{equation}
+	\label{equ:sat_bias_comp}
+	x_{sat} = \hat{x}_{sat} + \Delta_{rel},
+\end{equation}
+where $\hat(x)_{sat}$ is clock offset calculated from values broadcasted in the navigation 
+messages and $\Delta_{rel}$ is relativistic correction caused by the orbital eccentricity.
+Clock offset is calculated by following polynomial:
+\begin{equation}
+	\label{equ:brodcast_polynomial}
+	\hat{x}_{sat} = a_{0} + a_{1}\delta t + a_{2}\delta t_{2}
+\end{equation}
 
 %----------------------------------------------------------------------------------------------------
 \subsection{IGU products}
