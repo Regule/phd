@@ -85,7 +85,7 @@ a frequency equal to resonant frequency $f_{r}$ will be dominant.
 \begin{figure}[htb] 
 	\label{fig:white_rlc_filter}
 	\centering
-	\includegraphics[width=0.5\textwidth]{figures/wychodek}
+	\includegraphics[width=0.5\textwidth]{figures/filtered_noise}
 	\caption{White noise signal before and after RLC circuit}
 \end{figure}
 While this describes behavior of RLC circuit as a frequency filter another important role of it,
@@ -195,6 +195,21 @@ a maximum at the antiresonant frequency $f_{A}$ as shown on Figure \ref{fig:quar
 	\caption{Reactance of a quartz crystal\textit{Fundamentals  of 
 	Quartz  Oscillators - Application  Note  200-2}}
 \end{figure}
+A quartz crystal is similar to a mechanical clock in that just like the 
+mechanical clock relies upon the spring or mass  energy to keep the pendulum going, crystal 
+requires supply of electric energy to sustain the mechanical vibration.
+This introduces another source of error as changes in drive energy will affect resonate frequency 
+of the oscillator. The frequency of an AT cut crystal will change by nanohertz as a result
+of a variation in drive of one microwatt.
+The drive level requirements will, of course,vary depending upon the crystal impedance. 
+Excessive drive level may cause the mechanical vibrations to exceed the quartz elastic limits 
+resulting in its destruction. The usual operating point is for minimum amplitude drive level
+since this is where maximum oscillator stability is achieved.
+A gradual frequency drift over time is known as aging.
+This occurs for various reasons, the physical properties of the crystal mounting may change.
+The crystal coefficient of elasticity changes when subjected to stress, or when trapped gasses 
+escape, or when contaminants attach to or leave the crystal surface. 
+Aging occurs at a relatively constant rate per decade for each crystal.
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Principles of atomic clock design}
