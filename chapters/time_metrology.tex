@@ -21,9 +21,14 @@ Analysis is suggested as reading.
 %====================================================================================================
 \section{Physical clock implementation}
 \label{sec:physical_clock}
+Measuring time provides specific challenges that are not present in other branches of 
+metrology. Main issue is that it is impossible to create a physical representation of time 
+itself which is problematic as measurements are done by comparing measured value to reference.
+For example
 
 %----------------------------------------------------------------------------------------------------
-\subsection{Introduction to physical clock implementation}
+\subsection{Electric frequency sources}
+\label{sec:electronic_frequency}
 In all modern time measurement applications frequency source must produce electrical, current or
 voltage based, signal. This is because most of precise signal processing and recording is done
 in form of either analog or digital circuit.
@@ -133,8 +138,63 @@ which means that voltage on capacitor in such circuit can be described as a func
 	\includegraphics[width=0.5\textwidth]{figures/rlc_capacitor}
 	\caption{Voltage on RLC circuit capacitor over time}
 \end{figure}
+
 %----------------------------------------------------------------------------------------------------
 \subsection{Quartz oscillators}
+While circuits described is \ref{sec:electronic_frequency} provide some form of frequency sources
+their precision is to low for practical use in timekeeping. 
+That is why another source had to be found and in 1920 first quartz oscillator was created.
+Quartz oscillators rely on piezoelectric effect which causes an electric charge buildup in 
+solid material in response to applied mechanical stress. This effect work also in reverse which
+means that applying voltage to a piezoelectric material will cause it to change its physical
+shape. Due to that behavior materials that display piezoelectricity can be used for transforming
+mechanical oscillations into electrical ones, if selected material also displays resonance then
+it can be used as a frequency source in the oscillator circuit.
+One of materials that displays both behaviors is quartz crystal which is a hard, crystalline 
+mineral composed of silicon dioxide. 
+The atoms are linked in a continuous framework of $SiO_{4}$ silicon-oxygen tetrahedra,
+with each oxygen being shared between two tetrahedra, giving an overall chemical formula 
+of $SiO_{2}$.
+When used as a oscillator quartz is cut into a small thin disk with two opposite surfaces 
+metallized in order to make an electrical connections.
+Choice of quartz supporting structure as well as means used to obtain the electrical contacts 
+are dictated by the vibrating mode. The support can not be a part of the oscillator since it 
+would absorb energy and cause an activity dip. A thickness shear mode crystal is supported by
+the edges at an approximate null or zero node to avoid interfering with the vibration.
+A typical 1 MHz crystal, due to its size, might be held by the tension wires at several points
+about the surface edge. A 10 MHz unit being smaller could be supported at two points on 
+a ceramic header. Specific types of mounts are shown on Figure \ref{fig:quartz_mount}.
+\begin{figure}[htb] 
+	\label{fig:quartz_mount}
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/quartz_mounts}
+	\caption{Examples of quartz crystal mounts \textit{Fundamentals  of 
+	Quartz  Oscillators - Application  Note  200-2}}
+\end{figure}
+When modelling an electric circuit quartz can be replaced by its electric equivalent that 
+behaves like an RLC circuit as shown on Figure \ref{fig:quartz_equiv}.
+\begin{figure}[htb] 
+	\label{fig:quartz_equiv}
+	\centering
+	\includegraphics[width=0.7\textwidth]{figures/quartz_equiv}
+	\caption{RLC circuit equivalent of quartz crystal.}
+\end{figure}
+The physical dimensions and material from which crystal is made determine the values
+of Rx, Cx and Lx. 
+Capacitance Cx is the motional capacitance, inductance Lx is determined by the crystal mass
+and C0 is capacitance between metallized electrodes.
+Capacitance C0 and resistance  Rx are source of most energy loss during quartz oscillator activity.
+When operated far off resonance,the structure is simply a capacitor C0 but,
+at the precise resonant frequency the circuit becomes a capacitor and resistor in parallel.
+The reactance of the crystal approaches zero at the point of series resonance and reaches 
+a maximum at the antiresonant frequency $f_{A}$ as shown on Figure \ref{fig:quartz_reactance}.
+\begin{figure}[htb] 
+	\label{fig:quartz_reactance}
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/quartz_reactance}
+	\caption{Reactance of a quartz crystal\textit{Fundamentals  of 
+	Quartz  Oscillators - Application  Note  200-2}}
+\end{figure}
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Principles of atomic clock design}
@@ -142,7 +202,6 @@ which means that voltage on capacitor in such circuit can be described as a func
 
 %====================================================================================================
 \section{Mathematical clock model}
-\textbf{FIXME: MAKE ALL EQUATIONS USE SAME NOTATION}
 In context of pure mathematical modelling a clock is understood as a function that describes
 offset between two given values for a specific point in time. One of those values is referred 
 to as the reference clock and it is considered to always return correct time $T_{r}(t)=t$.
@@ -165,12 +224,12 @@ clock model that relies on differential equation for description of its behavior
 In this approach clock bias is modeled as :
 \begin{equation}
 	\label{equ:continous_clock}
-	b_{c}(t) = T_{r}(t_{0}) +  \int_{t_{0}}^{t} \varepsilon_{c}(\tau) d\tau ,
+	x_{c}(t) = T_{r}(t_{0}) +  \int_{t_{0}}^{t} \varepsilon_{c}(\tau) d\tau ,
 \end{equation}
 where:
 \begin{itemize}
 	\item $t$ is the independent time argument,
-	\item $b_{c}(t)$ is the clock bias at time $t$,
+	\item $x_{c}(t)$ is the clock bias at time $t$,
 	\item $t_{0}$ is time at which clock was synchronized with reference ($b_{c}(t_{0})=0$),
 	\item $T_{r}(t_{0})$ is value of reference clock at $t_{0}$,
 	\item $\varepsilon_{c}(\tau)$ is the normalized frequency offset of a clock.
@@ -181,7 +240,7 @@ choice of prediction algorithms favour a discrete clock model.
 In discrete clock model bias is described as :
 \begin{equation}
 	\label{equ:discrete_clock}
-	b_{c}(i) = T_{r}(i) - T_{c}(i),
+	x_{c}(i) = T_{r}(i) - T_{c}(i),
 \end{equation}
 where $i \in \mathbb{N}$ is the number of measurement.
 One of main differences between continuous and discrete models is that in latter case bias is 
@@ -514,7 +573,15 @@ White frequency modulation is a zero mean white noise sequence
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Random walk frequency modulation noise}
-
+Oscillator frequency can be also influenced by noise related to its frequency drift.
+In this case a random walk noise can be used to represent influence of frequency drift
+variations on fractional frequency.
+Mathematically a discrete random walk frequency modulation noise can be described as:
+\begin{equation}
+	\label{equ:rwfm}
+	\zeta_{k} = \zeta_{k-1} + \xi_{k-1},
+\end{equation}
+where $\zeta_{k}$ is \textbf{CO TO JEST} and
 
 
 

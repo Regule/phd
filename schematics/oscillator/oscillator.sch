@@ -116,4 +116,88 @@ Connection ~ 1350 1350
 Wire Wire Line
 	1200 850  1350 850 
 Connection ~ 1350 850 
+$Comp
+L Device:R R?
+U 1 1 60D05533
+P 6900 1300
+F 0 "R?" V 6693 1300 50  0001 C CNN
+F 1 "Rx" V 6785 1300 50  0000 C CNN
+F 2 "" V 6830 1300 50  0001 C CNN
+F 3 "~" H 6900 1300 50  0001 C CNN
+	1    6900 1300
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 60D079CD
+P 6450 1300
+F 0 "C?" V 6198 1300 50  0001 C CNN
+F 1 "Cx" V 6290 1300 50  0000 C CNN
+F 2 "" H 6488 1150 50  0001 C CNN
+F 3 "~" H 6450 1300 50  0001 C CNN
+	1    6450 1300
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:L L?
+U 1 1 60D08200
+P 5950 1300
+F 0 "L?" V 6140 1300 50  0001 C CNN
+F 1 "Lx" V 6049 1300 50  0000 C CNN
+F 2 "" H 5950 1300 50  0001 C CNN
+F 3 "~" H 5950 1300 50  0001 C CNN
+	1    5950 1300
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 60D08883
+P 6450 900
+F 0 "C?" V 6198 900 50  0001 C CNN
+F 1 "C0" V 6290 900 50  0000 C CNN
+F 2 "" H 6488 750 50  0001 C CNN
+F 3 "~" H 6450 900 50  0001 C CNN
+	1    6450 900 
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	6300 900  5800 900 
+Wire Wire Line
+	5800 900  5800 1300
+$Comp
+L Connector:Conn_01x01_Male J?
+U 1 1 60D09522
+P 5400 1300
+F 0 "J?" H 5508 1481 50  0001 C CNN
+F 1 "Conn_01x01_Male" H 5508 1390 50  0001 C CNN
+F 2 "" H 5400 1300 50  0001 C CNN
+F 3 "~" H 5400 1300 50  0001 C CNN
+	1    5400 1300
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_01x01_Male J?
+U 1 1 60D09EDF
+P 7500 1300
+F 0 "J?" H 7608 1481 50  0001 C CNN
+F 1 "Conn_01x01_Male" H 7608 1390 50  0001 C CNN
+F 2 "" H 7500 1300 50  0001 C CNN
+F 3 "~" H 7500 1300 50  0001 C CNN
+	1    7500 1300
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	5800 1300 5600 1300
+Connection ~ 5800 1300
+Wire Wire Line
+	6100 1300 6300 1300
+Wire Wire Line
+	6600 1300 6750 1300
+Wire Wire Line
+	7050 1300 7300 1300
+Wire Wire Line
+	7050 1300 7050 900 
+Wire Wire Line
+	7050 900  6600 900 
+Connection ~ 7050 1300
 $EndSCHEMATC
