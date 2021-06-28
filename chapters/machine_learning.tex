@@ -86,6 +86,50 @@ minimization of that value is goal of machine learning it is mandatory to be abl
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Error function}
+As an error function is used for calculation of value that will be minimized by a machine 
+learning algorithm correct choice of that function is crucial decision when designing such
+algorithm.
+Due to scope of this work attention will be given only to error function used in supervised 
+learning of numerical algorithms.
+Error for single pair of predicted value $\hat{y}$ and actual value $y$ can be described as
+distance between them in response space $\mathcal{U}_{y}$:
+\begin{equation}
+	\label{equ:dist_general}
+	E = f_{DIST}(\hat{y},y),
+\end{equation}
+where $f_{DIST}$ is distance function, alternatively called metric.
+Distance function is a function that gives a distance between each pair of point elements of a set.
+If a set have a distance function defined it is called a metric space. 
+In order to be classified as a metric function $f_{DIST}$ over a Cartesian square of a universe 
+$\mathcal{U}$ it must display following properties:
+\begin{enumerate}
+	\item $f_{DIST} : \mathcal{U} \times \mathcal{U} \to \mathbb{R}^{+}$
+	\item identity of indiscernibles : $f_{DIST}(x_{0}, x_{1})=0 \leftrightarrow x_{0} = x_{1}$,
+	\item symmetry : $f_{DIST}(x_{0},x_{1})=f_{DIST}(x_{1},x_{0})$,
+	\item triangle inequality : $f_{DIST}(x_{0},x_{1}) \leq f_{DIST}(x_{0},x_{2}) +
+		f_{DIST}(x_{1},x_{2})$. 
+\end{enumerate}
+
+There are many types of metrics however within scope of this work attention will be given only to
+distance functions related to $\ell$ norms.
+As such error function for single prediction will be described as: 
+\begin{equation}
+	\label{equ:dist_norm}
+	E = \Vert (\hat{y}-y) \Vert_{k},
+\end{equation}
+where notation $\Vert \bullet \Vert_{k}$ describes $k$ norm of given value.
+Norm is a function from a real or complex vector space to the non negative real number space
+that describes distance of a point from the origin.
+Origin is the point for which values of all dimension are equal to zero, in case of calculating
+$\ell$ norm for difference between two points subtrahend is treated as a origin point.
+General equation describing a $\ell_{k}$ norm in $n$ dimensional space is:
+\begin{equation}
+	\label{equ:ell_norm}
+	\Vert x \Vert_{k} = (\vert x_{0} \vert^{k} + \vert x_{1} \vert^{k} + \cdots +
+	\vert x_{n} \vert^{k})^{1/k},
+\end{equation}
+where $\vert x \vert$ is an absolute value of $x$.
+
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Deep learning}
