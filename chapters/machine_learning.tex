@@ -129,6 +129,33 @@ General equation describing a $\ell_{k}$ norm in $n$ dimensional space is:
 	\vert x_{n} \vert^{k})^{1/k},
 \end{equation}
 where $\vert x \vert$ is an absolute value of $x$.
+\begin{figure}[htb] 
+	\label{fig:l_norms}
+	\centering
+	\includegraphics[width=0.5\textwidth]{figures/l_norms}
+	\caption{Relation between error and difference in first dimension values with second 
+	dimension difference at constant 100}
+\end{figure}
+\textbf{TODO: DESCRIBE WHY USE GIVEN NORMS IN MORE DETAIL}
+Norms usually used in error calculation are $\ell_{1}$ and $\ell_{2}$, due to their frequent use
+not only in this field they are given specific names.
+Norm $\ell_{2}$ is called Euclidean norm and is equivalent to intuitive understanding of distance
+while norm $\ell_{1}$ is called Manhattan distance and is related to distance between points on 
+grid.
+Euclidean distance is used for calculation of Root Mean Squared Error (RMSE). If we define 
+knowledge base $K$ as a set of pairs $(x,y)$ where $x$ is input and $y$ an expected output
+while prediction is realised by hypothesis $\hat{y} = h(x,\phi)$ error can be described as:
+\begin{equation}
+	\label{equ:mse}
+	f_{RMSE}(K,h) = \sqrt{\frac{1}{\vert K \vert} \sum_{(x,y) \in K}(h(x,\phi)-y)^2},
+\end{equation}
+where $\vert K \vert$ is cardinality of knowledge base.
+Manhattan distance is in turn used to calculate Mean Average Error (MAE):
+\begin{equation}
+	\label{equ:mae}
+	f_{MAE}(K,h) = \frac{1}{\vert K \vert} \sum_{(x,y) \in K}\vert (h(x,\phi)-y)\vert.
+\end{equation}
+Those two error values will be used in this work.
 
 
 %----------------------------------------------------------------------------------------------------
