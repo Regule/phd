@@ -1,0 +1,78 @@
+\chapter{Machine learning based approach}
+
+
+%====================================================================================================
+\section{Concepts in machine learning}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Differences between knowledge and data based models}
+While creating a model of physical processes one of two approaches may be used.
+First, is the knowledge-driven model that as the name implies relays on knowledge of underlying
+laws of physics that govern the process.
+The main advantage of this approach is its high explainability and reliability as every parameter
+of the model corresponds with some specific physical property.
+However this model has a very significant downside, it requires detailed knowledge of physical
+phenomena. This means that for complex processes it might be very difficult or even
+impossible, at a~given moment, to create a model. Another drawback is that the complexity of
+the process grows the computational cost of its model.
+If those problem makes creating usable knowledge-based model impossible or economically
+nonefficient a data-driven approach may be used.
+It model used is chosen arbitrarily with little or no relation to underlying physics,
+then model parameters are adjusted until it will fit experimental data to the best of its
+capability.
+The main advantage of a data-driven approach is the lack of required knowledge on process 
+inner workings, which allow prediction of events which exact mechanics have not 
+yet been discovered.
+Another element characteristic in the data-driven approach, that can be either advantageous or
+disadvantageous, is the lack of direct correlation between the complexity 
+of the process and computational cost of the model.
+This is a very welcome trait for complex processes like orbital atomic clock ensembles.
+The main disadvantage in comparison with the knowledge-driven approach is its lower reliability and
+explainability. This is the main reason why the data-driven approach is usually avoided in
+critical implementations. Another significant downside is a requirement of a large amount of
+experimental data for model adjustment which means that in many cases this approach simply
+cannot be used.
+The last thing that must be said about the data-driven approach is that it still requires some
+amount of knowledge to work efficiently as the selection of models that will be adjusted to
+data requires some assumption. For example, the use of linear regression assumes that the model
+is linear. The field of engineering that concerns itself with algorithms that automatically
+adjust models to data is called Machine Learning (ML).
+
+
+%----------------------------------------------------------------------------------------------------
+\subsection{What is a machine learning algorithm}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Error function}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Deep learning}
+
+%====================================================================================================
+\section{Regression approximation}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Linear regression}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Polynomial regression}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Support vector machine}
+
+
+%====================================================================================================
+\section{Gradient based optimization}
+
+%====================================================================================================
+\section{Neural networks}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Feed forward neural networks}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Simple recurrent neural networks}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Networks with long term memory}
+
