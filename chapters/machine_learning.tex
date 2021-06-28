@@ -160,6 +160,38 @@ Those two error values will be used in this work.
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Deep learning}
+At time when experiments described in this dissertation were conducted a new approach to 
+machine learning called Deep Learning (DL) became highly popular.
+Due to that popularity term deep learning is often overused and misrepresented marketing 
+purposes. In this section an attempt will be made to explain what exactly constitutes as a
+deep learning and describe what sort of challenges.
+Term deep learning can be applied only to a subset of machine learning algorithms that have
+layer based architecture, usually a neural networks.
+In such implementation whole data processing algorithm can be described as a transformation:
+\begin{equation}
+	\label{equ:spaces1}
+	\phi = \mathcal{U}_{OBS} \Rightarrow \mathcal{U}_{RES},
+\end{equation}
+where $\mathcal{U}_{OBS}$ is called observation space and $\mathcal{U}_{RES}$ is response space.
+In case of simple single layer system observation space is directly transformed into a 
+response space, however in case of multi layer model there are intermediate encoding spaces.
+In such case representation spaces are numbered by index of layer which outputs them. 
+So in case of $n$ layer system it would be $\{\mathcal{U}_{0}, \mathcal{U}_{1},
+\cdots, \mathcal{U}_{n}\}$ where indexes $0$ and $n$ are special as 
+$\mathcal{U}_{0}=\mathcal{U}_{OBS}$ and $\mathcal{U}_{n}=\mathcal{U}_{RES}$.
+In that case a function transforming observation into a reaction can be described as a 
+convolution of multiple encoding function.
+\begin{equation}
+	\label{equ:spaces_transform}
+	\phi = \phi_{1} \otimes \phi_{2} \otimes \cdots \otimes \phi_{n}.
+\end{equation}
+Transformation $\phi_{n}$ is called output layer, while other transformation are referred to
+as a hidden layers as their result is not visible during normal operation of algorithm.
+Until recently almost all architectures used a single hidden layer and architectures with more
+than 3 hidden layers were almost unheard of.
+This is due to three issue that show up in systems with higher amount of layer: signal vanishing,
+signal explosion and rise in computation due to high parameter count.
+
 
 %====================================================================================================
 \section{Regression approximation}
