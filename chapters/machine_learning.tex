@@ -198,7 +198,48 @@ signal explosion and rise in computation due to high parameter count.
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Linear regression}
-
+Linear predictor function is a linear combination of a set of coefficients and explanatory 
+variables (independent variables), whose value is used to predict the outcome of a
+dependent variable. Linear predictor is described as:
+\begin{equation}
+	\label{equ:linear_predictior}
+	\hat{y} = \Theta_{0} + \Theta_{1}x_{1} + \cdots + \Theta_{n}x_{n},
+\end{equation}
+where $\hat{y}$ is predicted value,$n$ is feature count, $x_{i}$ is value of i-th feature
+and $\Theta_{j}$ is j-th parameter.
+Parameter $\Theta_{0}$ is special as it is not corresponding to any feature, that parameter
+is called a \textit{bias term} or just \textit{bias}.
+Predictor will return value of bias if all inputs are set to zero.
+Function that allows prediction is called hypotesis function and is written as $\hat{y} = h(x)$.
+With assumption that input vector for such function is $x=[1, x_{1}, \cdots, x_{n}]$ then 
+a hypotesis function of a linear predictor can be defined as:
+\begin{equation}
+	\label{equ:linear_hyp}
+	\hat{y} = h_{\Theta}(x) = \Theta^{T}\cdot x.
+\end{equation}
+To define how well prediction fit actuall data a error function must be selected and then one
+of to approaches for minimizing it must be applied. Gradient based approach will be described 
+is section \ref{sec:gradient} here a analytical approach based on a normal equation will be shown.
+To derieve normal equation a MSE will be used as a error function, if other function would be 
+selected a different normal equation would be a result.
+In matrix notation hypothesis function can be described as :
+\begin{equation}
+	\label{equ:linear_hyp_matirx}
+	\hat{Y} = h_{\Theta}(X) = \Theta^{T}\cdot X,
+\end{equation}
+where $X$ is input matrix such that each row represent single feature and each column 
+single observation:
+\begin{equation}
+	\label{equ:input_matrix}
+	X_{n\times m}=\left( \begin{array}{c c c c c}
+		1&1&1&\cdots&1\\
+		x^{(1)}_{1}& x^{(2)}_{1}& x^{(3)}_{1}& \cdots& x^{(m)}_{1}\\
+		x^{(1)}_{2}& x^{(2)}_{2}& x^{(3)}_{2}& \cdots& x^{(m)}_{2}\\
+		\vdots&\vdots&\vdots&\ddots&\vdots\\
+		x^{(1)}_{n}& x^{(2)}_{n}& x^{(3)}_{n}& \cdots& x^{(m)}_{n}\\
+	\end{array}\right),
+\end{equation}
+where $x^{(i)}_{j}$ denotes value of $j$ feature of $i$ observation.
 %----------------------------------------------------------------------------------------------------
 \subsection{Polynomial regression}
 
@@ -208,6 +249,7 @@ signal explosion and rise in computation due to high parameter count.
 
 %====================================================================================================
 \section{Gradient based optimization}
+\label{sec:gradient}
 
 %====================================================================================================
 \section{Neural networks}
