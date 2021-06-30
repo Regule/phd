@@ -227,19 +227,55 @@ In matrix notation hypothesis function can be described as :
 	\label{equ:linear_hyp_matirx}
 	\hat{Y} = h_{\Theta}(X) = \Theta^{T}\cdot X,
 \end{equation}
-where $X$ is input matrix such that each row represent single feature and each column 
-single observation:
+where $X$ is input matrix such that each row represent single observation and each column 
+single feature:
 \begin{equation}
 	\label{equ:input_matrix}
-	X_{n\times m}=\left( \begin{array}{c c c c c}
-		1&1&1&\cdots&1\\
-		x^{(1)}_{1}& x^{(2)}_{1}& x^{(3)}_{1}& \cdots& x^{(m)}_{1}\\
-		x^{(1)}_{2}& x^{(2)}_{2}& x^{(3)}_{2}& \cdots& x^{(m)}_{2}\\
+	X_{m\times m}=\left( \begin{array}{c c c c c}
+		1& x^{(1)}_{1}& x^{(1)}_{2}& \cdots& x^{(1)}_{n}\\
+		1& x^{(2)}_{1}& x^{(2)}_{2}& \cdots& x^{(2)}_{n}\\
+		1& x^{(3)}_{2}& x^{(3)}_{2}& \cdots& x^{(3)}_{n}\\
 		\vdots&\vdots&\vdots&\ddots&\vdots\\
-		x^{(1)}_{n}& x^{(2)}_{n}& x^{(3)}_{n}& \cdots& x^{(m)}_{n}\\
+		1& x^{(m)}_{2}& x^{(m)}_{3}& \cdots& x^{(m)}_{n}\\
 	\end{array}\right),
 \end{equation}
 where $x^{(i)}_{j}$ denotes value of $j$ feature of $i$ observation.
+Using this definitions the least-squares error function can be represented in matrix form as:
+\begin{equation}
+	\label{equ:mse_matrix}
+	f_{MSE}(X,y) = \frac{1}{2m}(X\Theta - y)^{T}(X\Theta - y), 
+\end{equation}
+where $y$ is column vector of expected responses.
+For puproses of of minimization the constans scaling factor $\frac{1}{2m}$ can be ignored, it is
+guaranteed that $m\neq 0$ as there is no meaning of learning for zero observations.
+With that following transformations of equation can be made:
+\begin{equation}
+	\label{equ:mse_transform1}
+	f_{MSE}(X) = ((X\Theta)^{T} - y^{T})^{T}(X\Theta - y), 
+\end{equation}
+\begin{equation}
+	\label{equ:mse_transform2}
+	f_{MSE}(X) = (X\Theta)^{T}X\Theta-(X\Theta)^{T}y-y^{T}(X\Theta)+y^{T}y.
+\end{equation}
+This can be even further simplified to:
+\begin{equation}
+	\label{equ:mse_transform2}
+	f_{MSE}(X) = \Theta^{T}X^{T}X\Theta-2(X\Theta)^{T}y+y^{T}y. 
+\end{equation}
+As $\theta$ is the unknown that is being minimised $f_{MSE}$ have to be derived by $\theta$
+and compared to 0.
+Result od that deriviation is:
+\begin{equation}
+	\label{equ:mse_derived}
+	\frac{\partial J}{\partial \Theta} = 2X^{T}X\Theta - 2X^{T}y = 0,
+\end{equation}
+form that an equation it is simple to derieve a normal equation that allows calculation of 
+$\Theta$:
+\begin{equation}
+	\label{equ:mse_derived}
+	\Theta = (X^{T}X)^{-1}X^{T}y.	
+\end{equation}
+
 %----------------------------------------------------------------------------------------------------
 \subsection{Polynomial regression}
 
