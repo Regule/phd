@@ -291,6 +291,70 @@ $\Theta$:
 \section{Neural networks}
 
 %----------------------------------------------------------------------------------------------------
+\subsection{Artificial representation of biological neuron}
+A neuron or nerve cell is an electrically excitable cell that communicates with other
+cells via specialized connections called synapses. 
+Neurons are typically classified into three categories based on their function:
+\begin{enumerate}
+	 \item sensory neurons that respond to stimuli and they send signals to the spinal cord or
+		 directly to brain, 
+	\item motor neurons that receive signals from the brain and spinal cord to control body
+		effectors like muscles or glandular output,
+	\item interneurons that connect neurons to other neurons within the same region of the brain 
+		or spinal cord.
+\end{enumerate}
+As neuron is first and foremost a cells it consists of a soma (cell body), dendrites, and a 
+single axon. The soma is usually compact. The axon and dendrites are filaments that extrude 
+from it. Dendrites typically branch profusely and extend a few hundred micrometers from the soma.
+The axon leaves the soma at a swelling called the axon hillock, and travels for as far as 1 meter 
+in humans or more in other species. It branches but usually maintains a constant diameter.
+At the farthest tip of the axon's branches are axon terminals, where the neuron can transmit
+a signal across the synapse to another cell.
+Neurons may lack dendrites or have no axon. The term neurite is used to describe either a dendrite
+or an axon, particularly when the cell is undifferentiated.
+
+Most neurons receive signals via the dendrites and soma and send out signals down the axon.
+At the majority of synapses, signals cross from the axon of one neuron to a dendrite of another.
+However, synapses can connect an axon to another axon or a dendrite to another dendrite.
+\begin{figure}[htb] 
+	\label{fig:neurons}
+	\centering
+	\includegraphics[width=\textwidth]{figures/bio_neurons}
+	\caption{Examples of biological neurons}
+\end{figure}
+
+The signaling process is partly electrical and partly chemical. Neurons are electrically 
+excitable, due to maintenance of voltage gradients across their membranes. 
+If the voltage changes by a large enough amount over a short interval, 
+the neuron generates an all-or-nothing electrochemical pulse called an action potential. 
+This potential travels rapidly along the axon, and activates synaptic connections as it 
+reaches them. Synaptic signals may be excitatory or inhibitory, 
+increasing or reducing the net voltage that reaches the soma.
+\begin{figure}[htb] 
+	\label{fig:bio_activation}
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/bio_activation}
+	\caption{Examples of biological neurons}
+\end{figure}
+
+In 1943 Warren S. McCulloch, a neuroscientist, and Walter Pitts, a logician, 
+published "A logical calculus of the ideas immanent in nervous activity" in the 
+Bulletin of Mathematical Biophysics 5:115-133. In this paper McCulloch and Pitts tried to
+understand how the brain could produce highly complex patterns by using many basic cells
+that are connected together. 
+These basic brain cells are called neurons, and McCulloch and Pitts gave a highly simplified 
+model of a neuron in their paper. 
+The McCulloch and Pitts model of a neuron, which we will call an MCP neuron for short, 
+has been very important in computer science.
+A group of MCP neurons that are connected together is called an artificial neural network. 
+McCulloch and Pitts showed how to encode any logical proposition by an appropriate network of 
+MCP neurons. And so in theory anything that can be done with a computer can also 
+be done with a network of MCP neurons.
+McCulloch and Pitts also showed that every network of MCP neurons encodes some 
+logical proposition. So if the brain were a neural network, 
+then it would encode some complicated computer program. 
+But the MCP neuron is not a real neuron; it's only a highly simplified model.
+%----------------------------------------------------------------------------------------------------
 \subsection{Feed forward neural networks}
 
 %----------------------------------------------------------------------------------------------------
