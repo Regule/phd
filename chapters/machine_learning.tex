@@ -478,7 +478,7 @@ McCulloch Pitts neuron was perceptron algorithm created by \textbf{TODO: BY WHO}
 With $\hat{y}$ defined as a neuron prediction and $y$ as a expected output perceptron learning
 algorithm can me described as:
 \begin{enumerate}
-	\item if $\hat(y)=y$ then do nothing,
+	\item if $\hat{y}=y$ then do nothing,
 	\item if $\hat{y}=1$ and $y=0$ then $\Theta \leftarrow \Theta + x$
 	\item if $\hat{y}=0$ and $y=1$ then $\Theta \leftarrow \Theta - x$
 \end{enumerate}
@@ -539,7 +539,53 @@ the threshold of 1 whenever their respective input is active.
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Simple recurrent neural networks}
+Simple solution to problem of time independence is to concatenate response of neural layer
+from previous cycle to it input 
+\begin{equation}
+	\label{equ:sru_input}
+	x'(t)=[x(t)|y(t-1)]
+\end{equation}
+Such solution results in signal propagating trough time and influencing responses of future cycles,
+if this is only modification to feed forward model such layer is called simple recurrent
+unit (SRU).
+While this solution makes model time aware it have its own problems, mainly a signal vanishing
+issue. Since the input signal from cycle $n$ have direct influence only on a response of this
+cycle and for each subsequent cycles it is only trough feedback loop. Influence of input $n$ on
+response of cycle $n+k$ grows inverse proportional to $k$.
+This means that in this model only those regularities that appear over short time periods can
+be detected.
+Making weights on feedback bigger will not eliminate problem and instead replace it with signal
+explosion that causes response to reach maximum value if a strong signal appeared on input at
+least once.
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Networks with long term memory}
+One of possible solutions to this issue is addition of long term memory which will regulate
+forward and loop back path influence on neuron response, such solution is used in long short
+term memory (LSTM) networks \cite{Hochreiter1997}.
+\begin{figure}[htb] 
+	\label{fig:lstm}
+	\includegraphics[width=\textwidth]{figures/lstm}
+	\caption{LSTM layer}
+\end{figure}
+Single LSTM neuron consists of 4 basic neurons and two non neuron operations:
+\begin{itemize}
+\item $x'(t)=[x(t)|y(t-1)]$,
+\item $o_t=\sigma (W_o\cdot x'_t+b_o)$,
+\item $r_t=\sigma (W_r\cdot x'_t+b_r)$,
+\item $f_t=\sigma (W_f\cdot x'_t+b_f)$,
+\item $\bar{C}_t=\tanh (W_c\cdot x'_t+b_c)$,
+\item $C_t=f_t\circ C_{t-1}+r_t\circ \bar{C}_t$,
+\item $y_t=o_t\circ \tanh (C_t)$.
+\end{itemize}
+With $W$ and $b$ being weights and biases for each basic neuron, $x$ input, $y$ output and
+$C$ long term memory. As it can be seen $o_t$ is a equivalent of SRU and is moderated by
+long term memory before propagating as output. Temporary value of long term memory based
+only on current output $\bar{C}_t$ is calculated and then with help of neurons $r$ and $f$
+is transformed into its final value.
+Neuron $r$ is called remembering gate and influences to what degree temporary long term
+memory from given cycle effects its final value while $f$ is forgetting gate and
+decides influence of long term memory from last cycle on current one.
+Thanks to such implementation model can learn to detect long term regularities as well
+as short term ones.
 
