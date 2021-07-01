@@ -198,6 +198,7 @@ signal explosion and rise in computation due to high parameter count.
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Linear regression}
+\label{sec:linear_regression}
 Linear predictor function is a linear combination of a set of coefficients and explanatory 
 variables (independent variables), whose value is used to predict the outcome of a
 dependent variable. Linear predictor is described as:
@@ -342,18 +343,61 @@ published "A logical calculus of the ideas immanent in nervous activity" in the
 Bulletin of Mathematical Biophysics 5:115-133. In this paper McCulloch and Pitts tried to
 understand how the brain could produce highly complex patterns by using many basic cells
 that are connected together. 
-These basic brain cells are called neurons, and McCulloch and Pitts gave a highly simplified 
-model of a neuron in their paper. 
-The McCulloch and Pitts model of a neuron, which we will call an MCP neuron for short, 
-has been very important in computer science.
-A group of MCP neurons that are connected together is called an artificial neural network. 
-McCulloch and Pitts showed how to encode any logical proposition by an appropriate network of 
-MCP neurons. And so in theory anything that can be done with a computer can also 
-be done with a network of MCP neurons.
-McCulloch and Pitts also showed that every network of MCP neurons encodes some 
-logical proposition. So if the brain were a neural network, 
-then it would encode some complicated computer program. 
-But the MCP neuron is not a real neuron; it's only a highly simplified model.
+McCulloch Pitts neuron is a highly simplified model of neural cell that models only a most
+basic behavior of electrical signal transmition.
+Neuron is divided into three blocks:
+\begin{enumerate}
+	\item aggregation where many input signals $\{x_{1}, x_{2}, \cdots, x_{n}\}$ are 
+		aggregated into single signal $\hat{u}$,
+	\item dampening where signal strength is reduced according to bias term and dampened 
+		response $u$ is returned,
+	\item activation where signal $u$ is transformed to neuron response space.
+\end{enumerate}
+Response of neuron modelled like that can be written as:
+\begin{equation}
+	\label{equ:neuron_response}
+	h_{x} = f_{a}(u(\hat{u}(x))),
+\end{equation}
+however as in most cases weighted sum is realisation of aggregation and dampening is handled by
+a simple substation neuron equation is simplified to: 
+\begin{equation}
+	\label{equ:neuron_response}
+	h_{x} = f_{a}(u(x)).
+\end{equation}
+In case of McCulloch Pitts neuron both aggregation and dampening are realised by a single 
+linear function akin to linear predictor:
+\begin{equation}
+	\label{equ:linear_neuron}
+	u(x) = \Theta_{0} + \Theta_{1}x_{1} + \cdots + \Theta_{n}x_{n},
+\end{equation}
+which as described in chapter \ref{sec:linear_regression} can be written in a matrix notation as
+\begin{equation}
+	\label{equ:linear_neuron_matrix}
+	u(X) = \Theta^{T}\cdot X.
+\end{equation}
+Almost all modern implementations of artificial neural networks use this aggregation, dampening
+model and the only difference between them is in an activation function.
+McCulloch Pitts neuron uses step function as an activation:
+\[
+	\label{equ:step_function}
+	 f_{STEP}(u)=
+	\begin{cases}
+		1,  u > 0, \\
+		0,  u \leq 0,
+	\end{cases}
+	.
+\]
+With this function neuron can process signals however it still lacks a very important function
+of a biological neuron, ability to learn. First learning algorithm developed on base of 
+McCulloch Pitts neuron was perceptron algorithm created by \textbf{TODO: BY WHO}.
+With $\hat{y}$ defined as a neuron prediction and $y$ as a expected output perceptron learning
+algorithm can me described as:
+\begin{enumerate}
+	\item if $\hat(y)=y$ then do nothing,
+	\item if $\hat{y}=1$ and $y=0$ then $\Theta \leftarrow \Theta + x$
+	\item if $\hat{y}=0$ and $y=1$ then $\Theta \leftarrow \Theta - x$
+\end{enumerate}
+
 %----------------------------------------------------------------------------------------------------
 \subsection{Feed forward neural networks}
 
