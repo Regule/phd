@@ -1,0 +1,14 @@
+O. Chapelle and V. Vapnik, Model Selection for Support Vector Machines. In Advances in Neural Information Processing Systems, Vol 12, (1999)
+
+V. Cherkassky and Y. Ma, Selecting of the Loss Function for Robust Linear Regression, Neural computation 2002.
+
+V. Cherkassky and F. Mulier, Learning from Data: Concepts, Theory, and Methods. (John Wiley & Sons, 1998)
+
+Y.B. Dibike, S. Velickov, D.P. Solomatine. Support vector machines: review and applications in civil engineering. In: AI methods in Civil Engineering Applications (O. Schleider, A. Zijderveld, eds). Cottbus, 2000, p.45-58
+
+Y.B. Dibike, S. Velickov, D.P. Solomatine. and M. B. Abbott Model induction with support vector machines: introduction and applications. Journal of Computing in Civil Engineering, American Society of Civil Engineers (ASCE), vol. 15, No.3, 2001, pp. 208-216
+
+A. Smola and B. Schölkopf. A Tutorial on Support Vector Regression. NeuroCOLT Technical Report NC-TR-98-030, Royal Holloway College, University of London, UK, 1998
+
+T. Yoshioka and S. Ishii, Fast Gaussian process regression using representative data,
+International Joint Conference on Neural Networks 1, 132-137, 2001.

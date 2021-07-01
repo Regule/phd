@@ -471,6 +471,92 @@ The empirical risk is:
 	R_{EMP} = \frac{1}{n}\sum_{i=1}^{n}E(x^{(i)}, y^{(i)}),
 \end{equation}
 where $n$ is observation count.
+SVM regression performs linear regression in the high-dimension feature space using 
+$\varepsilon$-insensitive loss and, at the same time, tries to reduce model complexity 
+by minimizing $\Vert \Theta \Vert^2$. 
+This can be described by introducing (non-negative) slack variables 
+$\zeta_{i}, \zeta^{\bullet}_{i}$, to measure the deviation of training samples outside
+$\varepsilon$-insensitive zone. Thus SVM regression is formulated as minimization 
+of the following functional:
+\begin{equation}
+	\label{equ:svm_functional_pt1}
+	\frac{1}{2}\Vert \Theta \Vert^{2} + C\sum_{i=1}^{n}(\zeta_{i}+\zeta^{\bullet}_{i}),
+\end{equation}
+where \textbf{TODO: WHAT IS THAT (functional)}:
+\begin{equation}
+	\label{equ:svm_functional_pt2}
+	\begin{cases}
+		y_{i}-h(x_{i}) \leq \varepsilon + \zeta^{\bullet}_{i}\\
+		h(x_{i}) - y_{i} \leq \varepsilon + \zeta_{i}\\
+		\zeta_{i},\zeta^{\bullet}_{i} \geq 0
+	\end{cases}.
+\end{equation}
+
+This optimization problem can transformed into the dual problem and its solution is given by:
+\begin{equation}
+	\label{equ:svm_dual}
+	f(x)=\sum_{i=1}{v}(\alpha_{i}-\alpha^{\bullet}_{i})K(x_{i},x),
+\end{equation}
+where $v$ is number of support vectors and the $K(x_{i},x)$ is a kernel function such that:
+\begin{equation}
+	\label{equ:svm_kernel}
+	K(x_{i},x) = \sum_{j=1}^{m}g_{j}(x)g_{j}(x_{i}).
+\end{equation}
+
+It is well known that SVM generalization performance (estimation accuracy) depends on a 
+good setting of meta-parameters parameters $\varepsilon C$,  and the kernel parameters.
+The problem of optimal parameter selection is further complicated by the fact that SVM model
+complexity (and hence its generalization performance) depends on all three parameters. 
+Existing software implementations of SVM regression usually treat SVM meta-parameters 
+as user-defined inputs. Selecting a particular kernel type and kernel function parameters 
+is usually based on application-domain knowledge and also should reflect distribution of 
+input (x) values of the training data.
+\begin{figure}[htb] 
+	\label{fig:svm_demo1}
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/svm_demo1}
+	\caption{Performance of Support Vector Machine in regression case. 
+	The epsilon boundaries are given with the green lines. Blue points represent data instances.}
+\end{figure}
+
+Parameter $C$ determines the trade off between the model complexity (flatness) and the degree 
+to which deviations larger than $\varepsilon$  are tolerated in optimization formulation.
+For example, if $C$ is too large (infinity), then the objective is to minimize the empirical 
+risk only, without regard to model complexity part in the optimization formulation.
+Parameter controls the width of the $\varepsilon$-insensitive zone, used to fit the training data.
+The value of $\varepsilon$ can affect the number of support vectors used to construct the
+regression function. 
+The bigger $\varepsilon$ , the fewer support vectors are selected. On the other hand, 
+bigger $\varepsilon$-values results in more ‘flat’ estimates.
+Hence, both $C$ and $\varepsilon$-values affect model complexity (but in a different way).
+\begin{figure}[htb] 
+	\label{fig:svm_demo2}
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/svm_demo2}
+	\caption{Performance of Support Vector Machine in regression case.
+	The epsilon boundaries are given with the green lines. Blue points represent data instances.}
+\end{figure}
+
+Additional instances are introduced in this case and after being supplied to the model are 
+inside epsilon band. The regression function has changed. 
+However this makes some points that were initially inside the interval to be misclassified.
+\begin{figure}[htb] 
+	\label{fig:svm_demo3}
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/svm_demo3}
+	\caption{Performance of Support Vector Machine in regression case.
+	The epsilon boundaries are given with the green lines. Blue points represent data instances}
+\end{figure}
+Introducing new data instances that are located inside the epsilon band,
+do not influence the structure of the model.
+It can be seen that regression function has not changed at all.
+One of the advantages of Support Vector Machine, and Support Vector Regression as the part of it,
+is that it can be used to avoid difficulties of using linear functions in the high dimensional 
+feature space and optimization problem is transformed into dual convex quadratic programmes.
+In regression case the loss function is used to penalize errors that are grater than threshold 
+- $\varepsilon$.
+Such loss functions usually lead to the sparse representation of the decision rule,
+giving significant algorithmic and representational advantages. 
 
 %====================================================================================================
 \section{Gradient based optimization}
