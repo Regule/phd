@@ -277,6 +277,91 @@ $\Theta$:
 	\Theta = (X^{T}X)^{-1}X^{T}y.	
 \end{equation}
 
+
+Standard linear regression models with standard estimation techniques make a number of 
+assumptions about the predictor variables, the response variables and their relationship.
+Numerous extensions have been developed that allow each of these assumptions to be relaxed 
+(i.e. reduced to a weaker form), and in some cases eliminated entirely. 
+Generally these extensions make the estimation procedure more complex and time-consuming,
+and may also require more data in order to produce an equally precise model.
+
+Example of a cubic polynomial regression, which is a type of linear regression. 
+Although polynomial regression fits a nonlinear model to the data, as 
+a statistical estimation problem it is linear, in the sense that the regression 
+function E(y | x) is linear in the unknown parameters that are estimated from the data. 
+For this reason, polynomial regression is considered to be a special case of 
+multiple linear regression.
+
+The following are the major assumptions made by standard linear regression models with 
+standard estimation techniques (e.g. ordinary least squares):
+
+\begin{enumerate}
+    \item Weak exogeneity. This essentially means that the predictor variables x 
+		can be treated as fixed values, rather than random variables. 
+		This means, for example, that the predictor variables are assumed to be error-free—that 
+		is, not contaminated with measurement errors. 
+		Although this assumption is not realistic in many settings, dropping it leads to
+		significantly more difficult errors-in-variables models.
+    \item Linearity. This means that the mean of the response variable is a linear combination 
+		of the parameters (regression coefficients) and the predictor variables.
+		Note that this assumption is much less restrictive than it may at first seem. 
+		Because the predictor variables are treated as fixed values (see above), linearity is
+		really only a restriction on the parameters. 
+		The predictor variables themselves can be arbitrarily transformed, and in fact multiple
+		copies of the same underlying predictor variable can be added, each one transformed 
+		differently. This technique is used, for example, in polynomial regression, 
+		which uses linear regression to fit the response variable as an arbitrary polynomial 
+		function (up to a given rank) of a predictor variable.
+		With this much flexibility, models such as polynomial regression often have
+		"too much power", in that they tend to overfit the data. As a result,
+		some kind of regularization must typically be used to prevent unreasonable solutions
+		coming out of the estimation process. 
+		Common examples are ridge regression and lasso regression. Bayesian linear regression 
+		can also be used, which by its nature is more or 
+		less immune to the problem of overfitting.
+    \item Constant variance (a.k.a. homoscedasticity). This means that the variance of 
+		the errors does not depend on the values of the predictor variables.
+		Thus the variability of the responses for given fixed values of the predictors is the
+		same regardless of how large or small the responses are. 
+		This is often not the case, as a variable whose mean is large will typically have a 
+		greater variance than one whose mean is small.
+\end{enumerate}
+To check for violations of the assumptions of lineaarity, constant variance, and independence
+of errors within a linear regression model, the residuals are typically plotted against the 
+predicted values (or each of the individual predictors). 
+An apparently random scatter of points about the horizontal midline at 0 is ideal, 
+but cannot rule out certain kinds of violations such as autocorrelation in the errors or their 
+correlation with one or more covariates.
+Independence of errors. This assumes that the errors of the response variables are uncorrelated 
+with each other.
+(Actual statistical independence is a stronger condition than mere lack of correlation and is 
+often not needed, although it can be exploited if it is known to hold.) 
+Some methods such as generalized least squares are capable of handling correlated errors, 
+although they typically require significantly more data unless some sort of regularization is used 
+to bias the model towards assuming uncorrelated errors. Bayesian linear regression is a general 
+way of handling this issue.
+Lack of perfect multicollinearity in the predictors. 
+For standard least squares estimation methods, the design matrix X must have full column rank p; 
+otherwise perfect multicollinearity exists in the predictor variables, meaning a linear 
+relationship exists between two or more predictor variables. 
+This can be caused by accidentally duplicating a variable in the data, using a linear 
+transformation of a variable along with the original 
+(e.g., the same temperature measurements expressed in Fahrenheit and Celcius), or including a 
+linear combination of multiple variables in the model, such as their mean. 
+It can also happen if there is too little data available compared to the number of 
+parameters to be estimated (e.g., fewer data points than regression coefficients). 
+Near violations of this assumption, where predictors are highly but not perfectly correlated, 
+can reduce the precision of parameter estimates (see Variance inflation factor). 
+In the case of perfect multicollinearity, the parameter vector $\beta$ will be non-identifiable—it 
+has no unique solution. In such a case, only some of the parameters can be identified 
+(i.e., their values can only be estimated within some linear subspace of 
+the full parameter space Rp). See partial least squares regression. 
+Methods for fitting linear models with multicollinearity have been developed,
+some of which require additional assumptions such as "effect sparsity"—that a large 
+fraction of the effects are exactly zero.
+Note that the more computationally expensive iterated algorithms for parameter estimation, 
+such as those used in generalized linear models, do not suffer from this problem.
+
 %----------------------------------------------------------------------------------------------------
 \subsection{Polynomial regression}
 
@@ -397,9 +482,60 @@ algorithm can me described as:
 	\item if $\hat{y}=1$ and $y=0$ then $\Theta \leftarrow \Theta + x$
 	\item if $\hat{y}=0$ and $y=1$ then $\Theta \leftarrow \Theta - x$
 \end{enumerate}
+Due to its ability to separate space into two subspaces perceptron can be used to model a logical
+operators and as such realise logical reasoning.
+Let's start with the AND operator.  Looking back at the logic table for the $A\land B$, 
+we can see that we only want the neuron to output a 1 when both inputs are activated.
+To do this, we want the sum of both inputs to be greater than the threshold, but each input alone
+must be lower than the threshold.  Let's use a threshold of 1. 
+So, now we need to choose the weights according to the constraints I've just explained - 
+how about 0.6 and 0.6?  With these weights, individual activation of either input A or B will 
+not exceed the threshold, while the sum of the two will be 1.2, which exceeds the threshold 
+and causes the neuron to fire.
+I've used a greek letter theta to denote the threshold, which is quite common practice. 
+A and B are the two inputs.  You can think of them as input neurons, like photoreceptors, 
+taste buds, olfactory receptors, etc.  They will each be set to 1 or 0 depending upon the truth of
+their proposition.  The red neuron is our decision neuron. 
+If the sum of the synapse-weighted inputs is greater than the threshold, 
+this will output a 1, otherwise it will output a 0.  
+So, to test it by hand, we can try setting A and B to the different values in the 
+truth table and seeing if the decision neuron's output matches the $A\land B$ column:
+\begin{itemize}
+	\item  $A=0 \land B=0  \to   \hat{y} = 0*1  +  0*1 - 1  = -1 \to$,
+	\item $A=0 \land B=1  \to  \hat(y) = 0*1  +  1*1  = 0.6$,
+	\item $A=1 \land B=0  \to  \hat(y) = 1*1  +  0*1  = 0.6$,
+	\item $A=1 \land B=1  \to  \hat(y) = 1*1  +  1*1  = 1.2$.
+\end{itemize}
+
+We have designed a neuron which implements a logical AND gate.  
+
+This is easy to implement in Excel.  In fact, it's exactly the same as the neuron we 
+created in What does a neuron do.  
+
+Next up is the OR gate.  Look back at the logic table.  In this case, we want the output to 
+be 1 when either or both of the inputs, A and B, are active, but 0 when both of the inputs are 0.  
+This is simple enough.  If we make each synapse greater than the threshold, 
+then it'll fire whenever there is any activity in either or both of A and B.
+This is shown on the right.  Synaptic values of 1.1 are sufficient to surpass 
+the threshold of 1 whenever their respective input is active.  
+	
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Feed forward neural networks}
+
+\begin{figure}[htb] 
+	\label{fig:xor_gates}
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/xor_gates}
+	\caption{Implementation of XOR gate with AND, OR and NOT gates}
+\end{figure}
+
+\begin{figure}[htb] 
+	\label{fig:neuro_xor}
+	\centering
+	\includegraphics[width=\textwidth]{figures/neuro_xor}
+	\caption{Neuron based equivalent of XOR function}
+\end{figure}
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Simple recurrent neural networks}
