@@ -364,10 +364,113 @@ such as those used in generalized linear models, do not suffer from this problem
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Polynomial regression}
+Polynomial regression is one example of regression analysis using basis functions to model 
+a functional relationship between two quantities.
+More specifically, it uses transformation $\phi$  that transforms observation vector 
+$x \in \mathbb{R}$ into  $ \acute{x} \in \mathbb{R}^{n}$ such that :
+\begin{equation}
+ x \to^{\phi} \acute{x} = \{x^{1}, x^{2}, \cdots, x^{n}\}.
+\end{equation}
+\begin{figure}[htb] 
+	\label{fig:space_transformation}
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/space_transformation}
+	\caption{Non-linear mapping of input examples into high dimensional feature space}
+\end{figure}
+A drawback of polynomial bases is that the basis functions are "non-local",
+meaning that the fitted value of $\hat{y}$ at a given value $x = x_{0}$ depends strongly on 
+data values with $x$ far from $x_{0}$.
+In modern statistics, polynomial basis-functions are used along with new basis functions,
+such as splines, radial basis functions, and wavelets.
+These families of basis functions offer a more parsimonious fit for many types of data. 
+Adter transformation new observation space is treated as a input for linear regression.
+
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Support vector machine}
+Support Vector Machines are very specific class of algorithms, 
+characterized by usage of kernels, absence of local minima, sparseness of the solution and 
+capacity control obtained by acting on the margin, or on number of support vectors, etc.
 
+They were invented by Vladimir Vapnik and his co-workers, 
+and first introduced at the Computational Learning Theory (COLT) 1992 conference with the paper.
+All these nice features however were already present in machine learning since 1960’s: 
+large margin hyper planes usage of kernels, geometrical interpretation of kernels as inner
+products in a feature space.
+Similar optimization techniques were used in pattern recognition and sparsness techniques 
+were widely discussed.
+Usage of slack variables to overcome noise in the data and non - separability was also
+introduced in 1960s.
+However it was not until 1992 that all these features were put together to form the
+maximal margin classifier, the basic Support Vector Machine, and not until 1995 that the
+soft margin version was introduced.
+
+Support Vector Machine can be applied not only to classification problems but also to the
+case of regression.
+Still it contains all the main features that characterize maximum margin algorithm:
+a non-linear function is leaned by linear learning machine mapping into high dimensional kernel
+induced feature space.
+The capacity of the system is controlled by parameters that do not depend on the dimensionality
+of feature space.
+
+In the same way as with classification approach there is motivation to seek and optimize the
+generalization bounds given for regression.
+They relied on defining the loss function that ignores errors, which are situated within
+the certain distance of the true value.
+This type of function is often called – epsilon intensive – loss function. 
+The figure below shows an example of one-dimensional linear regression function with – 
+epsilon intensive – band. The variables measure the cost of the errors on the training points.
+These are zero for all points that are inside the band. 
+\begin{figure}[htb] 
+	\label{fig:svm1}
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/svm1}
+	\caption{One-dimensional linear regression with epsilon intensive band}
+\end{figure}
+
+One of the most important ideas in Support Vector Classification and Regression cases is 
+that presenting the solution by means of small subset of training points gives enormous 
+computational advantages. 
+Using the epsilon intensive loss function we ensure existence of the global minimum and at 
+the same time optimization of reliable generalization bound.
+\begin{figure}[htb] 
+	\label{fig:epsilon_band}
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/epsilon_band}
+	\caption{Detailed picture of epsilon band with slack variables and selected data points}
+\end{figure}
+In SVM regression, the inputis first mapped onto a m-dimensional feature space using some 
+fixed (nonlinear) mapping, and then a linear model is constructed in this feature space. 
+Using mathematical notation, the linear model (in the feature space) is given by:
+\begin{equation}
+	\label{equ:svm_in}
+	h(x) = \sum_{j=1}^{m}\Theta_{j}x_{j} + b
+\end{equation}
+If the data is assumed to be zero mean bias term $b$ can be dropped which results in following
+equation in matrix form:
+\begin{equation}
+	\label{equ:svm_in_matrix}
+	h(x) = \Theta X,
+\end{equation}
+where $X$ is matrix containing all observations.
+
+The quality of estimation is measured by the loss function.
+SVM regression uses a new type of loss function called insensitive loss function proposed 
+by Vapnik:
+\begin{equation}
+	\label{equ:vapnik}
+	E(x,y) = \begin{cases}
+		0, & |y-h(x)| \leq \varepsilon \\
+		|y-h(x)|-\epsilon, & |y-h(x)| > \varepsilon \\
+	\end{cases},
+\end{equation}
+where $\varepsilon$ is \textbf{TODO: CO TO KWA JEST!}.
+The empirical risk is:
+\begin{equation}
+	\label{equ:risk}
+	R_{EMP} = \frac{1}{n}\sum_{i=1}^{n}E(x^{(i)}, y^{(i)}),
+\end{equation}
+where $n$ is observation count.
 
 %====================================================================================================
 \section{Gradient based optimization}
@@ -467,8 +570,8 @@ McCulloch Pitts neuron uses step function as an activation:
 	\label{equ:step_function}
 	 f_{STEP}(u)=
 	\begin{cases}
-		1,  u > 0, \\
-		0,  u \leq 0,
+		1,&  u > 0, \\
+		0,&  u \leq 0,
 	\end{cases}
 	.
 \]
