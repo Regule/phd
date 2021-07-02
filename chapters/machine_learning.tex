@@ -610,8 +610,6 @@ will eventually become small enough to converge (for any initial value $t_{0}>0$
 	\caption{Gradient descent converging on minimum}
 \end{figure}
 
-%----------------------------------------------------------------------------------------------------
-\subsection{Stochastic gradient descent}
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Momentum based gradient descent}
@@ -697,7 +695,98 @@ steps in directions where the gradients oscillate and take large steps along the
 the past gradients have the same direction(same sign).
 
 %----------------------------------------------------------------------------------------------------
-\subsection{AdaGrad}
+\subsection{Stochastic gradient descent}
+Stochastic gradient descent (often abbreviated SGD) is an iterative method for optimizing an
+objective function with suitable smoothness properties (e.g. differentiable or subdifferentiable).
+It can be regarded as a stochastic approximation of gradient descent optimization, since it 
+replaces the actual gradient (calculated from the entire data set) by an estimate thereof 
+(calculated from a randomly selected subset of the data). Especially in high-dimensional 
+optimization problems this reduces the computational burden,
+achieving faster iterations in trade for a lower convergence rate.
+While the basic idea behind stochastic approximation can be traced back to the Robbins–Monro 
+algorithm of the 1950s, stochastic gradient descent has become an important optimization
+method in machine learning. 
+In stochastic (or "on-line") gradient descent, the true gradient  is approximated by a gradient
+at a single example.
+As the algorithm sweeps through the training set, it performs the above update for each training
+example. Several passes can be made over the training set until the algorithm converges.
+If this is done, the data can be shuffled for each pass to prevent cycles.
+Typical implementations may use an adaptive learning rate so that the algorithm converges
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Adaptive gradient algorithm (AdaGrad)}
+AdaGrad is simply just an optimization method based off of the Proximal Point Algorithm 
+(otherwise known as the Gradient Descent algorithm), specifically the Stochastic version
+of gradient descent.
+The intention behind the formulation of AdaGrad is because SGD (stochastic gradient descent) 
+converges slowly in the cases when features of our model are significantly more 
+important than others. 
+This is because the original SGD algorithm treats all factors equally, regardless of how much
+each factor contributes towards the actual models outputs.
+
+Seen below, we can recognize that the stochastic gradient descent algorithm takes a large
+amount of time in order to find the optimal solution because of the constant jumping back and
+forth on the expected gradient (seen Left). 
+On the otherhand, if we were to average all of the iterates in SGD (not AdaGrad), 
+we can find a much quicker optimization and decrease the amount of backtracking done.
+
+Now consider a case where we have an extremely wide problem domain, most likely due to a
+feature having an exaggerated effect on the domain.
+Seen below, we can see that the standard proximal gradient method (SGD) ends up jumping back and 
+forth because it is a poorly conditioned problem.
+On the other hand, we can see the AdaGrad variant (which somewhat fixes the poor conditioning of 
+the problem) will end up getting to the optimal in a significantly smaller number of steps.
+The original SGD algorithm’s update method defines the update rule as:
+\begin{equation}
+	\label{equ:SGD_equ}
+	x^{(k+1)} = argmin_{x\in \chi}\{\langle g^{(k)},x\rangle + frac{1}{2\alpha_{k}}
+	\Vert x-x^{(k)}\Vert_{2}^{2}\}.
+\end{equation}
+This version of the algorithm has a general convergence rate of $O(\frac{1}{T})$.
+AdaGrad takes advantage of the matrix norm, in our case, $B$ will be a positive
+definite matrix such that:
+\begin{equation}
+	\label{equ:definite_matrix}
+	\Vert  x \Vert_{B}^{2} = x^{T}Bx \geq 0.
+\end{equation}
+This matrix $B$ has a list of diagonal terms that will modify the update rule of SGD such that:
+\begin{equation}
+	\label{equ:modified_SGD}
+	x^{(k+1)} = argmin_{x\in \chi}\{\langle \nabla f(x^{(k)} ,x\rangle + frac{1}{2\alpha_{k}}
+	\Vert x-x^{(k)}\Vert_{B}^{2}\},
+\end{equation}
+which is equivalent to an update rule of:
+\begin{equation}
+	\label{equ:mod_sgd_equ}
+	x^{(k+1)} = x^{(k)} - \alpha B^{-1} \nabla f(x^{(k)}).
+\end{equation}
+
+As can be seen when compared to the original update rule, we have introduced the diagonal matrix
+$B$ in order to converge more quickly because of the reliance on features that are
+more exaggerated than less important features.
+Now the question is how we can best approximate $B$, since it is unknown to the user.
+AdaGrad now extends the SGD algorithm by defining within iteration $k$:
+\begin{equation}
+	\label{equ:adagrad_extension}
+	G^{(k)} = diag[\sum_{i=1}^{k}g^{(i)}(g^{(i)})^{T}]^{1/2},
+\end{equation}
+We can define $G^{(k)}$ as a diagonal matrix with entries:
+\begin{equation}
+	\label{equ:adagrad_matrix}
+	G^{(k)}_{jj} = \sqrt{\sum_{i=1}^{k} (g_j^{(i)})^2}
+\end{equation}
+Therefore modifying our previous modified update rule to be our final update rule for Adagrad:
+\begin{equation}
+	\label{equ:adagrad_opt}
+	x^{(k+1)} = \text{argmin}_{x \in \chi} \{ \langle \nabla f(x^{(k)}), x \rangle + 
+	\frac{1}{2 \alpha_k} \lvert \lvert x - x^{(k)} \rvert \rvert_{G^{(k)}}^2 \}
+\end{equation}
+which is equivalent to an update rule of:
+\begin{equation}
+	\label{equ:adagrad_opt_equiv}
+	x^{(k+1)} = x^{(k)} - \alpha G^{-1} \nabla f(x^{(k)})
+\end{equation}
+
 %----------------------------------------------------------------------------------------------------
 \subsection{RMSProp}
 %----------------------------------------------------------------------------------------------------
