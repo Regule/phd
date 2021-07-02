@@ -561,6 +561,38 @@ giving significant algorithmic and representational advantages.
 %====================================================================================================
 \section{Gradient based optimization}
 \label{sec:gradient}
+How can you minimize a function $\ell$ if you don't know much about it? 
+The trick is to assume it is much simpler than it really is. This can be done with 
+Taylor's approximation. Provided that the norm $\Vert s \Vert^{2}$ is small 
+(i.e. $w + s$ is very close to $w$), we can approximate the function $\ell (w+s)$ by its 
+first: 
+\begin{equation}
+	\label{equ:first_and_second_derivative}
+	\ell(w+s) \approx \ell(w) + g(w)^{\top}s,
+\end{equation}
+end second derivative:
+\begin{equation}
+	\label{equ:first_and_second_derivative}
+	\ell(w+s) \approx \ell(w) + g(w)^{\top}s + \frac{1}{2}s^{\top}H(w)s,
+\end{equation}
+where $g(w)=\nabla \ell (w)$ is the gradient and $H(w)=\nabla 2 \ell (w)$ 
+is the Hessian of $\ell$.
+Both approximations are valid if $\Vert s\Vert^{2}$ is small, but the second one assumes that
+$\ell$ is twice differentiable and is more expensive to compute but also more accurate 
+than only using gradient. 
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Gradient descent}
+%----------------------------------------------------------------------------------------------------
+\subsection{Stochastic gradient descent}
+%----------------------------------------------------------------------------------------------------
+\subsection{Momentum based gradient descent}
+%----------------------------------------------------------------------------------------------------
+\subsection{AdaGrad}
+%----------------------------------------------------------------------------------------------------
+\subsection{RMSProp}
+%----------------------------------------------------------------------------------------------------
+\subsection{Adam}
 
 %====================================================================================================
 \section{Neural networks}
@@ -778,3 +810,12 @@ decides influence of long term memory from last cycle on current one.
 Thanks to such implementation model can learn to detect long term regularities as well
 as short term ones.
 
+%====================================================================================================
+\section{Regularization}
+
+%----------------------------------------------------------------------------------------------------
+\subsection{Early stopping}
+%----------------------------------------------------------------------------------------------------
+\subsection{$\ell$ regularization}
+%----------------------------------------------------------------------------------------------------
+\subsection{Dropout}
