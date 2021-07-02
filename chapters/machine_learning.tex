@@ -583,6 +583,33 @@ than only using gradient.
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Gradient descent}
+In gradient descent we only use the gradient (first order). 
+In other words, we assume that the function $\ell$ around $w$ is linear and behaves like 
+$\ell(w)+g(w)^{\top}s$. Our goal is to find a vector $s$ that minimizes this function. 
+In steepest descent we simply set
+\begin{equation}
+	\label{equ:delta_weights}
+	s=-\alpha g(w),
+\end{equation}
+where $\alpha$ is learning rate.
+Setting the learning rate $\alpha$ is a dark art. Only if it is sufficiently small will gradien
+t descent converge (see the first figure below).
+If it is too large the algorithm can easily diverge out of control (see the second figure below).
+A safe (but sometimes slow) choice is to set $\alpha = \frac{t_{0}}{t}$, which guarantees that it
+will eventually become small enough to converge (for any initial value $t_{0}>0$). 
+\begin{figure}[htb] 
+	\label{fig:gradient_converge}
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/gradient_converge}
+	\caption{Gradient descent converging on minimum}
+\end{figure}
+\begin{figure}[htb] 
+	\label{fig:gradient_skip}
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/gradient_skip}
+	\caption{Gradient descent converging on minimum}
+\end{figure}
+
 %----------------------------------------------------------------------------------------------------
 \subsection{Stochastic gradient descent}
 %----------------------------------------------------------------------------------------------------
@@ -593,6 +620,70 @@ than only using gradient.
 \subsection{RMSProp}
 %----------------------------------------------------------------------------------------------------
 \subsection{Adam}
+%----------------------------------------------------------------------------------------------------
+\subsection{Newton's Method}
+Newton's method assumes that the loss $\ell$ is twice differentiable and uses the approximation 
+with Hessian (2nd order Taylor approximation).
+The Hessian Matrix contains all second order partial derivatives and is defined as:
+\begin{equation}
+	\label{equ:hessian}
+	H(w) = \left( \begin{array}{c c c c}
+		\frac{\partial^{2}\ell}{\partial w_{1}^{2}}&
+		\frac{\partial^{2}\ell}{\partial w_{1}w_{2}}& \cdots&
+		\frac{\partial^{2}\ell}{\partial w_{1}w_{n}}\\
+
+		\frac{\partial^{2}\ell}{\partial w_{2}w_{1}}&
+		\frac{\partial^{2}\ell}{\partial w_{2}^{2}}& \cdots&
+		\frac{\partial^{2}\ell}{\partial w_{2}w_{n}}\\
+
+		\vdots& \vdots& \ddots& \hdots\\
+
+		\frac{\partial^{2}\ell}{\partial w_{n}w_{1}}&
+		\frac{\partial^{2}\ell}{\partial w_{n}w_{2}}& \cdots&
+		\frac{\partial^{2}\ell}{\partial w_{n}^{2}}\\
+	\end{array} \right),
+\end{equation}
+because the convexity of $\ell$, it is always a symmetric square matrix and positive
+semi-definite. 
+A symmetric matrix $M$ is positive semi-definite if it has only non-negative eigenvalues or, 
+equivalently, for any vector $x$ we must have $x^{T}Mx\geq 0$.
+
+It follows that the approximation
+\begin{equation}
+	\label{equ:newton_approx}
+	\ell(w+s) \approx \ell(w) + g(w)^{T}s + 0.5s^{T}H(w)s,
+\end{equation}
+describes a convex parabola, and we can find its minimum by solving the following 
+optimization problem: 
+\begin{equation}
+	\label{equ:newton_opt}
+	argmin[\ell(w) + g(w)^{T}s + 0.5s^{T}H(w)s].
+\end{equation}
+To find the minimum of the objective, we take its first derivative with respect to $s$,
+equate it with zero, and solve for $s$:
+\begin{equation}
+	\label{equ:newton_opt_solved}
+	g(w) + H(w)s = 0 \to s = -H^{-1}(w)g(w).
+\end{equation}
+This choice of s converges extremely fast if the approximation is sufficiently accurate and the 
+resulting step sufficiently small.
+Otherwise it can diverge. Divergence often happens if the function is flat or almost flat with 
+respect to some dimension. In that case the second derivatives are close to zero, and their
+inverse becomes very large - resulting in gigantic steps.
+Different from gradient descent, here there is no step-size that guarantees that steps are 
+all small and local. 
+As the Taylor approximation is only accurate locally, large steps can move the current estimates
+far from regions where the Taylor approximation is accurate. 
+\begin{figure}[htb] 
+	\label{fig:gradient_newton}
+	\centering
+	\includegraphics[width=\textwidth]{figures/gradient_newton}
+	\caption{A gradient descent step (left) and a Newton step (right) on the same function}
+\end{figure}
+To avoid divergence of Newton's method, a good approach is to start with gradient descent 
+(or even stochastic gradient descent) and then finish the optimization Newton's method.
+Typically, the second order approximation, used by Newton's Method, is more likely to be
+appropriate near the optimum.
 
 %====================================================================================================
 \section{Neural networks}
