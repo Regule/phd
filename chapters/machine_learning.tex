@@ -612,8 +612,90 @@ will eventually become small enough to converge (for any initial value $t_{0}>0$
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Stochastic gradient descent}
+
 %----------------------------------------------------------------------------------------------------
 \subsection{Momentum based gradient descent}
+The problem with gradient descent is that the weight update at a moment is governed by the
+learning rate and gradient at that moment only. 
+It doesn’t take into account the past steps taken while traversing the cost space.
+It leads to the following problems.
+\begin{enumerate}
+	\item The gradient of the cost function at saddle points( plateau) is negligible or zero,
+		which in turn leads to small or no weight updates. 
+		Hence, the network becomes stagnant, and learning stops
+    \item The path followed by Gradient Descent is very jittery even when 
+		operating with mini-batch mode
+\end{enumerate}
+Consider the below cost surface.
+\begin{figure}[htb] 
+	\label{fig:gradient_problem}
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/gradient_problem}
+	\caption{Gradient will have problems}
+\end{figure}
+Let’s assume the initial weights of the network under consideration correspond to point A. 
+With gradient descent, the Loss function decreases rapidly along the slope AB as the gradient
+along this slope is high.
+But as soon as it reaches point B the gradient becomes very low. The weight updates around B 
+is very small. Even after many iterations, the cost moves very slowly before getting stuck at a
+point where the gradient eventually becomes zero.
+In this case, ideally, cost should have moved to the global minima point C,
+but because the gradient disappears at point B, we are stuck with a sub-optimal solution.
+Now, Imagine you have a ball rolling from point A. The ball starts rolling down slowly and gathers
+some momentum across the slope AB. 
+When the ball reaches point B, it has accumulated enough momentum to push itself across the
+plateau region B and finally following slope BC to land at the global minima C.
+To account for the momentum, we can use a moving average over the past gradients.
+In regions where the gradient is high like AB, weight updates will be large. Thus, in a way we
+are gathering momentum by taking a moving average over these gradients.
+But there is a problem with this method, it considers all the gradients over iterations with 
+equal weightage. The gradient at $t=0$ has equal weightage as that of the gradient at
+current iteration $t$. We need to use some sort of weighted average of the past gradients such
+that the recent gradients are given more weightage.
+This can be done by using an Exponential Moving Average(EMA).
+An exponential moving average is a moving average that assigns a greater weight on the most 
+recent values. The EMA for a series Y may be calculated recursively:
+\begin{equation}
+	\label{equ:ema}
+	S(t) = /beta S(t-1)+(1-\beta)Y(t),
+\end{equation}
+where the coefficient $\beta \in <0,1>$ represents the degree of weighting increase,  Y(t) is
+the value at a period t and  S(t) is the value of the EMA at any period t.
+First algorithm step is assumed at $t=1$ and $S(0)=0$.
+In our case of a sequence of gradients, the new weight update equation at iteration $t$ becomes:
+\begin{equation}
+	\label{equ:momentum_update}
+	v(t) = \beta v(t-1)+(1-\beta)\delta(t),
+\end{equation}
+where $v(t)$ is the new weight update done at iteration $t$ $\beta$ is momentum constant and
+$\delta(t)$: is the gradient at iteration $t$.
+With assumption that $v(0)=0$ change of waights at step $n$ can be described as:
+\begin{equation}
+	\label{equ:momentum_update_sum}
+	v(n) = (1-\beta)\sum_{t=1}^{n}\beta^{n-1}\delta(t).
+\end{equation}
+In the cost surface shown earlier let's zoom into point C.
+With gradient descent, if the learning rate is too small, the weights will be updated very 
+slowly hence convergence takes a lot of time even when the gradient is high. 
+This is shown in the left side image below. If the learning rate is too high cost
+oscillates around the minima as shown in the right side image below.
+
+Let's look at the last summation equation of the momentum again.
+When all the past gradients have the same sign the summation term will become large and we 
+will take large steps while updating the weights.
+Along the curve BC, even if the learning rate is low, all the gradients along the curve will 
+have the same direction(sign) thus increasing the momentum and accelerating the descent.
+When some of the gradients have $+ve$ sign whereas others have $-ve$ the summation term will
+become small and weight updates will be small. 
+If the learning rate is high, the gradient at each iteration around the valley C will
+alter its sign between $+ve$ and $-ve$ and after few oscillations, the sum of past gradients 
+will become small. Thus, making small updates in the weights from there on and damping the 
+oscillations.
+
+This to some amount addresses our second problem. Gradient Descent with Momentum takes small 
+steps in directions where the gradients oscillate and take large steps along the direction where
+the past gradients have the same direction(same sign).
+
 %----------------------------------------------------------------------------------------------------
 \subsection{AdaGrad}
 %----------------------------------------------------------------------------------------------------
