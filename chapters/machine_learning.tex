@@ -788,7 +788,7 @@ which is equivalent to an update rule of:
 \end{equation}
 
 %----------------------------------------------------------------------------------------------------
-\subsection{RMSProp}
+\subsection{RMProp and RMSProp}
 RMSprop— is unpublished optimization algorithm designed for neural networks, first proposed by
 Geoff Hinton in lecture 6 of the online course “Neural Networks for Machine Learning”.
 RMSprop lies in the realm of adaptive learning rate methods, which have been growing in
@@ -874,7 +874,72 @@ As you can see from the above equation we adapt learning rate by dividing by the
 squared gradient, but since we only have the estimate of the gradient on the current mini-batch,
 wee need instead to use the moving average of it.
 %----------------------------------------------------------------------------------------------------
-\subsection{Adam}
+\subsection{Adaptive Moment Estimation (Adam)}
+Adam, derived from Adaptive Moment Estimation, is an optimization algorithm.
+The Adam optimizer makes use of a combination of ideas from other optimizers.
+Similar to the momentum optimizer, Adam makes use of an exponentially decaying average of 
+past gradients.
+Thus, the direction of parameter updates is calculated in a manner similar to that of
+the momentum optimizer.
+Adam also employs an exponentially decaying average of past squared gradients in order to
+provide an adaptive learning rate. 
+Thus, the scale of the learning rate for each dimension is calculated in a manner similar to 
+that of the RMSProp optimizer.
+The similarity of the Adam optimizer to the momentum and RMSProp optimizers is
+immediately clear upon examining the equations defining the Adam optimizer.
+\begin{equation}
+	m = \beta_{1}m - (1-\beta_{1})\nabla_{\Theta}J(\Theta),
+\end{equation}
+\begin{equation}
+	s = \beta_{2}s+(1-\beta_{2})\nabla_{\Theta}J(\Theta)\odot \nabla_{\Theta}J(\Theta),
+\end{equation}
+\begin{equation}
+	\hat{m} = \frac{m}{1-\beta^{t}_{1}},
+\end{equation}
+\begin{equation}
+	\hat{s} = \frac{s}{1-\beta^{t}_{2}},
+\end{equation}
+\begin{equation}
+	\Theta = \Theta + \eta \hat{m} \oslash \sqrt{\hat{s}+c},
+\end{equation}
+where $\odot$ denotes the Hadamard product (element-wise multiplication) and $\oslash$ denotes
+Hadamard division (element-wise division).
+
+$\epsilon$ is the smoothing term used to prevent division by zero.
+
+The vector $\hat{m}$ is used to provide the update direction for each parameter.
+As this vector is not equal to $\nabla \Theta J(\Theta)$ but an average over the past gradients,
+the update direction has ‘momentum’. In practice the inclusion of momentum often speeds up 
+convergence, but may cause oscillations around the minimum. 
+\begin{figure}[htb] 
+	\label{fig:adam_starting_momentum}
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/adam_starting_momentum}
+	\caption{The path followed by the Adam optimizer with a large initial momentum vector}
+\end{figure}
+The path followed by the Adam optimizer with a large initial momentum vector.
+An example of the effect momentum has on an optimizer is illustrated in figure 1. 
+In this example I set a large (negative) initial value for the first parameter in 
+the momentum vector.
+This forced the optimizer to initially move left in figure 1, even though this direction 
+increases loss. 
+This shows that given a large enough momentum vector, the momentum will be able to push the loss
+out of local optima and into more optimal solutions if they are present.
+The vector $s$ is used to provide an adaptive learning rate. 
+This vector stores an exponentially decaying average of the past squared gradients.
+Thus, the values of $s$ will be much larger for dimensions with large gradients. 
+As a result of this, when the updates are scaled by $\frac{1}{\sqrt{\hat{s}+\epsilon}}$ it will
+cause the learning rate to be much smaller for dimensions with large gradients.
+This is how $\hat{s}$ is used to provide an adaptive learning rate. 
+The use of an adaptive learning rate helps to direct updates towards the optimum.
+\begin{figure}[htb] 
+	\label{fig:adam}
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/adam}
+	\caption{The path followed by the Adam optimizer with a large initial momentum vector}
+\end{figure}
+
+
 %----------------------------------------------------------------------------------------------------
 \subsection{Newton's Method}
 Newton's method assumes that the loss $\ell$ is twice differentiable and uses the approximation 
