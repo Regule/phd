@@ -789,6 +789,90 @@ which is equivalent to an update rule of:
 
 %----------------------------------------------------------------------------------------------------
 \subsection{RMSProp}
+RMSprop— is unpublished optimization algorithm designed for neural networks, first proposed by
+Geoff Hinton in lecture 6 of the online course “Neural Networks for Machine Learning”.
+RMSprop lies in the realm of adaptive learning rate methods, which have been growing in
+popularity in recent years, but also getting some criticism. 
+It’s famous for not being published, yet being very well-known; most deep learning framework 
+include the implementation of it out of the box.
+
+There are two ways to introduce RMSprop. First, is to look at it as the adaptation of rprop
+algorithm for mini-batch learning. 
+It was the initial motivation for developing this algorithm. Another way is to look at its 
+similarities with Adagrad and view RMSprop as a way to deal with its radically diminishing
+learning rates.
+I’ll try to hit both points so that it’s clearer why the algorithm works.
+
+Let’s start with understanding rprop — algorithm that’s used for full-batch optimization. 
+Rprop tries to resolve the problem that gradients may vary widely in magnitudes.
+Some gradients may be tiny and others may be huge, which result in very difficult problem —
+trying to find a single global learning rate for the algorithm. 
+If we use full-batch learning we can cope with this problem by only using the sign 
+of the gradient.
+With that, we can guarantee that all weight updates are of the same size. 
+This adjustment helps a great deal with saddle points and plateaus as we take big enough steps
+even with tiny gradients. 
+Note, that we can’t do that just by increasing the learning rates, because steps we take with 
+large gradients are going to be even bigger, which will result in divergence.
+Rprop combines the idea of using the sign of the gradient with the idea of adapting step size
+individualy for each weight.
+So, instead of looking at the magnitude of the gradient, we’ll look at the step size that’s 
+defined for that particular weight.
+And that step size adapts individually over time, so that we accelerate learning in the
+direction that we need. To adjust the step size for some weight, the following algorithm is used
+\begin{enumerate}
+    \item First, we look at the signs of the last two gradients for the weight.
+    \item If they have the same sign, that means, we’re going in the right direction,
+		and should accelerate it by a small fraction, meaning we should increase the step size
+		multiplicatively(e.g by a factor of 1.2). 
+		If they’re different, that means we did too large of a step and jumped over a
+		local minima, thus we should decrease the step size multiplicatively(e.g. by a
+		factor of 0.5).
+    \item Then, we limit the step size between some two values. These values really depend on
+		your application and dataset, good values that can be for default are 50 and a millionth, 
+		which is a good start.
+    \item Now we can apply the weight update.
+\end{enumerate}
+
+Rprop doesn’t really work when we have very large datasets and need to perform mini-batch weights
+updates. 
+Why it doesn’t work with mini-batches ? Well, people have tried it, but found it hard to make 
+it work.
+The reason it doesn’t work is that it violates the central idea behind stochastic gradient
+descent, which is when we have small enough learning rate,
+it averages the gradients over successive mini-batches.
+Consider the weight, that gets the gradient 0.1 on nine mini-batches, and the gradient of -0.9 on
+tenths mini-batch.
+What we’d like is to those gradients to roughly cancel each other out, so that the stay
+approximately the same.
+But it’s not what happens with rprop. With rprop, we increment the weight 9 times and decrement
+only once, so the weight grows much larger.
+
+To combine the robustness of rprop (by just using sign of the gradient), efficiency we get 
+from mini-batches, and averaging over mini-batches which allows to combine gradients in the
+right way, we must look at rprop from different perspective.
+Rprop is equivalent of using the gradient but also dividing by the size of the gradient,
+so we get the same magnitude no matter how big a small that particular gradient is.
+The problem with mini-batches is that we divide by different gradient every time, so why not force
+the number we divide by to be similar for adjacent mini-batches ?
+The central idea of RMSprop is keep the moving average of the squared gradients for each weight.
+And then we divide the gradient by square root the mean square. 
+Which is why it’s called RMSprop(root mean square). With math equations the update rule
+looks like this:
+\begin{equation}
+	\label{equ:rmsprop1}
+	E[g^{2}]_{t} = \beta E[g^{2}]_{t-1}+(1-\beta)(\frac{\delta C}{\delta w})^{2},
+\end{equation}
+\begin{equation}
+	\label{equ:rmsprop2}
+	w_{t} = w_{t-1} - \frac{\eta}{\sqrt{E[g^{2}]_{t}}} \frac{\delta C}{\delta w},
+\end{equation}
+where $E[g]$ is moving average of squared gradients. $\frac{\delta C}{\delta w}$ is gradient of
+the cost function with respect to the weight, $\eta$  learning rate and $\beta$  moving average
+parameter.
+As you can see from the above equation we adapt learning rate by dividing by the root of
+squared gradient, but since we only have the estimate of the gradient on the current mini-batch,
+wee need instead to use the moving average of it.
 %----------------------------------------------------------------------------------------------------
 \subsection{Adam}
 %----------------------------------------------------------------------------------------------------
