@@ -788,3 +788,71 @@ As we see, most of systematic errors are cancelled or reduced with using the obs
 differences. Consequently, the accuracy of position computation will be improved after
 eliminating or reducing of these biases. Solution obtained in DD with ambiguity can provide a
 precision to the centimeteric level.
+
+%--------------------------------------------------------------------------------------------------
+\subsection{Differential position}
+There is an increase interest in differential positioning due to the numerous advantages of
+wireless communications and networks. Most of errors that affect GNSS are common between
+the receivers, which observe the same set of satellites (Leick, 2003; Hofmann-Wellenhof et al.,
+2001). Thus, by making differential measurement between two or more receivers, most of these
+errors could be cancelled.
+The basic concept of differential position is the calculation of position correction or range
+correction at the reference receiver and then sending this correction to the other receiver via
+radio link. This way most of errors are cancelled; see Fig.11. The transmitted correction could be
+of several types: the position or pseudo range correction, the carrier smoothed pseudo range
+correction, and the carrier phase correction. The mathematical model of DGNSS could be written
+as shown below. Two receivers are used, where receiver A is installed at known reference station
+and B is rover/moving receiver. Pseudo range at A is given by:
+\begin{equation}
+	\label{equ:diferential_pos1}
+	R^{1}_{A}(t_{0}) = \rho^{1}_{A}(t_{0}) + \Delta \rho^{1}_{A}(t_{0}) + c \delta^{1}(t_{0})
+	- c \delta_{A}(t_{0}),
+\end{equation}
+
+\begin{equation}
+	\label{equ:diferential_pos2}
+	PRC^{1}(t_{0}) = -R^{1}_{A}(t_{0}) + \rho^{1}_{A}(t_{0}) = -\Delta \rho^{1}_{A}(t_{0}
+	- c \delta^{1}(t_{0}) + c \delta_{A}(t_{0}).
+\end{equation}
+
+\begin{figure}[htb] 
+	\label{fig:gps_correction}
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/gps_correction}
+	\caption{Modernized GPS signals}
+\end{figure}
+We have to add the range rate correction for an arbitrary epoch (t).
+\begin{equation}
+	\label{equ:range_rate_correction}
+	PRC^{1}(t) = PRC^{1}(t_{0}) + RRC^{1}(t_{0})(t-t_{0}),
+\end{equation}
+where $(t-t_{0})$, is called the latency due to transmission time between  the reference and 
+the rover receiver.
+The pseudo range at receiver B could be written as:
+\begin{equation}
+	\label{equ:reciever_pseudorange}
+	R_{B}^{1}(t) = \rho^{1}_{B}(t) + \Delta \rho^{1}_{B}(t) + c \delta^{1}(t)- c \delta_{B}(t),
+\end{equation}
+By adding the pseudo range from reference station, we obtain:
+\begin{equation}
+	\label{equ:pseudorange_with_ref1}
+	R_{B}^{1}(t)_{corr} = R_{B}^{1}(t) + PRC^{1}(t) = \rho B^{1}(t)+(\Delta \rho B^{1}(t)-
+	\Delta \rho^{1}_{A}(t)) - ( c \delta_{B}(t) - c \delta_{A}(t)),
+\end{equation}
+\begin{equation}
+	\label{equ:pseudorange_with_ref2}
+	R_{B}^{1}(t)_{corr} = \rho^{1}_{B}(t) - c \Delta \delta_{AB}(t).
+\end{equation}
+As we see the orbital error is cancelled and the satellite clock error is eliminated. We can also
+transmit the phase correction to the rover receiver. In this case we have to add another unknown;
+the ambiguity N, to the equations. The phase range correction between the reference and the
+rover receiver when applying the same above procedure will be given by:
+\begin{equation}
+	\label{equ:phase_label_corr}
+	\lambda \phi B^{1}(t)_{corr} = \rho B^{1}(t)+\lambda \Delta N^{1}_{AB}-c\Delta \delta_{AB}(t),
+\end{equation}
+DGNSS with phase range correction is used for most precision Real-Time Kinematics (RTK).
+But the ambiguity should be resolved or fixed by using the On The Fly (OTF) techniques. In
+phase measurement technique the precision obtained will be at the centimeter level. Modeling
+the ionosphere and troposphere will eliminate or reduce the errors in DGNSS. This method gives
+more possibilities to obtain high accuracy in point positioning using one receiver.
