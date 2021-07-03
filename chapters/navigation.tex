@@ -555,6 +555,80 @@ GALILEO is expected to be in operation by the year 2008. The first satellite of 
 (GIOVE A) has already been lunched in 27 th December 2005.
 
 %--------------------------------------------------------------------------------------------------
+\subsection{Coordinate system}
+The definition of reference coordinate system is crucial for the description of satellite motion,
+the modeling of observable and the interpretation of results.
+Reference coordinate system in satellite geodesy is global and geocentric by nature since 
+satellite motion refers to the center of mass of the earth 
+(Seeber, 2003; Hofmann-Wellenhof et al., 2001).
+In satellite geodesy, two reference systems are required:
+\begin{enumerate}
+	\item space-fixed, inertial reference system for the description of satellite motion,
+	\item earth-fixed, terrestrial reference system for the positions of the observation stations
+		and for the description of results from satellite geodesy.
+\end{enumerate}
+The positioning with using GNSS depends mainly on knowing the satellite coordinates. 
+The position of the receiver is calculated with respect to the instant position of the satellite. 
+By considering the range vector relation between satellite and receiver, 
+the coordinate of the satellite and receiver should be expressed in the same coordinate system.
+In satellite geodesy, the two systems are used and the transformation parameters between the
+space fixed and earth fixed are well known and used directly in the GNSS receiver and post
+processing software to compute the position of the receivers in the earth fixed system.
+Terrestrial reference system is defined by convention with three axes, where Z-axis coincides
+with the earth rotation axis as defined by the Conventional International Origin (CIO). The X-
+axis is associated with the mean Greenwich meridian, and the Y-axis is orthogonal to both Z and
+X axes and it completes the right-handed coordinate system, Fig. 9. One example of the
+terrestrial reference system is the WGS84. GPS has used the WGS84 as a reference system
+(Leick, 2003), and with WGS84 associated a geocentric equipotential ellipsoid of revolution.
+16The basic idea, in geodesy, behind using the reference ellipsoids is that they fit the real
+shape of the earth.
+Another example of terrestrial reference frame is the International Terrestrial Reference Frame
+(ITRF), which is established by Central Bureau of the International Earth Rotation Service
+(IERS). The ITRF is regularly updated and is more accurate than WGS84, but the difference
+between WGS84 and ITRF is now in the order of a few centimeters. This difference is mainly
+due to the difference between the reference stations used by each system when it is realized.
+Both systems are geocentric and the transformation parameters between them are regularly
+published by IERS.
+The representation of position in geocentric Cartesian coordinates (X, Y and Z) has less
+significance in navigation. Hence, the ellipsoidal representation (longitude, latitude and height
+above the ellipsoid) are more commonly use for coordinate representation.
+\begin{figure}[htb] 
+	\label{fig:ecef_coordinate}
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/ecef_coordinate}
+	\caption{ECEF coordinate system and ellipsoidal coordinates}
+\end{figure}
+The relation between Cartesian coordinate $(X,Y,Z)$ and ellipsoidal coordinates 
+$( \phi , \lambda , h )$ are described by the following formulas:
+\begin{equation}
+	\label{equ:ecef}
+	\begin{aligned}[c]
+		X = (N+h)\cos(\phi)\cos(\lambda),\\
+		Y = (N+h)\cos(\phi)\sin(\lambda),\\
+		Z = (\frac{b^{2}}{a^{2}}N+h)\sin(\phi),
+	\end{aligned}
+\end{equation}
+where $a$ and $b$ are the semi axes of the ellipsoid and $N$ is the radius of curvature in 
+prime vertical and is obtained by the following expression:
+\begin{equation}
+	\label{equ:curvature}
+	N = \frac{a^{2}}{\sqrt{a^{2}cos^{2}(\phi)+b^{2}sin^{2}(\phi)}}.
+\end{equation}
+The Cartesian coordinate of WGS84 is called also
+ECEF (Earth Centered Earth-Fixed) coordinate system.
+As mentioned above, the realization of the reference frame depends on the coordinates of ground
+reference stations. The Galileo Terrestrial Reference Frame (GTRF) is expected to be similar to
+ITRF, but will be based on the coordinates of the Galileo ground stations. The differences
+between WGS84, ITRF and the GTRF are expected to be in the order of a few centimeters. The
+two coordinate systems are compatible, and the accuracy obtained is good enough for most of the
+applications including navigation. For high precise measurements and for centmetric accuracy
+between the various systems, the transformation parameters are expected to be published by the
+geodetic service providers such as IERS. Glonass uses the PZ90 as a reference coordinate system
+which is basically a ECEF system. The transformation parameters between PZ90 and WGS84 is
+published by IERS (Leick, 2003).
+
+
+%--------------------------------------------------------------------------------------------------
 \subsection{Code and phase pseudorange measurements}
 Code correlation technique is used to measure the time difference between the received and
 generated replica code. The range could be formulated as follows:
