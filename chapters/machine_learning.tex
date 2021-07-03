@@ -1245,7 +1245,53 @@ If the training data has a low error rate and the test data has a high error rat
 it signals overfitting.
 
 %----------------------------------------------------------------------------------------------------
-\subsection{Early stopping}
+\subsection{Early stoppingi}
+Regularization by early stopping can be done either by dividing the dataset into training and test 
+sets and then using cross-validation on the training set or by dividing the dataset into training, 
+validation and test sets, in which case cross-validation is not required.
+Here, the second case is analyzed. In early stopping, the algorithm is trained using the
+training set and the point at which to stop training is determined from the validation set. 
+Training error and validation error are analysed. The training error steadily decreases while 
+validation error decreases until a point, after which it increases. 
+This is because, during training, the learning model starts to overfit to the training data. 
+This causes the training error to decrease while the validation error increases.
+So a model with better validation set error can be obtained if the parameters that give the least
+validation set error are used.
+Each time the error on the validation set decreases, a copy of the model parameters is stored.
+When the training algorithm terminates, these parameters which give the least validation set
+error are finally returned and not the last modified parameters. 
+\begin{figure}[htb] 
+	\label{fig:early_stop}
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/early_stop}
+	\caption{Neuron based equivalent of XOR function}
+\end{figure}
+
+In Regularization by Early Stopping, we stop training the model when the performance of the 
+model on the validation set is getting worse-increasing loss or decreasing accuracy or poorer 
+values of the scoring metric. By plotting the error on the training dataset and the validation 
+dataset together, both the errors decrease with a number of iterations until the point where 
+the model starts to overfit.
+After this point, the training error still decreases but the validation error increases. 
+So, even if training is continued after this point, early stopping essentially returns the set of
+parameters which were used at this point and so is equivalent to stopping training at that point.
+So, the final parameters returned will enable the model to have low variance and 
+better generalization. 
+The model at the time the training is stopped will have a better generalization performance than
+the model with the least training error. 
+Early stopping can be thought of as implicit regularization, contrary to regularization via 
+weight decay. 
+This method is also efficient since it requires less amount of training data,
+which is not always available. Due to this fact, early stopping requires lesser time for training 
+compared to other regularization methods. 
+Repeating the early stopping process many times may result in the model overfitting the
+validation dataset, just as similar as overfitting occurs in the case of training data.
+
+The number of iterations taken to train the model can be considered as a hyperparameter.
+Then the model has to find an optimum value for this hyperparameter(by hyperparameter 
+tuning)for the best performance of the learning model.
+
+
 %----------------------------------------------------------------------------------------------------
 \subsection{$\ell$ regularization}
 A regression model that uses L1 regularization technique is called Lasso Regression and model i
