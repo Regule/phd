@@ -750,3 +750,41 @@ one epoch measurement. Geometric information could be obtained from equation mod
 PDOP which indicates the quality of the solution with respect to satellite geometry. Bad satellite
 distribution give large PDOP. Due to un-modeled errors in pseudo range such as ionosphere,
 troposphere, and orbital errors, the accuracy level of absolute positioning is within 10 meter.
+
+%--------------------------------------------------------------------------------------------------
+\subsection{Observable difference}
+By considering all the systematic and random errors on the observation, we can write the math
+model for observable difference for code and phase measurements, respectively, as below:
+\begin{equation}
+	\label{equ:diff_r}
+	R^{1}_{A}(t_{0}) = \rho^{1}_{A}(t_{0})+\Delta \rho^{1}_{A}(t_{0}) + c \delta^{1}(t_{0})-
+	c\delta_{A}(t_{0}) + I_{A} + T_{A} + \varepsilon,
+\end{equation}
+
+\begin{equation}
+	\label{equ:diff_lambda}
+	\lambda \phi^{1}_{A}(t_{0}) = \rho^{1}_{A}(t_{0}) + \Delta \rho^{1}_{A}(t_{0}) 
+	+ \lambda N^{1}_{A} + c \delta^{1}(t_{0}) - c \delta_{A}(t_0) - I_{A} + T_{A} + \varepsilon,
+\end{equation}
+where $\Delta \rho_{R}^{S}$ is the orbital error, $I$ is the ionosphere error, $T$ is the
+troposphere error and $\varepsilon$ represents other types of noise and errors such as the
+ones due to multipath.
+
+Using two receivers A and B and satellite (1), we can perform Single Differences (SD). In SD
+the orbital error and satellite clock error are cancelled.
+By using two receivers and two satellites (1, 2), we can perform Double Differences (DD).
+In DD the clock receiver error is cancelled. By using two receivers, two satellites and two 
+consequent epochs, we can perform Triple Differences (TD). In TD the ambiguity is cancelled.
+\begin{equation}
+	\label{equ:cancellation}
+	\begin{aligned}[c]
+		SD = \lambda \phi_{AB}^{1}(t) = \lambda \phi_{B}^{1}(t)-\lambda \phi_{A}^{1}(t) =
+		\rho^{1}_{AB}(t) + \lambda N^{1}_{AB}- c\delta_{AB}(t_{0}),\\
+		DD = \phi_{AB}^{12}(t) = \frac{1}{\lambda}\rho^{12}_{AB}(t) + N^{12}_{AB},\\
+		TD = \phi_{AB}^{12}(t_{12}) = \frac{1}{\lambda}\rho^{12}_{AB}(t_{12}
+	\end{aligned}
+\end{equation}
+As we see, most of systematic errors are cancelled or reduced with using the observable
+differences. Consequently, the accuracy of position computation will be improved after
+eliminating or reducing of these biases. Solution obtained in DD with ambiguity can provide a
+precision to the centimeteric level.
