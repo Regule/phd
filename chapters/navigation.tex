@@ -1,5 +1,5 @@
 %==================================================================================================
-\chapter{Beacon based navigation in robotics}
+\chapter{Robot localization}
 
 %--------------------------------------------------------------------------------------------------
 \section{Baisc concepts in robot localisation}
@@ -554,4 +554,45 @@ other GNSS systems can offer much improved performance for all kinds of users wo
 GALILEO is expected to be in operation by the year 2008. The first satellite of Galileo system
 (GIOVE A) has already been lunched in 27 th December 2005.
 
-
+%--------------------------------------------------------------------------------------------------
+\subsection{Code and phase pseudorange measurements}
+Code correlation technique is used to measure the time difference between the received and
+generated replica code. The range could be formulated as follows:
+\begin{equation}
+	\label{equ:range}
+	R_{R}^{S} = c [(t_{R(GNSS)}-\delta_{R})-( t_{S(GNSS)}-\delta_{S})],
+\end{equation}
+where $\delta_{S}$ is the satellite clock offset  and $\delta_{R}$ is the receiver clock offset.
+A high stability atomic clock is generally used on board of the satellite, so $\delta_{S}$ is 
+small and could be modeled by a polynomial with the coefficients being transmitted in the 
+navigation message. However, the receiver clock offset $\delta_{R}$ is large and is treated as
+ unknown to be estimated in the function:
+\begin{equation}
+	\label{equ:reciever_error}
+	R_{R}^{S} = c \Delta t_{GNSS} + c( \delta_{S} - \delta_{R}) = \rho + c  \Delta \delta,
+\end{equation}
+where $\rho$ is the true distance between satellite and receiver and its expressed by the vector in
+reference geocentric coordinate system as:
+\begin{equation}
+	\label{equ:distance_geocentric}
+	\rho = \sqrt{(X_{S}-X_{R})^{2}+(Y_{S}-Y_{R})^{2}+(Z_{S}-Z_{R})^{2}}.
+\end{equation}
+Phase pseudo range is based on the measurements of phase difference between the received and
+generated signal $\varphi \theta_{R}^{S}$ at the receiver. The received carrier is
+Doppler shifted due to the motion of satellite (Hofmann-Wellenhof et al., 2001).
+In order to calculate the range using phase measurement, we have to add to $\varphi \theta_{R}^{S}$ 
+the number of cycles between the satellite and the receiver, which is an ambiguous value and is
+often called ambiguity (N). By considering the initial phase errors of the satellite and receiver
+due to their clocks, the mathematical model of phase pseudo range can be expressed by:
+\begin{equation}
+	\label{equ:phase_pseudorange}
+\delta \varphi_{R}^{S}+N = -\frac{f}{c}\rho = f\delta_{S} + f\delta{R}.
+\end{equation}
+If we rearrange the above equation and use $\Phi = -\delta \phi_{R}^{s}$ and 
+$\Delta \delta = \delta_{S} - \delta_{R}$ , the it becomes similar to the code pseudo range
+equation, but with the additional the ambiguity value $(N)$:
+\begin{equation}
+	\label{equ:phase_pseudorange2}
+	\lambda \Phi = \rho + c \Delta \delta + \lambda  N,
+\end{equation}
+where $\lambda$ is the wave length.
