@@ -670,3 +670,87 @@ equation, but with the additional the ambiguity value $(N)$:
 	\lambda \Phi = \rho + c \Delta \delta + \lambda  N,
 \end{equation}
 where $\lambda$ is the wave length.
+
+%--------------------------------------------------------------------------------------------------
+\subsection{GNSS observable errors}
+The code and phase measurements are affected by noise and errors due to the propagation of
+signals through atmospheric layers and due to the noise measurements. These errors can
+described briefly as below:
+
+Satellite clock error: This can be modeled by the polynomial coefficients transmitted in the
+navigation message with respect to a reference time (e.g. GPS).
+\begin{equation}
+	\label{equ:sat_clock_error}
+	\delta S = a_{0} + a_{1}(t-t_{0}) + a_{2}(t- t_{0} )^{2}.
+\end{equation}
+
+Orbital error: This can be eliminated by differential positioning. Precise orbits could be
+obtained in near real time via Internet from the services centers such as International GNSS
+Service (IGS).
+
+Ionospheric error: This error is modeled or eliminated by using the linear combination of two
+or multiple frequencies (Julien et al., 2004b). The relation between the ionospheric effect on the
+future GNSS (L5, L2 and L1 for GPS; E5a, E5b and E1 for GALILEO) using the triple
+frequency could be written as follows:
+\begin{equation}
+	\label{equ:ionospheric_error}
+	\begin{aligned}[c]
+		\lambda_{1}
+
+		\lambda_{1} \Phi_{1} = \rho + c \Delta \delta + \lambda_{1} N - I_{L1},\\
+		
+		\lambda_{2}\Phi_{2} = \rho + c \Delta \delta + \lambda_{2} N - 
+		\frac{f_{1}^{2}}{f_{2}^{2}}I_{L1},\\
+		
+		\lambda_{3}\Phi_{3} = \rho + c \Delta \delta + \lambda_{3} N - 
+		\frac{f_{1}^{2}}{f_{3}^{2}}I_{L1},
+	\end{aligned}
+\end{equation}
+where $Ionosphere = I_{L1}$.
+The effect of ionosphere on GNSS measurement is of special interest in solving the ambiguity
+number N (Liu and Lachapelle, 2002). Having multiple frequency can give more advantages for
+ionosphere models to estimate the first and second order effect of the ionosphere. Moreover, it
+allows more possibilities in ambiguity resolution process (Zhang, et al., 2003). Ionosphere could
+also be modeled using the ionospheric coefficient transmitted by the navigation message.
+
+The troposphere: This consists of two layers: Wet layer (up to 10 km above the surface of
+ground), and dry layer from 10 to 40 km above the ground. Troposphere causes a delay in both
+the code and carrier observations. Since it is not frequency dependent, it cannot be canceled out
+by using dual frequency measurements but it can, however, be successfully modeled.
+Tropospheric models depend on empirical models by considering all values of temperature,
+pressure, relative humidity and mapping function. Examples of such models are the Hopfield,
+and Saastamoninen models.
+
+Receiver clock error: This is due to using non-precise clock in the receiver (e.g. quartz clock),
+which causes offset and drift in the receiver clock and GNSS reference time. This error is treated
+as unknown in the pseudo range computations. The clock receiver error could be eliminated in
+double difference equation as shown in the follow section.
+
+Multipath: This is caused by multiple reflections of the signals at the receiver or at the satellite
+due to multiple paths taken by the signal to arrive to the destination. The best way to reduce
+multipath phenomenon is to choose the site away from reflection surface (such as buildings, cars,
+trees, etc), and by appropriate antenna design. Carrier phase are less affected by multipath
+propagation than code ranges, because multipath is frequency dependent. The multipath error
+could reach to a one meter level. The elimination of multipath is possible by selecting an antenna
+that takes advantages of the signal polarization.
+
+%--------------------------------------------------------------------------------------------------
+\subsection{Single Point Positioning}
+The basic concept of point position depends on the trilatration between the receiver and satellite.
+Range measurements from 4 satellites is needed to determine the four unknown $X, Y, Z$ and
+receiver clock offset $\Delta \delta$. The analytical solution for receiver A and 4 
+satellites could be written as below :
+\begin{equation}
+	\label{equ:single_point}
+	R_{A}^{1} = \sqrt{(X^{1}(t)-X_{A})^{2}+(Y^{1}(t)-Y_{A})^{2}+(Z^{1}(t)-Z_{A})^{2}}.
+\end{equation}
+Generally, linearization respect to approximate position of the receiver is needed to resolve such
+model, where the range R is measured by the receiver and the coordinate of satellite is extracted
+from the navigation message. The unknowns in the above equation are $X, Y, Z$ and the clock
+error $\Delta \delta$ . In case of observing more than 4 satellites, the least square adjustment
+is performed  to estimate the unknowns.
+Hence, coordinates of the receiver and time offset could be obtained directly in real time with
+one epoch measurement. Geometric information could be obtained from equation model as
+PDOP which indicates the quality of the solution with respect to satellite geometry. Bad satellite
+distribution give large PDOP. Due to un-modeled errors in pseudo range such as ionosphere,
+troposphere, and orbital errors, the accuracy level of absolute positioning is within 10 meter.
