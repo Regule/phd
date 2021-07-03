@@ -284,6 +284,55 @@ graphics is possible. A graphical solution is sometimes employed during real-tim
 as an overlay on a map. 
 
 %--------------------------------------------------------------------------------------------------
+\subsection{Three Cartesian dimensions, three measured slant ranges}
+There are multiple algorithms that solve the 3-D Cartesian true range 
+multilateration problem directly (i.e., in closed-form) – e.g., Fang.
+ Moreover, one can adopt closed-form algorithms developed for pseudo range multilateration.
+ Bancroft's algorithm (adapted) employs vectors, which is an advantage in some situations. 
+\begin{figure}[htb] 
+	\label{fig:three_beacon_local}
+	\centering
+	\includegraphics[width=0.5\textwidth]{figures/three_beacon_local}
+	\caption{3-D True Range Multilateration Scenario}
+\end{figure}
+The simplest algorithm corresponds to the sphere centers in Fig. 2. The figure 'page' is the
+plane containing C1, C2 and C3. If P is a 'point of interest' (e.g., vehicle) at $(x,y,z)$,
+then Pythagoras's theorem yields the slant ranges between P and the sphere centers: 
+\begin{equation}
+	\label{equ:three_point_pyt}
+	\begin{aligned}[t]
+		r_{1}^{2}=x^{2}+y^{2}+z^{2},\\
+		r_{2}^{2}=(x-U)^{2}+y^{2}+z^{2},\\
+		r_{2}^{2}=(x-V_{x})^{2}+(y-V_{y})^{2}+z^{2},\\
+	\end{aligned}
+\end{equation}
+whit assumption that $V^{2} = V_{x}^{2} + V_{y}^{2}$ a following result can be obtained:
+\begin{equation}
+	\label{equ:three_point_pyt}
+	\begin{aligned}[c]
+		x = \frac{r_{1}^{2}-r_{2}^{2}+U^{2}}{2U},\\
+		y = \frac{r_{1}^{2}-r_{3}^{2}+V^{2}-2V_{x}x}{2v_{y}},\\
+		z = \pm \sqrt{r_1{1}^{2}-x^{2}-y^{2}}.
+	\end{aligned}
+\end{equation}
+The plane containing the sphere centers is a plane of symmetry.
+The correct and ambiguous solutions are perpendicular to it and equally distant from it, 
+on opposite sides.
+Many applications of 3-D true range multilateration involve short ranges—e.g.,
+precision manufacturing.
+Integrating range measurement from three or more radars (e.g., FAA's ERAM) is a 3-D aircraft
+surveillance application. 3-D true range multilateration has been used on an experimental 
+basis with GPS satellites for aircraft navigation.
+The requirement that an aircraft be equipped with an atomic clock precludes its general use.
+However, GPS receiver clock aiding is an area of active research, including aiding over 
+a network.
+Thus, conclusions may change. 3-D true range multilateration was evaluated by the 
+International Civil Aviation Organization as an aircraft landing system, but another technique was
+found to be more efficient.
+Accurately measuring the altitude of aircraft during approach and landing requires many
+ground stations along the flight path. 
+
+%--------------------------------------------------------------------------------------------------
 \section{Global navigation satellite systems}
 
 
