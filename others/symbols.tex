@@ -4,13 +4,57 @@
 
 \begin{symbols}{lll} % Include a list of Symbols (a three column table)
 
-$a$ & distance & \si{\meter} \\
-$P$ & power & \si{\watt} (\si{\joule\per\second}) \\
-%Symbol & Name & Unit \\
+	\addlinespace 
+	\multicolumn{3}{c}{\textbf{operators}}\\
+	$+$ & Element wise or scalar addition & \\
+	$-$ & Element wise or scalar substraction& \\
+	$\cdot$ & Scalar multiplication& \\
+	$\times$ & Matrix multiplication& \\
+	$\otimes$ & Hadamard (element wise) multiplication& \\
+	$\oslash$ & Hadamard (element wise) division& \\
+	$\Vert x \Vert_{k}$ & k-norm of x& \\
+	$\nabla$& Gradient&\\
 
-\addlinespace % Gap to separate the Roman symbols from the Greek
-
-$\omega$ & angular frequency & \si{\radian} \\
+	\addlinespace 
+	\multicolumn{3}{c}{\textbf{sets}}\\
+	$\mathcal{U}$ & A generic space & \\
+	$\mathcal{U}_{OBS}$ & Observation space& \\
+	$\mathcal{U}_{RES}$ & Response space& \\
+	$\mathcal{U}_{i}$ & Encoding space space where $i \in \mathbb{N}^{+}$& \\
+	$\mathcal{X}_{a}$ & Set containing observations available for system $a$& \\
+	$\mathcal{Y}_{a}$ & Set containing responses of system $a$& \\
+	$\Theta$ & Parameter set for algorithms & \\
+	
+	\addlinespace 
+	\multicolumn{3}{c}{\textbf{numerical variables}}\\
+	$x$ & Observation vector (single observation)& \\
+	$c$ & Number of features in observation& \\
+	$x_{i}$ & Single feature where $i \in \mathbb{N} \land i \in <1,c>$& \\
+	$x_{NAME}$ & Name feature feature where NAME is readable description of feature&\\ 
+	$X$ & Observation matrix & \\
+	$s$ & Number of observations & \\
+	$x^{(i)}$ & Single observation where $i \in \mathbb{N} \land i \in <1,s>$& \\
+	$y$ & Expected system response & \\
+	$\hat{y}$ & Actual system response, in case of predictiors it is reffered to as a 
+	prediction& \\
+	$t$& Time understood as a independent discrete variable& \\
+	$T$& Time understood as a clock readout& \\
+	$T_{REF}$& Time returned by a reference clock& \\
+	$T_{GPS}$& GPS time& \\
+	
+	\addlinespace 
+	\multicolumn{3}{c}{\textbf{functions}}\\
+	$f(x)$ & a generic numerical function & \\
+	$f_{DIST}(x)$ & a generic distance (metric) function& \\
+	$f_{MSE}(x)$ & Mean Squared Error& \\
+	$f_{RMSE}(x)$ & Root Mean Squared Error& \\
+	$f_{MAE}(x)$ & Mean Avarage Error& \\
+	$\phi$ & A generic set transformation function& \\
+	$\phi_{RES}$ & Function that transforms observation or encoding space into reponse space& \\
+	$\phi_{ENC}$ & Function that transforms observation from descriptive into vector
+	representation& \\
+	$h_{\Theta}(x)$ & Hypothesis function, it returns system response for given observation& \\
+	$\ell(x)$& l-norm of x&\\
 
 \end{symbols}
 
