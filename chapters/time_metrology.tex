@@ -310,10 +310,78 @@ and digital tone generators, among others. We will review some of them in the fo
 %----------------------------------------------------------------------------------------------------
 \subsection{Fourier transform}
 \FloatBarrier
+In the time domain, representation of digital signals describes the signal amplitude versus the 
+sampling time instant or the sample number. However, in some applications, signal frequency content
+is very useful in ways other than as digital signal samples.
+The representation of the digital signal in terms of its frequency component in a frequency domain,
+that is, the signal spectrum, needs to be developed. As an example, Figure 4.1 illustrates the time
+domain representation of a 1,000-Hz sinusoid with 32 samples at a sampling rate of 8,000 Hz;
+the bottom plot shows the signal spectrum (frequency domain representation), where we can clearly
+observe that the amplitude peak is located at the frequency of 1,000 Hz in the calculated spectrum.
+Hence, the spectral plot better displays the frequency information of a digital signal.
+The algorithm transforming the time domain signal samples to the frequency domain components
+is known as the discrete Fourier transform, or DFT. The DFT also establishes a relationship between
+the time domain representation and the frequency domain representation. Therefore, we can apply the
+DFT to perform frequency analysis of a time domain sequence. In addition, the DFT is widely used in
+many other areas, including spectral analysis, acoustics, imaging/video, audio, instrumentation,
+and communications systems.
+To be able to develop the DFT and understand how to use it, we first study the spectrum of periodic
+digital signals using the Fourier series.
+According to Fourier
+theory, a periodic signal can be represented by a Fourier series that contains the sum of a series
+of sine and/or cosine functions (harmonics) plus a direct current (DC) term. 
+There are three forms of Fourier series:
+\begin{enumerate}
+	\item sine-cosine,
+	\item amplitude-phase,
+	\item complex exponential.
+\end{enumerate}
+
 %----------------------------------------------------------------------------------------------------
 \subsection{Wavelet transform}
 \FloatBarrier
-
+It is well known from Fourier theory that a signal can be expressed as the sum of a,
+possibly infinite, series of sinesand cosines. 
+This sum is also referred to as a Fourier transform. The big disadvantage of a Fourier transform
+however is that it has only frequency resolution and no time resolution. 
+This means that although we might be able to determine all the frequencies present in a signal, 
+we do not know when they are present. 
+To overcome this problemin the past decades several solutions have been developed which are more 
+or less able to represent a signal in thetime and frequency domain at the same time.
+The idea behind these time-frequency joint representations is to cut the signal of interest into
+several parts and thenanalyze the parts separately.
+It is clear that analyzing a signal this way will give more information about the whenand where of
+different frequency components, but it leads to a fundamental problem as well: how to cut the
+signal?
+Suppose that we want to know exactly all the frequency components present at a certain moment in 
+time. We cut outonly this very short time window using a Dirac pulse1, transform it to the
+frequency domain and ... something is very wrong.
+The problem here is that cutting the signal corresponds to a convolution between the signal and
+the cutting window.Since convolution in the time domain is identical to multiplication in the 
+frequency domain and since the Fouriertransform of a Dirac pulse contains all possible frequencies
+the frequency components of the signal will be smearedout all over the frequency axis.
+In fact this situation is the opposite of the standard Fourier transform since we nowhave time
+resolution but no frequency resolution whatsoever.
+The underlying principle of the phenomena just described is Heisenberg’s uncertainty principle, 
+which, in signal processing terms, states that it is impossible to know the exact frequency and
+the exact time of occurrence of this frequency in a signal.
+In other words, a signal can simply not be represented as a point in the time-frequency space.
+The uncertainty principle shows that it is very important how one cuts the signal.
+The wavelet transform or wavelet analysis is probably the most recent solution to overcome 
+the shortcomings of theFourier transform. In wavelet analysis the use of a fully scalable
+modulated window solves the signal-cuttingproblem.
+The window is shifted along the signal and for every position the spectrum is calculated.
+Then this processis repeated many times with a slightly shorter (or longer) window for 
+every new cycle.
+In the end the result will be acollection of time-frequency representations of the signal, 
+all with different resolutions. Because of this collection ofrepresentations we can speak of a
+multiresolution analysis. 
+In the case of wavelets we normally do not speak about time-frequency representations but about
+time-scale representations, scale being in a way the opposite of frequency,
+because the term frequency is reserved for the Fourier transform.Since from literature it is not 
+always clear what is meant by small and large scales,
+I will define it here as follows: the large scale is the big picture, while the small scales show 
+the details. Thus, going from large scale to small scaleis in this context equal to zooming in.
 
 %====================================================================================================
 \section{Mathematical clock model}
