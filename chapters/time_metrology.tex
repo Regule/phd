@@ -21,6 +21,7 @@ Analysis is suggested as reading.
 %====================================================================================================
 \section{Physical clock implementation}
 \label{sec:physical_clock}
+\FloatBarrier
 Measuring time provides specific challenges that are not present in other branches of 
 metrology. Main issue is that it is impossible to create a physical representation of time 
 itself which is problematic as measurements are done by comparing measured value to reference.
@@ -29,6 +30,7 @@ For example
 %----------------------------------------------------------------------------------------------------
 \subsection{Electric frequency sources}
 \label{sec:electronic_frequency}
+\FloatBarrier
 In all modern time measurement applications frequency source must produce electrical, current or
 voltage based, signal. This is because most of precise signal processing and recording is done
 in form of either analog or digital circuit.
@@ -141,6 +143,7 @@ which means that voltage on capacitor in such circuit can be described as a func
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Quartz oscillators}
+\FloatBarrier
 While circuits described is \ref{sec:electronic_frequency} provide some form of frequency sources
 their precision is to low for practical use in timekeeping. 
 That is why another source had to be found and in 1920 first quartz oscillator was created.
@@ -213,6 +216,7 @@ Aging occurs at a relatively constant rate per decade for each crystal.
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Principles of atomic clock design}
+\FloatBarrier
 Atomic clock are clocks in which timekeeping mechanism is based on the interaction of 
 electromagnetic radiation with the excited states of atoms.
 Specifically a hyperfine transition is used as a frequency standard for the timekeeping element.
@@ -237,16 +241,78 @@ additional system is used to tune said oscillator to cesium based reference.
 
 %====================================================================================================
 \section{Signal processing}
+\FloatBarrier
+Digital signal processing (DSP) technology and its advancements have dramatically impacted our
+modern society everywhere. Without DSP, we would not have digital/Internet audio and video;
+digital recording; CD, DVD, and MP3 players; iPhone and iPad; digital cameras;
+digital and cellular telephones; digital satellite and TV; or wired and wireless networks.
+Medical instruments would be less efficient or unable to provide useful information for precise
+diagnoses if there were no digital electrocardiography (ECG) analyzers, digital X-rays, and 
+medical image systems. We would also live in many less efficient ways, since we would not be
+equipped with voice recognition systems, speech synthesis systems, and image and video editing 
+systems. Without DSP, scientists, engineers, and technologists would have no powerful tools to
+analyze and visualize the data necessary for their designs, and so on.
 %----------------------------------------------------------------------------------------------------
 \subsection{Basic concepts}
+\FloatBarrier
+The basic concept of DSP is illustrated by the simplified block diagram in Figure 1.1, which
+consists of an analog filter, an analog-to-digital conversion (ADC) unit, a digital signal 
+(DS) processor, a digital-to-analog conversion (DAC) unit, and a reconstruction (anti-image) 
+filter.
+\begin{figure}[htb] 
+	\label{fig:signal_proc}
+	\centering
+	\includegraphics[width=\textwidth]{figures/signal_proc}
+	\caption{A typical signal processing system}
+\end{figure}
+
+As shown in the diagram, the analog input signal, which is continuous in time and amplitude, is
+generally encountered in the world around us. Examples of such analog signals include current,
+voltage, temperature, pressure, and light intensity. Usually a transducer (sensor) is used to
+convert the nonelectrical signal to the analog electrical signal (voltage). 
+This analog signal is fed to an analog filter, which is applied to limit the frequency range of 
+analog signals prior to the sampling process. The purpose of filtering is to significantly
+attenuate aliasing distortion, which will be explained in the next chapter.
+The band-limited signal at the output of the analog filter is then sampled and converted via the
+ADC unit into the digital signal, which is discrete both in time and in amplitude. The DS processor
+then accepts the digital signal and processes the digital data according to DSP rules such as 
+lowpass, highpass, and bandpass digital filtering, or other algorithms for different applications. 
+Notice that the DS processor unit is a special type of digital computer and can be a 
+general-purpose digital computer, a microprocessor, or an advanced microcontroller; furthermore, 
+DSP rules can be implemented using software in general.
+With the DS processor and corresponding software, a processed digital output signal is gener-
+ated. This signal behaves in a manner according to the specific algorithm used. The next block in
+Figure 1.1, the DAC unit, converts the processed digital signal to an analog output signal. 
+As shown, the signal is continuous in time and discrete in amplitude (usually a sample-and-hold 
+signal. The final block in FIGURE ? is designated as a function to smooth the DAC
+output voltage levels back to the analog signal via a reconstruction (anti-image) filter for 
+real-world applications.
+In general, the analog signal process does not require software, an algorithm, ADC, and DAC. The
+processing relies wholly on the electrical and electronic devices such as resistors, capacitors,
+transistors, operational amplifiers, and integrated circuits (ICs).
+DSP systems, on the other hand, use software, digital processing, and algorithms; thus they have
+a great deal of flexibility, less noise interference, and no signal distortion in various
+applications.
+However, as shown in Figure 1.1, DSP systems still require minimum analog processing such as the
+anti-aliasing and reconstruction filters, which are musts for converting real-world 
+information into digital form and digital signals back into real-world information.
+Note that there are many real-world DSP applications that do not require DAC, such as data
+acquisition and digital information display, speech recognition, data encoding, and so on.
+Similarly, DSP applications that need no ADC include CD players, text-to-speech synthesis,
+and digital tone generators, among others. We will review some of them in the following sections.
+
 %----------------------------------------------------------------------------------------------------
 \subsection{Deterministic signals}
+\FloatBarrier
 %----------------------------------------------------------------------------------------------------
 \subsection{Stochastic signals}
+\FloatBarrier
 %----------------------------------------------------------------------------------------------------
 \subsection{Fourier transform}
+\FloatBarrier
 %----------------------------------------------------------------------------------------------------
 \subsection{Wavelet transform}
+\FloatBarrier
 
 
 %====================================================================================================
