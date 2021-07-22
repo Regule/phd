@@ -1,0 +1,774 @@
+\documentclass{article}
+%the class kybernetika includes these packages:
+% graphicx, amssymb, amsmath
+
+%DEBUG ONLY
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{layouts}
+\usepackage{placeins}
+\usepackage{float}
+
+%--------------------------------------------------------------------------------------------------
+% used environment for theorems:
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{observation}[theorem]{Observation}
+
+\hyphenpenalty 10000
+\exhyphenpenalty 10000
+\renewcommand{\floatpagefraction}{.8}%
+
+\begin{document}
+
+%\topfraction
+%==================================================================================================
+% TITLE PAGE 
+%==================================================================================================
+\pagestyle{myheadings}
+\title{Application of Long Short Term Memory \\  neural  networks for GPS satellite \\ clock 
+bias prediction}
+
+\author{ }
+\author{Piotr Gny\'{s}$^1$ \and Pawe\l{} Przestrzelski$^2$}
+\date{%
+    $^1$pgnys@pjwstk.edu.pl Department of Computer Science,  Polish-Japanese Academy of 
+	Information Technology, Koszykowa 86 Street, 02-008 Warsaw\\%
+    $^2$pprzestrzelski@pjwstk.edu.pl Department of Computer Science,  Polish-Japanese Academy of 
+	Information Technology, Koszykowa 86 Street, 02-008 Warsaw\\%
+}
+
+
+\maketitle
+
+\begin{abstract}
+Satellite based localisation systems like GPS or Galileo are one of most commonly used tools
+in outdoors navigation. While for most application, like car navigation or hiking, level of
+precision provided by commercial solutions is satisfactory it is not always a case for mobile
+robots. In case of long time autonomy and robots that operate in remote areas battery usage
+and access to synchronization data becomes a problem. In this paper a solution providing a 
+real-time on-board clock synchronization is presented. Results achieved are better than current
+state of the art solution in real time clock bias prediction for most satellites.
+\end{abstract}
+
+
+
+%==================================================================================================
+\section{Introduction}
+Aim of research presented in this paper is to develop an algorithm that will predict bias of
+GPS satellites on board atomic clock ensembles bias. Algorithm must be applicable in an 
+environment with low computation power available and where battery charge is a highly limited
+resource.
+
+%--------------------------------------------------------------------------------------------------
+\subsection{Motivation}
+During development of an autonomic marine agent one of problems that had to be solved was 
+precise navigation. As robot task is to measure quality of water in lakes and small streams
+it is expected that it will operate for long time periods in regions where services like 
+cellular network may not be available. Additionally a future plans are to develop a model that
+will be able to operate on open sea and navigation issues that robots face in such conditions
+are even more restrictive on algorithms \cite{Cabrera2014}. 
+With that said main localization technique implemented
+will be Global Positioning System which in turn bought issue of limited precision of civilian
+variant of GPS as well as it requirement for synchronization with time reference.
+For that reason it was decided that there is a need for a on board clock bias prediction to limit
+requirement for synchronization.
+
+%--------------------------------------------------------------------------------------------------
+\subsection{Contribution}
+In following paper a new approach for GPS clock bias prediction based on a Long Short Term Memory
+neural networks is presented. For 20 out of 29 satellites that were analysed in this work 
+prediction results were better than current state of the art and for 6 of them results were
+significantly better. Results of presented research can be used in a offline GPS receiver as 
+a alternative for IGU provided products.
+
+
+%==================================================================================================
+\FloatBarrier
+\section{Clock bias in GNSS}
+Due to the nature of Global Satellite Navigation Systems (GNSS) 
+precision time measurement is crucial for accurate localisation.
+In this section information a basic explanation of how GNSS services work will be presented
+as well as more in depth description of clock ensemble implementation and bias modeling.
+Current state of the art will be presented as well however no details about underlying 
+mathematical model will be shared as this is beyond scope of this paper.
+
+%---------------------------------------------------------------------------------------------------
+\subsection{Basics of satellite based localization systems}
+All GNSS are variant of beacon based localization
+systems\cite{Blewitt1997}.Such systems require information about beacon position
+and distance between localized object and beacons.
+With that information it is possible to calculate position of object in same reference
+frame as that of beacons.
+Both of those tasks are much more difficult in GNSS due to a nature of the beacons.
+Unlike in case of a stationary beacons GNSS satellites move with high speed so
+their position must be calculated based on satellite ephemeris\cite{Vallado2008}.
+Another problem is distance measurement which without specialised equipment must be
+done with time of arrival (ToA) instead of angle of arrival (AoA) or
+received signal strength (RSS) \cite{Doberstein2012}.
+When measuring distance by ToA  3 properties of a signal must be known:
+\begin{itemize}
+\item $t_o$ time of origination,
+\item $t_a$ time of arrival,
+\item $v$ velocity.
+\end{itemize}
+In case of GNSS system signal is a electromagnetic wave therefore its speed is equal
+to speed of light $c\approx 3 \cdot 10^{9} m/s$. Time of arrival is recoded when
+data frame wave front reaches receiver, this means that receiver time is used.
+Origination time is recorded on satellite according to it local clock and
+included in data frame. Thanks to that distance can be calculated by following 
+equation:
+\begin{equation}
+  d=c\cdot (t_a-t_o),
+\end{equation}
+However $t_a$ and $t_o$ are using different reference frames so for comparison
+to be possible they must be transformed into a common reference frame.
+This is referred to as a synchronisation of the clocks and is very important as
+a de synchronisation on level of single nanosecond results in about 30 cm of
+positioning error\cite{Enge2011}.
+
+%--------------------------------------------------------------------------------------------------
+\subsection{Clock modelling}
+Clocks are devices that provide a reference time by measuring repetition of periodic 
+process. One of most well known examples of such a process is a pendulum and even before
+mechanical clocks humans used rotation of earth and resulting sun procession on sky.
+Those methods however do not provide precise enough measurements for beacon based localization,
+that is why in case of GPS an atomic clock ensembles are used.
+In case of this research a discreet clock model is used where clock readout is described as 
+\begin{equation}
+	t_{c}(i) = t_{r}(i) + b(i),
+\end{equation}
+where $t_{c}$ refers to time measured by the analysed clock, $t_{r}$ is time given by a 
+reference clock which we assume to give perfect readouts and $b$ is clock bias.
+Each of those values are indexed by measurement $i$ and in ortder to correct clock readouts
+a value of bias for each step must be predicted.
+There are many approaches for modeling bias however this is beyond scope of this article
+as method used here relies on adjusting arbitrary model to fit already recoded bias data.
+More information about knowledge driven bias modeling can be found in literature related to
+frequency stability analysis \cite{Riley2007}.
+
+%--------------------------------------------------------------------------------------------------
+\subsection{IGU products}
+The most widely used source of precise clock corrections are products provided 
+by International GNSS Service (IGS) \cite{Kouba2009}.
+\begin{table}[htb] 
+	\centering
+	\caption{Variants of IGS products}
+	\label{tab:igs_products}
+	\begin{tabular*}{\textwidth}{*{5}{l}}
+		\hline
+		\hline
+		Type& Accuracy& Latency& Update& Sample \\
+		&&&&interval\\
+		\hline
+		Broadcaster & 5ns & real time & -- & daily  \\
+		Ultra rapid -- predicted & 3ns & real time & at 03, 09, 15, 21 UTC & 15 min  \\
+		Ultra rapid -- observed & 150ps & 3-9 hours & at 03, 09, 15, 21 UTC & 15 min  \\
+		Rapid & 75ps & 17-41 hours & at 17 UTC daily & 5 min \\
+		Final & 75ps & 12-18 days & every Thursday & 30 s \\
+		\hline
+		\hline
+	\end{tabular*}
+\end{table}
+Values shown in Table \ref{tab:igs_products} refer to satellite clock bias only,  IGS products
+provide other information which full description  is available at online repository. 
+IGS products can be easily divided into two categories:
+\begin{itemize}
+	\item real time consisting of transmitted and ultra rapid predicted half,
+	\item high latency consisting of ultra rapid observed half as well as rapid and final products.
+\end{itemize}
+Solutions that have high latency are not usable in real-time navigation and as such will not be
+considered in this work. Ultra-rapid observed will be used as a source of
+reference time so that if a bias prediction error is equal to zero it means that is
+the same as provided by ultra-rapid observed.
+As can be seen in Table \ref{tab:igs_products} all real-time solutions provide precision 
+at a range of nanoseconds, aim of this work is to show that LSTM networks can provide 
+better results than those solutions while still working at real-time response latency.
+
+%--------------------------------------------------------------------------------------------------
+\subsection{Data source}
+This work focuses only on GPS satellites which are divided into following blocks:
+I, II, IIA, IIR ,IIR-M ,IIF, III.
+Blocks I and II were fully retired before research described in that paper began and block
+III satellites were active for to short time to generate enough data.
+That is why those blocks were not used at all, on the other hand single satellite from block
+IIA was used in second phase of experiments however it was retired in mean time and a decision
+was made to not use it in next experiments and as such it is not listed in final satellite pool.
+This results in total of 30 satellite clocks analyzed with almost all of them are equipped 
+with Rubidium clock ensemble witch exception of two satellites from generation IIF 
+that use Cesium clocks instead.
+Each satellite have an assigned space vehicle number (SVN) and pseudo random noise (PRN).
+In this work a PRN will be used as a identifier as it is unique for every active satellite, 
+although it can be used again after said satellite gets retired, and ranges from 1 to 32.
+Association between satellite PRN, clock and block is shown in Table \ref{table:prn}
+\begin{table}[htb] \label{table:prn}
+\parindent0pt
+\caption{Bias prediction error in relation to regularization and dropout level}
+\centering
+\begin{tabular}{ l  c  c }
+  \hline
+  \hline
+  Generation& clock type& satellites\\  \hline
+  IIA & Rb& 18\\  
+  IIR & Rb& 2 11 13 14 16 19 20 21 22 23 28\\ 
+  IIR-M & Rb& 5 7 12 15 17 29\\ 
+  IIF & Rb& 1 3 6 9 10 25 26 27 30 32\\ 
+  IIF & Cs& 8 24 \\ \hline \hline
+ \end{tabular}
+\end{table}
+For satellites with rubidium based clock ensembles bias have a very distinct constant drift
+that makes data appear linear, it can be seen for satellites 01 and 08. 
+On the other hand in case of cesium based clock ensembles for which constant drift is much 
+smaller other sources of bias are visible, like seen for satellite 24.
+There is also a single satellite for which, during observed period, constant drift was almost
+not present. This was satellite 14 and while no official source of information describes this 
+behaviour
+\begin{figure}[htb] 
+\centering
+\includegraphics[width=\textwidth]{figures/bias_raw}
+\caption{Raw clock bias}
+\label{fig:bias_raw}
+\end{figure}
+
+%--------------------------------------------------------------------------------------------------
+\subsection{Preprocessing}
+IGU provides raw clock bias, this poses two problems for approach used in this work.
+First one is that constant clock drift is such a major source of bias that it overshadows other
+sources as seen in Figure \ref{fig:bias_raw} in visualisation data seams to be linear.
+Second issue is non-stationary nature of series, this is a problem as neural networks work best
+fro stationary data with mean at 0 and values in between -1 and 1. To solve those problems firs
+series is Differentiated which returns data where other noises besides constant drift are visible as
+seen on Figure \ref{fig:diffed_bias}.
+\begin{figure}[H] 
+\centering
+\includegraphics[width=\textwidth]{figures/bias_diffed}
+\caption{Differentiated clock bias}
+\label{fig:diffed_bias}
+\end{figure}
+Constant drift is still present as shift at y axis, to remove it a mean shift must be performed.
+Finally data must be scaled so that there will be no values with absolute value above one. It is
+of course possible for future prediction inputs to have absolute value above one however this will
+not be a problem as network can deal with such inputs especially if they appear rarely in series.
+Another issue is whether to use same preprocessing for all satellites or should each of them 
+have their own parameters.
+Analyse of data on Figures \ref{fig:diffed_bias} and \ref{fig:diffed_shifts} shows that
+constant shift as well as value range for mean shifted data can vary radically between satellites.
+Because of that a separate preprocessing parameters are used for each satellite.
+
+\begin{figure}[htb] 
+\centering
+	\includegraphics[width=\textwidth]{figures/bias_normalized}
+\caption{Comparison of diffed clock bias}
+\label{fig:diffed_shifts}
+\end{figure}
+
+%==================================================================================================
+\FloatBarrier
+\section{Neural networks}
+Machine learning (ML) approaches based on a artificial neural networks (ANN) are
+well established as a efficient pattern detectors \cite{Abiodun2019}, \cite{Faraway2008},
+\cite{Khan2019}, \cite{Miller1993}.
+It has also been used in GNSS systems especially since advent of the deep learning
+algorithms \cite{Kim2019}, \cite{Perez2019}, \cite{Wei2016}.
+One of it uses is prediction of clock bias  \cite{Indriyatmoko2008}, \cite{Wang2017}.
+which as mentioned in previous section is an essential value in positioning calculations.
+
+%--------------------------------------------------------------------------------------------------
+\subsection{Overview}  
+Like all digital signal processing applications software neural networks operate in
+discreet time and discreet amplitude domain. This is the reason why a time series clock model
+was chosen. Basic model of neuron (neural layer) was created by McCullough and Pitts in 1943
+\cite{McCulloch1943}. This model described response of neural layer to multiple signals with
+equation $y= \chi (W\cdot x+b)$ where $y$ is response, $x$ input, $W$ weights and $b$ bias.
+Algorithm for automated adjustment of weights in relation to data was proposed in 1958
+While this model and its successors where inspired by a biological neuron there are much
+more simplified. One of those simplification is lack of time domain in model which means
+that response of a layer depends only on its current input.
+This is in contrast with biological networks that are sensitive not only for signal value
+but also for its changes over time.
+
+%--------------------------------------------------------------------------------------------------
+\subsection{Long Short Term Memory networks}
+Simple solution to problem of time independence is to concatenate response of neural layer
+from previous cycle to it input $x'(t)=[x(t)|y(t-1)]$.
+Such solution results in signal propagating trough time and influencing responses of future cycles,
+if this is only modification to feed forward model such layer is called simple recurrent
+unit (SRU).
+While this solution makes model time aware it have its own problems, mainly a signal vanishing
+issue. Since the input signal from cycle $n$ have direct influence only on a response of this
+cycle and for each subsequent cycles it is only trough feedback loop. Influence of input $n$ on
+response of cycle $n+k$ grows inverse proportional to $k$.
+This means that in this model only those regularities that appear over short time periods can
+be detected.
+Making weights on feedback bigger will not eliminate problem and instead replace it with signal
+explosion that causes response to reach maximum value if a strong signal appeared on input at
+least once.
+One of possible solutions to this issue is addition of long term memory which will regulate
+forward and loop back path influence on neuron response, such solution is used in long short
+term memory (LSTM) networks \cite{Hochreiter1997}.
+\begin{figure}[htb] 
+\centering
+	\includegraphics[width=\textwidth]{figures/lstm}
+\caption{LSTM layer}
+\label{fig:lstm}
+\end{figure}
+Single LSTM neuron consists of 4 basic neurons and two non neuron operations:
+\begin{itemize}
+\item $x'(t)=[x(t)|y(t-1)]$,
+\item $o_t=\sigma (W_o\cdot x'_t+b_o)$,
+\item $r_t=\sigma (W_r\cdot x'_t+b_r)$,
+\item $f_t=\sigma (W_f\cdot x'_t+b_f)$,
+\item $\bar{C}_t=\tanh (W_c\cdot x'_t+b_c)$,
+\item $C_t=f_t\circ C_{t-1}+r_t\circ \bar{C}_t$,
+\item $y_t=o_t\circ \tanh (C_t)$.
+\end{itemize}
+With $W$ and $b$ being weights and biases for each basic neuron, $x$ input, $y$ output and
+$C$ long term memory. As it can be seen $o_t$ is a equivalent of SRU and is moderated by
+long term memory before propagating as output. Temporary value of long term memory based
+only on current output $\bar{C}_t$ is calculated and then with help of neurons $r$ and $f$
+is transformed into its final value.
+Neuron $r$ is called remembering gate and influences to what degree temporary long term
+memory from given cycle effects its final value while $f$ is forgetting gate and
+decides influence of long term memory from last cycle on current one.
+Thanks to such implementation model can learn to detect long term regularities as well
+as short term ones.
+
+%--------------------------------------------------------------------------------------------------
+\subsection{Overfitting}  
+Overfitting takes place when estimator function is adjusted to training data to such high
+degree that it can no longer function as a general predictor.
+For example if a network that is supposed to recognise cats will be trained on set that contains
+only sphinxes it may be unable to classify other breeds as cats.
+Overfitted networks provide very high quality results as long as input overlap with test set
+otherwise quality of results drop sharply.
+In case of satellite clocks predictor can overfitt in regards to following parameters:
+\begin{itemize}
+\item clock type,
+\item location (orbit),
+\item epoch.
+\end{itemize}
+When selecting a solution a decision must be made on what level of generalisation model should
+represent. Limiting predictions to same epochs that were used for training is in contradiction
+with network main goal, predicting future biases. However as satellites use different models
+of atomic clocks and are placed on different orbit attempts at generalisation for those
+proprieties risk to high precision trade off.
+Therefore a separate network will be used for each satellite that will be unable to generalize
+its predictions for others.
+
+%==================================================================================================
+\FloatBarrier
+\section{Experiments}
+Main aim of experiments was to determine if it is possible for small LSTM network to 
+achieve results comparable with IGU rapid predictions that are considered state of the art.
+First tests were made on a single satellite and prediction results were compared against 
+polynomial regression as well as IGU. As results were already better than IGU for first attempts
+any following tests were executed on almost complete set of satellites. This set did not included
+those satellites that were activated or retired during experiment period.
+
+%--------------------------------------------------------------------------------------------------
+\subsection{Overview}
+Experiments were divided in three phases.
+\begin{enumerate}
+\item In first phase a single satellite was selected and prediction with generic LSTM architecture
+	was made. Then it was compared against polynomial regression as well as IGU rapid predictions.
+	While achieving results better than polynomial regression would be considered acceptable at 
+	this stage would be considered acceptable LSTM proved to be better than IGU example which
+	was considered state of the art. Because of that a decision was made not to adjust network
+	model at this stage, as was originally intended, but move to next stage with a initial model.
+
+\item In second phase network developed in first phase was tested on set of all active 
+	satellites and compared against IGU rapid prediction. At this phase comparison against 
+	polynomial regression was dropped as achieving results worse than IGU was no longer 
+	considered acceptable. In this phase for 5 of 31 satellites LSTM achieved better 
+	results than IGU.
+
+\item As second phase provided acceptable results only for a small group of satellites 
+	an alternative architectures were tested, more details about them will be written in 
+	dedicated section. In this phase results better than IGU were achieved 
+	for 13 of 30 satellites.
+\item Final phase was dedicated to tuning learning meta parameters and it results are described
+	in more details in section dedicated to experiments.
+
+\end{enumerate}
+
+%--------------------------------------------------------------------------------------------------
+\subsection{Phase 1 validation of approach}
+For the research a topology with two hidden LSTM layers and a single dense layer as output was 
+used. 
+Most of the parameters as well as a general topology were set up based on suggestions from 
+\cite{Chollet2018}. As an activation function of LSTM layers a rectifier (RELU),
+unipolar as well as bipolar function was used.
+For dense (output) only a linear activation was used so that there are no limits on predicted 
+value.
+Mean squared error (MSE), mean average error (MAE) and root mean square (RMS)
+was used as a loss function.
+Two optimizers will be tested, Root Mean Square Propagation (RMSprop)\cite{Hinton2012} and 
+Adaptive Momentum Estimation (Adam) \cite{Kingma2015}.
+
+As the network learning process is stochastic by nature 10 experiments were run for each
+configuration and then average results were compared.
+When comparing results RMSProp proven to be a better optimizer, as shown in Table 
+\ref{tab:optimizers} and so it was used in the following experiments.
+All experiments were run on a dataset obtained on 22.07.2018.
+\begin{table}[htb] 
+	\centering
+	\caption{Optimizers and loss functions}
+	\label{tab:optimizers}
+	\begin{tabular}{l*{6}{c}}
+		\hline
+		\hline
+		Parameter& \multicolumn{6}{c}{Optimizer}  \\
+		&\multicolumn{3}{c}{Adam}&\multicolumn{3}{c}{RMSProp}\\
+		\hline
+		& MAE & MSE & RMS & MAE & MSE & RMS  \\
+		Avarage & 1.10 & 1.38 & 1.15 & 0.80 & 0.79 & 0.87  \\
+		$\sigma$ & 0.23 & 0.57 & 0.23 & 0.19 & 0.27 & 0.16  \\
+		Min & 0.82 & 0.78 & 0.89 & 0.48 & 0.37 & 0.61  \\
+		Max & 1.55 & 2.63 & 1.62 & 0.99 & 1.08 & 1.04  \\
+		\hline
+		\hline
+	\end{tabular}
+\end{table}
+Repeatability of results was much better in Adam optimizer however that was only due 
+to the tendency of this algorithm to stuck in the same local minimum every time it was run.
+
+In the next experiment a value of loopback was adjusted, its initial value for previous experiments
+was set to 12 as an educated guess.
+\begin{table}[htb] 
+	\centering
+	\caption{Loopback values}
+	\label{tab:loopback}
+	\begin{tabular}{l*{6}{c}}
+		\hline
+		\hline
+		Parameter& \multicolumn{6}{c}{Loopback}  \\
+		& 1& 4& 12& 32& 64& 96\\
+		\hline
+		Avarage & 0.48 & 0.48 & 0.51 & 0.47 & 0.55 & 0.50  \\
+		$\sigma$ & 0.01 & 0.01 & 0.03 & 0.01 & 0.02 & 0.02  \\
+		min & 0.47 & 0.46 & 0.47 & 0.46 & 0.52 & 0.47  \\
+		max & 0.51 & 0.49 & 0.55 & 0.48 & 0.59 & 0.54  \\
+		\hline
+		\hline
+	\end{tabular}
+\end{table}
+As can be seen in Table \ref{tab:loopback} the best result was achieved for a loopback value of 32.
+Finally, a comparison between Adam and RMSProp was made again with all other parameters 
+set according to previous experimental results.
+\begin{table}[htb] 
+	\centering
+	\caption{Optimizers and loss functions for adjusted parameters}
+	\label{tab:optimizers2}
+	\begin{tabular}{l*{6}{c}}
+		\hline
+		\hline
+		Parameter& \multicolumn{6}{c}{Optimizer}  \\
+		&\multicolumn{3}{c}{Adam}&\multicolumn{3}{c}{RMSProp}\\
+		\hline
+		& MAE & MSE & RMS & MAE & MSE & RMS  \\
+		Avarage & 0.87 & 0.95 & 0.94 & 0.66 & 0.63 & 0.76  \\
+		$\sigma$ & 0.29 & 0.56 & 0.28 & 0.23 & 0.43 & 0.24  \\
+		min & 0.44 & 0.30 & 0.55 & 0.43 & 0.29 & 0.54  \\
+		max & 1.38 & 2.06 & 1.43 & 1.12 & 1.71 & 1.31  \\
+		\hline
+		\hline
+	\end{tabular}
+\end{table}
+When using adjusted parameters average errors become better for all configurations and
+results of RMSProp become less consistent due to the higher value of divergence.
+However, RMSProp is still an overall better solution than Adam and so it will be used in final
+configuration.
+
+After running the experiments and comparing results a final set of network parameters was set
+as described in a Table \ref{tab:final_config}.
+\begin{table}[htb] 
+	\centering
+	\caption{Basic network configuration}
+	\label{tab:final_config}
+	\begin{tabular}{lcc}
+		\hline
+		\hline
+		Parameter& \multicolumn{2}{c}{Hidden layer}  \\
+		&First&Second\\
+		\hline
+		Neuron count & 32 & 128  \\
+		Activation function & ReLU & ReLU  \\
+		Dropoff & 0.2 & 0.5   \\
+		Recurrent dropoff & 0.2 & 0.5   \\
+		Regularization & L2 & L2   \\
+		Statefullness & NO & NO   \\
+		\hline
+		\hline
+	\end{tabular}
+\end{table}
+
+%--------------------------------------------------------------------------------------------------
+\subsubsection{Comparition with other solutions}
+After preparing optimal coniguration of prediction network it predictions were compared agains
+linear approximation, polynomial approximation of 2, 4 and 8 degrees as well as against IGU rapid
+product predicted half.
+As difference between results of polynomial approximation were relatively unsignificant between
+polynomials of different degrees all their results will be presented as one rounded to
+two decimal points.
+\begin{table}[htb] 
+	\centering
+	\caption{Prediction errors for 24h range}
+	\label{tab:comparition_1}
+	\begin{tabular}{lccc}
+		\hline
+		\hline
+		Algorithm& \multicolumn{3}{c}{Error value}  \\
+		& MAE& MSE& RMS\\
+		\hline
+		LSTM& 0.47& 0.36& 0.60  \\
+		IGU-predicted& 1.60& 2.76& 1.66  \\
+		Linear& 1.73& 3.21& 1.79  \\
+		Polynomial& 1.33& 1.87& 1.37  \\
+		\hline
+		\hline
+	\end{tabular}
+\end{table}
+As seen in Table \ref{tab:comparition_1} LSTM network yielded significantly better results than
+IGU predicted. What is interesting observation is that polynomial approximation appears to work
+better than IGU for 24 hours prediction period.
+Next comparison was based on shorter prediction time and as seen in Table \ref{tab:comparition_2}
+LSTM gains more advantage over IGU predicted the longer prediction range is.
+What more interesting is that LSTM errors actually drop over time.
+\begin{table}[htb] 
+	\centering
+	\caption{Prediction errors for 24h range}
+	\label{tab:comparition_2}
+	\begin{tabular}{lccc}
+		\hline
+		\hline
+		Algorithm& \multicolumn{3}{c}{RMS for prediction range}  \\
+		& 6h& 12h& 24h\\
+		\hline
+		LSTM& 1.02& 0.76& 0.60  \\
+		IGU-predicted& 1.26& 1.31& 1.66  \\
+		\hline
+		\hline
+	\end{tabular}
+\end{table}
+
+LSTM predictions were of higher accuracy than linear and polynomial as well as IGU Rapid
+predicted which is recognized as a state of the art.
+
+%--------------------------------------------------------------------------------------------------
+\subsection{Comparison with state of the art}
+Over the course of experiments a multiple network architectures were tested, in this paper
+main focus will be given to experiments from phase 4 where general architecture was already
+selected.
+Final architecture is a 3 layer network with 2 hidden LSTM layers, first one with size equal
+to input and second double that size. Third layer consists of single densely connected neuron
+that outputs a single prediction step.
+
+\begin{figure}[htb] 
+\centering
+	\includegraphics[width=\textwidth]{figures/error_overwiev}
+\caption{Squared error}
+\label{fig:error_overview}
+\end{figure}
+As can be observed on plots presented on Figure \ref{fig:error_overview} there are satellites
+for which results achieved by LSTM network are significantly better than current state of the
+art and that difference only deepens with prediction time. Examples of such situation are
+satellites G07, G10 or G30.
+\begin{figure}[ht] 
+\centering
+	\includegraphics[width=\textwidth]{figures/error_diff}
+\caption{Comparition between absolute prediction errors}
+\label{fig:error_comparition}
+\end{figure}
+
+\begin{figure}[htb!] 
+\centering
+	\includegraphics[width=\textwidth]{figures/rel_err_diff}
+\caption{Comparition between relative prediction errors}
+\label{fig:relative_error_comparition}
+\end{figure}
+
+Other group represented by satellites G14, G15 or G17 are those  for which results of LSTM 
+are clearly worse. Another group consists of satellites for which 
+squared error is smaller for initial period of prediction however it rises with time resulting
+in predictions worse than IGU. Examples of such behaviour are visible in satellites G01
+G09 and G29. Last of groups contains satellites for which prediction quality can vary over
+time like in case of G08.
+\begin{figure}[htb] 
+\centering
+	\includegraphics[width=\textwidth]{figures/brakeoff_compare}
+\caption{Comparison between LSTM and IGU predictions}
+\label{fig:cutoff}
+\end{figure}
+As it is shown on Figure \ref{fig:cutoff} in case of some satellites period for which LSTM
+have advantage over IGU predicted part is longer than 9 hours. This is important value as 
+as after that period a synchronization witch IGU observed product can be made.
+IGU observed products have picoseconds level precision which is satisfactory for most 
+robotic implementation.
+
+\begin{table}[htb] \label{table:result}
+\parindent0pt
+\caption{Quality of results }
+\centering
+\begin{tabular}{ l  c  c }
+  \hline
+  \hline
+  Result category & satellites\\  \hline
+  Superior & 07 10 12 19 26 30\\  
+  Superior for acceptable time period& 01 03 09 13 23 27 28 29 31\\ 
+  Varied & 05 08 24 16\\ \hline \hline
+  Superior for short time period& 11 15 \\ 
+  Inferior & 02 06 14 17 21 22 25\\ 
+ \end{tabular}
+\end{table}
+
+As superiority over 9 hour period is enough to consider LSTM solution a preferable one to
+IGU rapid prediction for experiments in this paper success was achieved for 68\% 
+cases.
+Difference between LSTM prediction error and IGU error is visualised on Figure 
+\ref{fig:error_comparition} where value represented on y axis show by how many nanoseconds 
+solution proposed in this paper is more precise than state of the art.
+Advantage of LSTM solution is even more clear when analysing relative error as in Figure
+\ref{fig:relative_error_comparition}. Proposed solution is capable of providing results 
+comparable or better than state of the art for most satellites.
+
+%==================================================================================================
+\section{Conclusions and future research}
+Experiments described in this paper have proven that even relatively simple LSTM network can
+handle bias prediction well. That indicates possibility of application of this system in 
+low power embedded system which was motivation for this research.
+While proposed network is relatively simple it is still to complex for implementation in 
+embedded system. With 86913 parameters and 64 bit float representation it takes almost 0.7 MB
+memory.
+High memory reqirements as well as need for 64 bit architecture limits choice of hardware that
+is why next step in this resarch will be implementation of 32 bit trainable LSTM newtork
+dedicated for embedded system.
+
+\FloatBarrier
+
+%==================================================================================================
+\begin{thebibliography}{000}
+
+\bibitem{Abiodun2019}
+Abiodun O. I. et al.
+\newblock{Comprehensive Review of Artificial Neural Network Applications to Pattern Recognition} 
+\newblock{IEEE Access, vol. 7, "pp. 158820-158846, 2019, doi: 10.1109/ACCESS.2019.2945545}
+
+\bibitem{Blewitt1997}
+Blewitt, G. 
+\newblock{Basics of the GPS Technique : Observation Equations}
+\newblock{Geodetic Applications of GPS, 1–46, 1997}
+
+\bibitem{Cabrera2014}
+Cabrera-Gámez, J. et al.
+\newblock{An Embedded Low-Power Control System for Autonomous Sailboats.}
+\newblock{Robotic Sailing 2013. https://doi.org/10.1007/978-3-319-02276-5\_6}
+
+\bibitem{Chollet2018}
+Chollet, F.
+\newblock{Deep Learning with Phyton}.
+
+\bibitem{Doberstein2012}
+Doberstein, D. 
+\newblock{Fundamentals of GPS receivers: A hardware approach.} 
+\newblock{Springer New York 2012. https://doi.org/10.1007/978-1-4614-0409-5}
+
+\bibitem{Enge2011}
+Enge, P. (2011)
+\newblock{Global Positioning System: Signals, Measurements, and Performance - Revised Second Edition}
+\newblock{International Journal of Wireless Information Networks (p. 115). 2011}
+
+\bibitem{Faraway2008}
+Faraway, J., \& Chatfield, C.
+\newblock{Time series forecasting with neural networks: a comparative study using the air line data.}
+\newblock{Journal of the Royal Statistical Society: Series C (Applied Statistics), 47(2),
+231–250. 2019.  https://doi.org/10.1111/1467-9876.00109}
+
+\bibitem{Hinton2012}
+Hinton, G. E. et el.
+\newblock{Lecture 6a- overview of mini-batch gradient descent.}
+\newblock{COURSERA: Neural Networks for Machine Learning. 2012.}
+
+\bibitem{Hochreiter1997}
+Hochreiter, S., \& Schmidhuber, J. (1997). 
+\newblock{Long Short-Term Memory.}
+\newblock{Neural Computation. 1997. https://doi.org/10.1162/neco.1997.9.8.1735}
+
+\bibitem{Indriyatmoko2008}
+Indriyatmoko, A. et al.
+\newblock{Artificial neural networks for predicting DGPS carrier phase and pseudorange correction.}
+\newblock{GPS Solutions, 12(4), 237–247. 2008. https://doi.org/10.1007/s10291-008-0088-x}
+
+\bibitem{Khan2019}
+Khan, A. et al. 
+\newblock{A Survey of the Recent Architectures of Deep Convolutional Neural Networks.}
+\newblock{http://arxiv.org/abs/1901.06032}
+
+\bibitem{Kim2019}
+Kim, H.-U., \& Bae, T.-S.
+\newblock{Deep Learning-Based GNSS Network-Based Real-Time Kinematic Improvement for
+		Autonomous Ground Vehicle Navigation.}
+\newblock{Journal of Sensors, 2019, 1–8. https://doi.org/10.1155/2019/3737265}
+
+\bibitem{Kingma2015}
+Kingma, D. P., \& Ba, J. L. 
+\newblock{Adam: A method for stochastic optimization.}
+\newblock{3rd International Conference on Learning Representations,
+ICLR 2015 - Conference Track Proceedings. 2015}
+
+\bibitem{Kouba2009}
+Kouba, J.
+\newblock{A Guide to using international GNSS Service ( IGS ) Products.}
+\newblock{Geodetic Survey Division Natural Resources Canada Ottawa, 6. 2009.}
+
+\bibitem{McCulloch1943}
+McCulloch, W. S., \& Pitts, W. 
+\newblock{A logical calculus of the ideas immanent in nervous activity.}
+\newblock{The Bulletin of Mathematical Biophysics. 1943.  https://doi.org/10.1007/BF02478259}
+
+\bibitem{Miller1993}
+Miller, A. S. 
+\newblock{A review of neural network applications in Astronomy.}
+\newblock{Vistas in Astronomy, 36, 141–161. 1993. https://doi.org/10.1016/0083-6656(93)90118-4}
+
+\bibitem{Perez2019}
+Orus Perez, R.
+\newblock{Using TensorFlow-based Neural Network to estimate GNSS single 
+frequency ionospheric delay (IONONet).}
+\newblock{Advances in Space Research, 63(5), 1607–1618. 2019.
+https://doi.org/10.1016/j.asr.2018.11.011}
+
+\bibitem{Riley2007}
+Riley, W. J. 
+\newblock{Handbook of Frequency Stability Analysis.}
+\newblock{NIST Special Publication 1065 (Vol. 31, Issue 1). 2007.}
+
+\bibitem{Vallado2008}
+Vallado, D. A., \& Crawford, P. 
+\newblock{SGP4 orbit determination.}
+\newblock{AIAA/AAS Astrodynamics Specialist Conference and Exhibit. 2008.
+https://doi.org/10.1007/978-3-662-50370-6\_6}
+
+\bibitem{Wang2017}
+Wang, Y. et al
+\newblock{Improving prediction performance of GPS satellite clock bias based 
+on wavelet neural network.}
+\newblock{GPS Solutions, 21(2), 523–534. 2017. https://doi.org/10.1007/s10291-016-0543-z}
+
+\bibitem{Wei2016}
+Wei, J. et al
+\newblock{The Satellite Selection Algorithm of GNSS Based on Neural Network}
+\newblock{(pp. 115–123). 2016. https://doi.org/10.1007/978-981-10-0934-1\_11}
+
+\end{thebibliography}
+
+\end{document}
+
+
