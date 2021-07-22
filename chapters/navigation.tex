@@ -38,15 +38,39 @@ preffered in most cases. However, this approach is not without a downsides:
 Mobile robots depend heavily on exteroceptive sensors as their role is to acquire information on
 objects in the robot’s immediate vicinity so that it may model its environment and make a 
 decision on what action to take. Of course all objects are detected within robot local reference 
-frame. Since the analyzed systems are mobile, their ever-changing position and their motion have a 
-significant impact on overall sensor behavior.
-Blurring of systematic and random errors. Active ranging sensors tend to have failure
-modes that are triggered largely by specific relative positions of the sensor and environment
-targets. For example, a sonar sensor will produce specular reflections, producing grossly
-inaccurate measurements of range, at specific angles to a smooth sheetrock wall. During
-motion of the robot, such relative angles occur at stochastic intervals. This is especially true
+frame. 
+\begin{table}[htb] 
+	\centering
+	\caption{Example types of sensors used in robotics}
+	\label{tab:robot-sensors}
+	\begin{tabular}{ccc}
+		\hline
+		\hline
+		Sensor& Type of measurement& Operation mode\\
+		\hline
+		Bumper&  Exteroceptive& Passive\\
+		Encoder& Proprioceptive& Active\\
+		Compass& Exteroceptive& Passive\\
+		Gyroscope& Proprioceptive& Passive\\
+		Beacon localization& Exteroceptive& Passive*\\
+		Laser rangefinder& Exteroceptive& Active\\
+		CCD/CMOS Camera& Exteroceptive& Passive\\
+		\hline
+		\hline
+	\end{tabular}
+	\newline
+	{\footnotesize *Beacon system as a whole uses active elements however sensors 
+	used on robot are only passive.}
+\end{table}
+Active ranging sensors tend to have failure modes that are triggered largely by specific 
+relative positions of the sensor and environment targets. For example, a sonar sensor will
+produce specular reflections, producing grossly inaccurate measurements of range,
+at specific angles to a smooth sheetrock wall. During motion of the robot, 
+such relative angles occur at stochastic intervals. This is especially true
 in a mobile robot outfitted with a ring of multiple sonars. The chances of one sonar entering
-this error mode during robot motion is high. From the perspective of the moving robot, the
+this error mode during robot motion is high.
+
+From the perspective of the moving robot, the
 sonar measurement error is a random error in this case. Yet, if the robot were to stop,
 becoming motionless, then a very different error modality is possible. If the robot’s static
 position causes a particular sonar to fail in this manner, the sonar will fail consistently and
@@ -67,8 +91,9 @@ mechanisms.
 
 %--------------------------------------------------------------------------------------------------
 \subsection{Error modeling}
-Multimodal error distributions. It is common to characterize the behavior of a sensor’s
-random error in terms of a probability distribution over various output values. In general,
+It is common to characterize the behavior of a sensor’s
+random error in terms of a probability distribution over various output values.
+In general,
 one knows very little about the causes of random error and therefore several simplifying
 assumptions are commonly used. For example, we can assume that the error is zero-mean,
 in that it symmetrically generates both positive and negative measurement error. We can
