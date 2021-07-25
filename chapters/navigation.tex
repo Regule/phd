@@ -65,26 +65,7 @@ frame.
 Active ranging sensors tend to have failure modes that are triggered largely by specific 
 relative positions of the sensor and environment targets. For example, a sonar sensor will
 produce specular reflections, producing grossly inaccurate measurements of range,
-at specific angles to a smooth sheetrock wall. During motion of the robot, 
-such relative angles occur at stochastic intervals. This is especially true
-in a mobile robot outfitted with a ring of multiple sonars. The chances of one sonar entering
-this error mode during robot motion is high.
-
-From the perspective of the moving robot, the
-sonar measurement error is a random error in this case. Yet, if the robot were to stop,
-becoming motionless, then a very different error modality is possible. If the robot’s static
-position causes a particular sonar to fail in this manner, the sonar will fail consistently and
-will tend to return precisely the same (and incorrect!) reading time after time. Once the
-robot is motionless, the error appears to be systematic and of high precision.
-The fundamental mechanism at work here is the cross-sensitivity of mobile robot sensors to robot
-pose and robot-environment dynamics. The models for such cross-sensitivity
-are not, in an underlying sense, truly random. However, these physical interrelationships
-are rarely modeled and therefore, from the point of view of an incomplete model, the errors
-appear random during motion and systematic when the robot is at rest.
-Sonar is not the only sensor subject to this blurring of systematic and random error
-modality. Visual interpretation through the use of a CCD camera is also highly susceptible
-to robot motion and position because of camera dependence on lighting changes, lighting
-specularity (e.g., glare), and reflections. The important point is to realize that, while 
+at specific angles to a smooth sheetrock wall.  The important point is to realize that, while 
 systematic error and random error are well-defined in a controlled setting, the mobile robot can
 exhibit error characteristics that bridge the gap between deterministic and stochastic error
 mechanisms.
@@ -102,16 +83,7 @@ the mathematics of this in detail in section 4.2, it is important for now to rec
 fact that one frequently assumes symmetry as well as unimodal distribution. This means
 that measuring the correct value is most probable, and any measurement that is further
 away from the correct value is less likely than any measurement that is closer to the correct
-value. These are strong assumptions that enable powerful mathematical principles to be
-applied to mobile robot problems, but it is important to realize how wrong these assumptions 
-usually are.
-Consider, for example, the sonar sensor once again. When ranging an object that reflects
-the sound signal well, the sonar will exhibit high accuracy, and will induce random error
-based on noise, for example, in the timing circuitry. This portion of its sensor behavior will
-exhibit error characteristics that are fairly symmetric and unimodal. However, when the
-sonar sensor is moving through an environment and is sometimes faced with materials that
-cause coherent reflection rather than returning the sound signal to the sonar sensor, then the
-sonar will grossly overestimate the distance to the object. In such cases, the error will be
+value. In such cases, the error will be
 biased toward positive measurement error and will be far from the correct value. The error
 is not strictly systematic, and so we are left modeling it as a probability distribution of
 random error. So the sonar sensor has two separate types of operational modes, one in
@@ -119,21 +91,6 @@ which the signal does return and some random error is possible, and the second i
 the signal returns after a multipath reflection, and gross overestimation error occurs. The
 probability distribution could easily be at least bimodal in this case, and since overestimation 
 is more common than underestimation it will also be asymmetric.
-As a second example, consider ranging via stereo vision. Once again, we can identify
-two modes of operation. If the stereo vision system correctly correlates two images, then
-the resulting random error will be caused by camera noise and will limit the measurement
-accuracy. But the stereo vision system can also correlate two images incorrectly, matching
-two fence posts, for example, that are not the same post in the real world. In such a case
-stereo vision will exhibit gross measurement error, and one can easily imagine such behavior 
-violating both the unimodal and the symmetric assumptions.
-The thesis of this section is that sensors in a mobile robot may be subject to multiple
-modes of operation and, when the sensor error is characterized, unimodality and symmetry
-may be grossly violated. Nonetheless, as we shall see, many successful mobile robot systems 
-make use of these simplifying assumptions and the resulting mathematical techniques
-with great empirical success.
-The above sections have presented a terminology with which we can characterize the
-advantages and disadvantages of various mobile robot sensors. In the following sections,
-we do the same for a sampling of the most commonly used mobile robot sensors today.
 
 %--------------------------------------------------------------------------------------------------
 \subsection{Relative localisation versus dead reckoning}
@@ -337,19 +294,6 @@ whit assumption that $V^{2} = V_{x}^{2} + V_{y}^{2}$ a following result can be o
 The plane containing the sphere centers is a plane of symmetry.
 The correct and ambiguous solutions are perpendicular to it and equally distant from it, 
 on opposite sides.
-Many applications of 3-D true range multilateration involve short ranges—e.g.,
-precision manufacturing.
-Integrating range measurement from three or more radars (e.g., FAA's ERAM) is a 3-D aircraft
-surveillance application. 3-D true range multilateration has been used on an experimental 
-basis with GPS satellites for aircraft navigation.
-The requirement that an aircraft be equipped with an atomic clock precludes its general use.
-However, GPS receiver clock aiding is an area of active research, including aiding over 
-a network.
-Thus, conclusions may change. 3-D true range multilateration was evaluated by the 
-International Civil Aviation Organization as an aircraft landing system, but another technique was
-found to be more efficient.
-Accurately measuring the altitude of aircraft during approach and landing requires many
-ground stations along the flight path. 
 
 %--------------------------------------------------------------------------------------------------
 \section{Global navigation satellite systems}
@@ -363,23 +307,13 @@ receivers will become as common as seat belts or airbags, with all car manufactu
 their entry-level vehicles with these devices.
 As for the past developments, GPS launched a variety of techniques, products and, consequently,
 applications and services. The milestone of satellite navigation is the real time positioning and
-time synchronization. For that reason the implementation of wide-area augmentation systems
-should be highlighted, because they allow a significant improvement of accuracy and integrity
-performance. WAAS, EGNOS and MSAS provide over US, Europe, Japan a useful
-augmentation to GPS, GLONASS and Galileo services (Mulassano, et al., 2004).
+time synchronization 
 GNSS development has an interesting aspect due to its sensitive nature. Considerable events or
 developments are always subject to a couple of differentiators: technological developments and
 political decisions.
 GPS and Glonass in all stages of improvements are strictly related to those differentiators. The
 approval and startup of the European Galileo program is considered by far the most real
-innovation. Technological and political decisions in Galileo substantiate that interoperability and
-compatibility must be reached in the forthcoming years. Such issues are the true GNSS
-improvement for the benefit of institutions and organizations.
-GNSS applications in all fields will play a key role, moving its use from the transportation
-domain to multimodal use, outdoors and indoors. It is expected that GNSS will increase
-significantly the precision in position domain (Lachapelle et al., 2002).
-The concept of reference system for navigation is essential since all the applications of GNSS are
-related to the coordinate system used. The main application of GNSS is focused on the potential
+innovation.  The main application of GNSS is focused on the potential
 of to determine the position in the Global reference system any where any time on the Globe in a
 simple, fast and cost-effective manner.
 The integration between GNSS and other related technologies such as telecommunications
@@ -396,9 +330,7 @@ consists mainly of three segments:
 \end{enumerate}
 These segments are almost similar in the three satellite technologies, which are all together make
 up the GNSS. As of today, the complete satellite technology is the GPS technology and most of
-the existing worldwide applications related to the GPS technology. The GNSS technology will
-become clearer after the operation of Galileo and the reconstruction of Glonass in the next few
-years.
+the existing worldwide applications related to the GPS technology.
 
 %--------------------------------------------------------------------------------------------------
 \subsection{GPS components}

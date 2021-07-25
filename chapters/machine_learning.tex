@@ -1016,40 +1016,48 @@ appropriate near the optimum.
 \section{Neural networks}
 
 %----------------------------------------------------------------------------------------------------
-\subsection{Artificial representation of biological neuron}
-A neuron or nerve cell is an electrically excitable cell that communicates with other
-cells via specialized connections called synapses. 
-Neurons are typically classified into three categories based on their function:
-\begin{enumerate}
-	 \item sensory neurons that respond to stimuli and they send signals to the spinal cord or
-		 directly to brain, 
-	\item motor neurons that receive signals from the brain and spinal cord to control body
-		effectors like muscles or glandular output,
-	\item interneurons that connect neurons to other neurons within the same region of the brain 
-		or spinal cord.
-\end{enumerate}
-As neuron is first and foremost a cells it consists of a soma (cell body), dendrites, and a 
-single axon. The soma is usually compact. The axon and dendrites are filaments that extrude 
-from it. Dendrites typically branch profusely and extend a few hundred micrometers from the soma.
-The axon leaves the soma at a swelling called the axon hillock, and travels for as far as 1 meter 
-in humans or more in other species. It branches but usually maintains a constant diameter.
-At the farthest tip of the axon's branches are axon terminals, where the neuron can transmit
-a signal across the synapse to another cell.
-Neurons may lack dendrites or have no axon. The term neurite is used to describe either a dendrite
-or an axon, particularly when the cell is undifferentiated.
-
-Most neurons receive signals via the dendrites and soma and send out signals down the axon.
-At the majority of synapses, signals cross from the axon of one neuron to a dendrite of another.
-However, synapses can connect an axon to another axon or a dendrite to another dendrite.
+\subsection{Neural networks as biological information processing systems}
+The basic conducting element in the nervous system is the nerve cell, or neuron.
+A neuron has a cell body, dendrite, and axon. The cell body contains many of the organelles 
+vital to maintain the cells structure and function, including the nucleus and and is considered the
+tropic center of the nerve cell.
+The dendrites extend from the cell body and increase the receptive surface of the neuron.
+The axon leaves the cell body and connects to other cells. Axons are covered by a lipoproteinaceous
+membrane called myelin that insulates the axons from the fluids in the central nervous system.
+The site of contact between the axon of one nerve cell and the dendrites and cell body of another 
+neuron is the synapse. The cells in the nervous system are classified based on their shapes:
+unipolar, bipolar, and multipolar. 
 \begin{figure}[htb] 
 	\label{fig:neurons}
 	\centering
 	\includegraphics[width=\textwidth]{figures/bio_neurons}
 	\caption{Examples of biological neurons}
 \end{figure}
+In the central nervous system, the nerve cells are supported by glia and blood vessels;
+in the peripheral nervous system, they are supported by satellite cells, fibroblasts,
+Schwann cells, and blood vessels.
+There are three basic categories of neurons:
+\begin{itemize}
+	\item receptors : the ganglia of the spinal dorsal roots and of the cranial nerves
+		with general sensory components,
+	\item effectors : the ventral horn cells, motor cranial nerve nuclei, and motor division of
+		the autonomic nervous system
+	\item Interneurons, the vast majority of the neurons in the central nervous system.
+\end{itemize}
+The areas in the central nervous system that contain high numbers of neuronal cell bodies are
+called gray matter, while the regions that contain primarily myelinated axons are called
+white matter. Neurons are organized into ganglia, nuclei, or layered cortices.
 
-The signaling process is partly electrical and partly chemical. Neurons are electrically 
-excitable, due to maintenance of voltage gradients across their membranes. 
+There are two basic types of synapses, electrical and chemical, and they differ in location and 
+appearance. Electrical synapses are connected by membrane bridges, gap junction and connections,
+which permit the electric impulse to pass directly from one cell to the other.
+Electric synapses have almost no delay and little chance of misfiring. These synapses are seen in 
+many fish.Chemical synapses have a presynaptic side containing vesicles and a gap,
+and a postsynaptic side with membrane receptors.
+The neurotransmitter released by the action potential is exocytosed and diffuses across the 
+synaptic cleft and binds to the specific receptor on the postsynaptic membrane.
+Most of the synapses seen in the mammalian central nervous system are chemical.
+
 If the voltage changes by a large enough amount over a short interval, 
 the neuron generates an all-or-nothing electrochemical pulse called an action potential. 
 This potential travels rapidly along the axon, and activates synaptic connections as it 
@@ -1061,7 +1069,97 @@ increasing or reducing the net voltage that reaches the soma.
 	\includegraphics[width=0.6\textwidth]{figures/bio_activation}
 	\caption{Examples of biological neurons}
 \end{figure}
+Chemical synapses consist of presynaptic axon terminals harboring synaptic vesicles and a
+postsynaptic region (usually on dendrites) containing neurotransmitter receptors.
+These neurotransmitters are made by the presynaptic neuron and stored in synaptic vesicles at
+presynaptic terminals.
+Whether a synapse is excitatory or inhibitory determines the postsynaptic current displayed,
+which in turn is a function of the type of receptors and neurotransmitters operating at the
+synapse
+\begin{itemize}
+	\item Excitatory synapses that  depolarize the membrane potential and make it more positive
+		and they appear asymmetrical, having a prominent postsynaptic bush with presynaptic
+		vesicles (Figs. 2.13 and 2.14 ). This type of synapse is most commonly seen on dendrites. 
+		Glutamate has been identifi ed in excitatory synapses. At the excitatory synapse there is
+		a change in permeability that leads to depolarization of the postsynaptic membrane and
+		which can lead to the generation of an action potential.
+	\item Inhibitory synapses thathyperpolarize the membrane potential and make it more negative.
+		They are symmetrical with thickened membranes on the pre and postsynaptic side and
+		vesicles only on the presynaptic side.
+		GABA has been identifi ed in the inhibitory synapses. At an inhibitory synapse the
+		neurotransmitter binds to the receptor membrane, which changes the permeability and tends
+		to block the formation of the action potential. Synapses on the soma are symmetrical and 
+		they are considered inhibitory.
+	\item  Dendritic spines that are small membranous protrusions that contain the postsynaptic 
+		machinery, including glutamate receptors, the actin cytoskeleton, and a wide variety of
+		membrane-bound organelles, such as smooth endoplasmic reticulum, mitochondria, 
+		and endosomes.
+\end{itemize}
+	
 
+In this section the neuron model described by Lewis in 1968 (Lewis, 1968) is briefly discussed.
+The Lewis model is based on the Hodgkin-Huxley membrane model and the theories of Eccles on 
+synaptic transmission (Eccles, 1964). 
+The model circuit is illustrated in Figure \ref{fig:lewis_neuron}.
+This neuron model is divided into two sections: the synaptic section and the section generating
+the action pulse.
+Both sections consist of parallel circuits connected to the nodes representing the intracellular 
+and extracellular sites of the membrane.
+The section representing the synaptic junction is divided into two components. 
+One of these represents the inhibitory junction and the other the excitatory junction. 
+The sensitivity of the section generating the action pulse to a stimulus introduced at
+the excitatory synaptic junction is reduced by the voltage introduced at the inhibitory junction.
+The section generating the action pulse is based on the Hodgkin-Huxley model.
+As described earlier, it consists of the normal circuits simulating the sodium and potassium 
+conductances, the leakage conductance, and the membrane capacitance.
+The circuit also includes an amplifier for the output signal.
+This neuron model which is relatively complicated, is to be used in research on neural networks.
+However, it is actually a simplified version of Lewis's 46-transistor network having the same form.
+The purpose of this simplified Lewis model is to simulate the form of the action pulse, not with
+the highest possible accuracy but, rather, with a sufficient accuracy provided by a simple model.
+Figures 10.10, 10.11, and 10.12 show the behavior of the model compared to the simulation based 
+directly on the Hodgkin and Huxley model.
+From Figure 10.10 we find that when the stimulation current begins, the sodium ion current 
+determined by Lewis (I'Na) rises to its peak value almost immediately, whereas the sodium ion
+current of the Hodgkin-Huxley biological nerve (INa) rises much more slowly. 
+The exponential decay of the current occurs at about the same speed in both. The behavior of the
+potassium ion current is very similar in both the model and the biological membrane as simulated 
+by Hodgkin and Huxley. 
+
+\begin{figure}[htb] 
+	\label{fig:lewis_neuron}
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/lewis_neuron}
+	\caption{The Lewis neuron model from 1968.}
+\end{figure}
+
+
+The electronic realizations of the Hodgkin-Huxley model are very accurate in simulating the
+function of a single neuron. However, when one is trying to simulate the function of neural 
+networks, they become very complicated. 
+Many scientists feel that when simulating large neural networks, the internal construction of 
+its element may not be too important. It may be satisfactory simply to ensure that the elements 
+produce an action pulse in response to the stimuli in a manner similar to an actual neuron. 
+On this basis, Leon D. Harmon constructed a neuron model having a very simple circuit.
+With this model he performed experiments in which he simulated many functions characteristic of
+the neuron.
+The circuit of the Harmon neuron model is given in Figure \ref{fig:harmon}.
+The model is equipped with five excitatory inputs which can be adjusted. 
+These include diode circuits representing various synaptic functions. 
+The signal introduced at excitatory inputs charges the 0.02 $\mu F$ capacitor which, after reaching
+a voltage of about 1.5 V, allows the monostable multivibrator, formed by transistors T1 and T2, 
+to generate the action pulse. This impulse is amplified by transistors T3 and T4. 
+The output of one neuron model may drive the inputs of perhaps 100 neighboring neuron models.
+The basic model also includes an inhibitory input. A pulse introduced at this input has the effect
+of decreasing the sensitivity to the excitatory inputs.. 
+\begin{figure}[htb] 
+	\label{fig:harmon}
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/harmon}
+	\caption{Harmon electrical model of neurall cell}
+\end{figure}
+%----------------------------------------------------------------------------------------------------
+\subsection{Artificial representation of biological neuron}
 In 1943 Warren S. McCulloch, a neuroscientist, and Walter Pitts, a logician, 
 published "A logical calculus of the ideas immanent in nervous activity" in the 
 Bulletin of Mathematical Biophysics 5:115-133. In this paper McCulloch and Pitts tried to
