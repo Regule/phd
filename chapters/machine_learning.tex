@@ -3,11 +3,13 @@
 
 %====================================================================================================
 \section{Concepts in machine learning}
+\FloatBarrier
 Aim of this section is to define what exactly is understood by a term machine learning as well
 as to introduce basic concepts that are common for all machine learning applications
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Differences between knowledge and data based models}
+\FloatBarrier
 While creating a model of physical processes one of two approaches may be used.
 First, is the knowledge-driven model that as the name implies relays on knowledge of underlying
 laws of physics that govern the process.
@@ -41,6 +43,7 @@ is linear.
 
 %----------------------------------------------------------------------------------------------------
 \subsection{What is a machine learning algorithm}
+\FloatBarrier
 Term machine learning describes subset of algorithms that adjusts parameter of other algorithms 
 according to data. To provide more formal definition an algorithm can be described as a 
 transformation function $\phi_{a}$ such that:
@@ -86,6 +89,7 @@ minimization of that value is goal of machine learning it is mandatory to be abl
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Error function}
+\FloatBarrier
 As an error function is used for calculation of value that will be minimized by a machine 
 learning algorithm correct choice of that function is crucial decision when designing such
 algorithm.
@@ -160,6 +164,7 @@ Those two error values will be used in this work.
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Deep learning}
+\FloatBarrier
 At time when experiments described in this dissertation were conducted a new approach to 
 machine learning called Deep Learning (DL) became highly popular.
 Due to that popularity term deep learning is often overused and misrepresented marketing 
@@ -195,9 +200,11 @@ signal explosion and rise in computation due to high parameter count.
 
 %====================================================================================================
 \section{Regression approximation}
+\FloatBarrier
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Linear regression}
+\FloatBarrier
 \label{sec:linear_regression}
 Linear predictor function is a linear combination of a set of coefficients and explanatory 
 variables (independent variables), whose value is used to predict the outcome of a
@@ -364,6 +371,7 @@ such as those used in generalized linear models, do not suffer from this problem
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Polynomial regression}
+\FloatBarrier
 Polynomial regression is one example of regression analysis using basis functions to model 
 a functional relationship between two quantities.
 More specifically, it uses transformation $\phi$  that transforms observation vector 
@@ -387,14 +395,18 @@ Adter transformation new observation space is treated as a input for linear regr
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Spline regression}
+\FloatBarrier
 %----------------------------------------------------------------------------------------------------
 \subsection{Radial regression}
+\FloatBarrier
 %----------------------------------------------------------------------------------------------------
 \subsection{Wavelet regression}
+\FloatBarrier
 
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Support vector machine}
+\FloatBarrier
 Support Vector Machines are very specific class of algorithms, 
 characterized by usage of kernels, absence of local minima, sparseness of the solution and 
 capacity control obtained by acting on the margin, or on number of support vectors, etc.
@@ -567,6 +579,7 @@ giving significant algorithmic and representational advantages.
 
 %====================================================================================================
 \section{Gradient based optimization}
+\FloatBarrier
 \label{sec:gradient}
 How can you minimize a function $\ell$ if you don't know much about it? 
 The trick is to assume it is much simpler than it really is. This can be done with 
@@ -590,6 +603,7 @@ than only using gradient.
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Gradient descent}
+\FloatBarrier
 In gradient descent we only use the gradient (first order). 
 In other words, we assume that the function $\ell$ around $w$ is linear and behaves like 
 $\ell(w)+g(w)^{\top}s$. Our goal is to find a vector $s$ that minimizes this function. 
@@ -620,6 +634,7 @@ will eventually become small enough to converge (for any initial value $t_{0}>0$
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Momentum based gradient descent}
+\FloatBarrier
 The problem with gradient descent is that the weight update at a moment is governed by the
 learning rate and gradient at that moment only. 
 It doesn’t take into account the past steps taken while traversing the cost space.
@@ -703,6 +718,7 @@ the past gradients have the same direction(same sign).
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Stochastic gradient descent}
+\FloatBarrier
 Stochastic gradient descent (often abbreviated SGD) is an iterative method for optimizing an
 objective function with suitable smoothness properties (e.g. differentiable or subdifferentiable).
 It can be regarded as a stochastic approximation of gradient descent optimization, since it 
@@ -722,6 +738,7 @@ Typical implementations may use an adaptive learning rate so that the algorithm 
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Adaptive gradient algorithm (AdaGrad)}
+\FloatBarrier
 AdaGrad is simply just an optimization method based off of the Proximal Point Algorithm 
 (otherwise known as the Gradient Descent algorithm), specifically the Stochastic version
 of gradient descent.
@@ -796,6 +813,7 @@ which is equivalent to an update rule of:
 
 %----------------------------------------------------------------------------------------------------
 \subsection{RMProp and RMSProp}
+\FloatBarrier
 RMSprop— is unpublished optimization algorithm designed for neural networks, first proposed by
 Geoff Hinton in lecture 6 of the online course “Neural Networks for Machine Learning”.
 RMSprop lies in the realm of adaptive learning rate methods, which have been growing in
@@ -882,6 +900,7 @@ squared gradient, but since we only have the estimate of the gradient on the cur
 wee need instead to use the moving average of it.
 %----------------------------------------------------------------------------------------------------
 \subsection{Adaptive Moment Estimation (Adam)}
+\FloatBarrier
 Adam, derived from Adaptive Moment Estimation, is an optimization algorithm.
 The Adam optimizer makes use of a combination of ideas from other optimizers.
 Similar to the momentum optimizer, Adam makes use of an exponentially decaying average of 
@@ -949,6 +968,7 @@ The use of an adaptive learning rate helps to direct updates towards the optimum
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Newton's Method}
+\FloatBarrier
 Newton's method assumes that the loss $\ell$ is twice differentiable and uses the approximation 
 with Hessian (2nd order Taylor approximation).
 The Hessian Matrix contains all second order partial derivatives and is defined as:
@@ -1017,6 +1037,7 @@ appropriate near the optimum.
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Neural networks as biological information processing systems}
+\FloatBarrier
 The basic conducting element in the nervous system is the nerve cell, or neuron.
 A neuron has a cell body, dendrite, and axon. The cell body contains many of the organelles 
 vital to maintain the cells structure and function, including the nucleus and and is considered the
@@ -1160,6 +1181,7 @@ of decreasing the sensitivity to the excitatory inputs..
 \end{figure}
 %----------------------------------------------------------------------------------------------------
 \subsection{Artificial representation of biological neuron}
+\FloatBarrier
 In 1943 Warren S. McCulloch, a neuroscientist, and Walter Pitts, a logician, 
 published "A logical calculus of the ideas immanent in nervous activity" in the 
 Bulletin of Mathematical Biophysics 5:115-133. In this paper McCulloch and Pitts tried to
@@ -1259,6 +1281,7 @@ the threshold of 1 whenever their respective input is active.
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Feed forward neural networks}
+\FloatBarrier
 
 \begin{figure}[htb] 
 	\label{fig:xor_gates}
@@ -1297,6 +1320,7 @@ least once.
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Networks with long term memory}
+\FloatBarrier
 One of possible solutions to this issue is addition of long term memory which will regulate
 forward and loop back path influence on neuron response, such solution is used in long short
 term memory (LSTM) networks \cite{Hochreiter1997}.
@@ -1343,6 +1367,7 @@ must be changed.
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Backpropagation Through Time}
+\FloatBarrier
 Backpropagation Through Time (BPTT) is the algorithm that is used to update the weights in the 
 recurrent neural network. 
 One of the common examples of a recurrent neural network is LSTM. 
@@ -1384,6 +1409,7 @@ for the network to learn.
 
 %====================================================================================================
 \section{Overfitting}
+\FloatBarrier
 Overfitting is a concept in data science, which occurs when a statistical model fits exactly
 against its training data. 
 When this happens, the algorithm unfortunately cannot perform accurately against unseen data,
@@ -1407,6 +1433,7 @@ it signals overfitting.
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Early stoppingi}
+\FloatBarrier
 Regularization by early stopping can be done either by dividing the dataset into training and test 
 sets and then using cross-validation on the training set or by dividing the dataset into training, 
 validation and test sets, in which case cross-validation is not required.
@@ -1455,6 +1482,7 @@ tuning)for the best performance of the learning model.
 
 %----------------------------------------------------------------------------------------------------
 \subsection{$\ell$ regularization}
+\FloatBarrier
 A regression model that uses L1 regularization technique is called Lasso Regression and model i
 which uses L2 is called Ridge Regression.
 The key difference between these two is the penalty term.
@@ -1485,6 +1513,7 @@ So, this works well for feature selection in case we have a huge number of featu
 
 %----------------------------------------------------------------------------------------------------
 \subsection{Dropout}
+\FloatBarrier
 Deep neural networks contain multiple non-linear hidden layers and this makes them very
 expressive models that can learn very complicated relationships between their inputs and
 outputs. With limited training data, however, many of these complicated relationships
