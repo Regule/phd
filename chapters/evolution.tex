@@ -285,6 +285,73 @@ Europeans aged 7 to 8 years. It can be deduced that their IQ was about 50.
 
 %--------------------------------------------------------------------------------------------------
 \subsection{Representation of data}
+In biology, we have a genotype and a phenotype.
+A genotype is the genetic representation of a creature and the phenotype is the actualized physical
+representation of the creature. 
+The question of encoding comes from the question of how do we wish to represent individuals 
+genetically in our algorithm.
+The way in which we encode our individuals lays out the path for how our algorithm will handle 
+the key evolutionary processes: selection, mutation, and crossover.
+Any encoding will fall into one of two categories, direct or indirect.
+
+A direct encoding will explicitly specify everything about an individual.
+If it represents a neural network this means that each gene will directly be linked to some node,
+connection, or property of the network.
+This can be a binary encoding of 1s and 0s, a graph encoding (linking various nodes by weighted
+connections), or something even more complex.
+The point is that there will always be a direct connection between genotype and phenotype that
+is very obvious and readable.
+
+An indirect encoding is the exact opposite. Instead of directly specifying what a structure may
+look like, indirect encodings tends to specify rules or parameters of processes for creating an
+individual.
+As a result, indirect encodings are much more compact. The flip side is that setting the rules for
+an indirect encoding can result in a heavy bias within the search space, therefore, it is much
+harder to create an indirect encoding without substantial knowledge about how the 
+encoding will be used.
+
+The simplest algorithm represents each chromosome as a bit string.
+Typically, numeric parameters can be represented by integers, though it is possible to use floating
+point representations.
+The floating point representation is natural to evolution strategies and evolutionary programming.
+The notion of real-valued genetic algorithms has been offered but is really a misnomer because it
+does not really represent the building block theory that was proposed by John Henry Holland in
+the 1970s.
+This theory is not without support though, based on theoretical and experimental results.
+The basic algorithm performs crossover and mutation at the bit level. 
+Other variants treat the chromosome as a list of numbers which are indexes into an instruction
+table, nodes in a linked list, hashes, objects, or any other imaginable data structure. 
+Crossover and mutation are performed so as to respect data element boundaries.
+For most data types, specific variation operators can be designed. Different chromosomal data types
+seem to work better or worse for different specific problem domains.
+
+When bit-string representations of integers are used, Gray coding is often employed.
+In this way, small changes in the integer can be readily affected through mutations or crossovers.
+This has been found to help prevent premature convergence at so-called Hamming walls,
+in which too many simultaneous mutations (or crossover events) must occur in order to change 
+the chromosome to a better solution.
+
+Other approaches involve using arrays of real-valued numbers instead of bit strings to represent 
+chromosomes.
+Results from the theory of schemata suggest that in general the smaller the alphabet, the better
+the performance, but it was initially surprising to researchers that good results were obtained 
+from using real-valued chromosomes.
+This was explained as the set of real values in a finite population of chromosomes as forming a 
+virtual alphabet (when selection and recombination are dominant) with a much lower cardinality
+than would be expected from a floating point representation.
+
+An expansion of the Genetic Algorithm accessible problem domain can be obtained through more 
+complex encoding of the solution pools by concatenating several types of heterogenously encoded 
+genes into one chromosome.
+This particular approach allows for solving optimization problems that require vastly disparate
+definition domains for the problem parameters.
+For instance, in problems of cascaded controller tuning, the internal loop controller structure
+can belong to a conventional regulator of three parameters, whereas the external loop could
+implement a linguistic controller (such as a fuzzy system) which has an inherently
+different description.
+This particular form of encoding requires a specialized crossover mechanism that recombines the
+chromosome by section, and it is a useful tool for the modelling and simulation of
+complex adaptive systems, especially evolution processes.
 
 %--------------------------------------------------------------------------------------------------
 \subsection{Selection}
@@ -397,9 +464,59 @@ on a local maximumof being a good answer, but not the best answer.
 
 %--------------------------------------------------------------------------------------------------
 \subsection{Crossover or asexual reproduction}
+Crossover is a genetic operator used to vary the programming of a chromosome or chromosomes
+from one generation to the next.
+Crossover is sexual reproduction. Two strings are picked from the mating pool at random to
+crossover in order to produce superior offspring. The method chosen depends on the Encoding Method.
+The crossover between two good solutions may not always yield a better or as good a solution.
+Since parents are good, the probability of the child being good is high.
+If offspring is not good (poor solution), it will be removed in the next iteration.
+Depending on coding, simple crossovers can have high chance to produce illegal offspring.
+
+\subsubsection{N-point point crossover}
+In a single point crossover a crossover point on the parent organism string is selected. 
+All data beyond that point in the organism string is swapped between the two parent organisms. 
+Strings are characterized by positional bias.
+\begin{figure}[htb] 
+	\label{fig:single_crossover}
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/single_crossover}
+	\caption{An example of single point crossover}
+\end{figure}
+
+\subsubsection{Uniform crossover}
+Each gene (bit) is selected randomly from one of the corresponding genes of the parent chromosomes.
+Use tossing of a coin as an example technique.
+\begin{figure}[htb] 
+	\label{fig:uniform_crossover}
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/uniform_crossover}
+	\caption{An example of uniform crossover}
+\end{figure}
+
 
 %--------------------------------------------------------------------------------------------------
 \subsection{Mutation}
+Mutation operator in a genetic algorithm (GA) is usedprimarily as a mechanism for maintaining
+diversity in the population.
+In contrast to a recombination, a mutation operates on only one evolving population member at a 
+time and modifies it independent to the rest of the population members.
+Although mutation operator alone may not constitute an efficient search, along with a suitable 
+recombination operator, mutation plays an important rolein making the overall search efficient.
+For mutation, a bit-wise mutation operator which attempted to mutate every bit (alter the bit to 
+its complement) with a probability independently to the outcome of mutationton other bits.
+Parametric studies have shown that a mutation probability of $p_{m}= 1/L$ (where $L$ is the total
+number of bits used to represent all variables) performed the best.
+Researchers have realized that there are certain shortcomings of using a BGA to solve 
+real-parameteroptimization problems. One of the reasons was the artificial discreteness associated
+with the coding mech-anism and the second was the biasness of mutated solutions towards certain
+parts of the search space.
+Starting early 1990s, real-parameter GAs (RGAs) were suggested. 
+For RGAs, several mutation operators are also suggested.
+\subsubsection{Random Mutation}
+\subsubsection{Polynomial Mutation}
+\subsubsection{Gaussian Mutation}
+
 
 %--------------------------------------------------------------------------------------------------
 \subsection{Elite}
@@ -409,6 +526,20 @@ on a local maximumof being a good answer, but not the best answer.
 
 %--------------------------------------------------------------------------------------------------
 \subsection{Deep neural networks}
+Neuroevolution (NE), the artificial evolution of neural networks using genetic algorithms, 
+has shown great promise in complex reinforcement learning tasks. 
+Neuroevolution searches through the space of behaviors fora network that performs well
+at a given task.
+This approach to solving complex controlproblems represents an alternative to statistical
+techniques that attempt to estimate theutility of particular actions in particular states
+of the world.
+Past studies have shown NE to be faster and more efficient than reinforcement learning methods
+such as Adaptive Heuristic Critic and Q-Learning on single pole balanc-ing and robot arm control
+BecauseNE searches for a behavior instead of a value function, it is effective in problems with
+continuous and high-dimensional state spaces.
+In addition,  memory is easily repre-sented through recurrent connections in neural networks,
+making NE a natural choicefor learning non-Markovian tasks.
 
 %--------------------------------------------------------------------------------------------------
 \subsection{Neuroevolution for agumented topologies}
+
