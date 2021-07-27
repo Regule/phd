@@ -24,11 +24,30 @@ concepts as base will be used:
 	\item system,
 	\item observation,
 	\item response,
-	\item response function,
+	\item transfer function,
 \end{enumerate}
 while in specific context different names may be given to specific parts of that model general
 concept will remain unchanged.
 
 \begin{definition}[System]
-	A system is a set of elements which interact with each other.
+	A system is a set of elements which interact with each other. It can interact with it 
+	environment by gathering observations and sending responses.
 \end{definition}
+
+\begin{definition}[Observation]
+	An observation is a set of information about a state of an environment or about internal
+	system state.
+\end{definition}
+
+\begin{definition}[Response]
+	Response is set of information returned by a system to environment.
+\end{definition}
+
+\begin{definition}[Transfer function]
+	Transfer function maps an observation into a response.
+\end{definition}
+In this worke transfer function will be often refered to by a name more associated with its 
+current context. For example in case of predictor systems it will be called hypothesis.
+
+%==================================================================================================
+\section{Programming languages and other tools}

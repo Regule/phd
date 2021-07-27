@@ -27,6 +27,13 @@ were refuted as the modern synthesis reconciled Darwinian evolution with classic
 which established adaptive evolution as being caused by natural selection acting on
 Mendelian genetic variation.
 
+\begin{figure}[htb] 
+	\label{fig:tree_of_life}
+	\centering
+	\includegraphics[width=\textwidth]{figures/tree_of_life}
+	\caption{Evolutionary tree of life}
+\end{figure}
+
 All life on Earth shares a last universal common ancestor (LUCA) that lived approximately
 3.5–3.8 billion years ago.
 The fossil record includes a progression from early biogenic graphite, to microbial mat fossils,
@@ -166,6 +173,13 @@ Viruses are the only exception to this rule—sometimes viruses use the very sim
 instead of DNA as their genetic material.
 Viruses cannot reproduce without a host and are unaffected by many genetic processes,
 so tend not to be considered living organisms.
+
+\begin{figure}[htb] 
+	\label{fig:dna_structure}
+	\centering
+	\includegraphics[width=\textwidth]{figures/dna_structure}
+	\caption{Structure of dna helix}
+\end{figure}
 
 DNA normally exists as a double-stranded molecule, coiled into the shape of a double helix.
 Each nucleotide in DNA preferentially pairs with its partner nucleotide on the opposite strand:
@@ -542,4 +556,60 @@ making NE a natural choicefor learning non-Markovian tasks.
 
 %--------------------------------------------------------------------------------------------------
 \subsection{Neuroevolution for agumented topologies}
+The NEAT algorithm starts with an initial population of simple networks which then grow by adding 
+new connections or nodes.
+This approach is different from some others, where the initial population is randomly generated 
+with  nodes  and  connections. 
+In NEAT at the first generation  all  the  inputs  are connected to the outputs, and all
+individuals are equal. 
+The encoding scheme of NEAT during one of the later stages of the search, for aproblem with 2 
+inputs and 1 output, is presented in figure 1.In figure 1 the hidden node with innovation number 57
+is added during the search process, and it is 57-th mutation applied since the
+beginning of the search.
+All nodes, except for the hidden one have no operation $(x = x)$, while the hidden node performs 
+squaring operation: all inputs at every step are summed and squared.
+The connection genes also hold the innovation numbers, as well as the source (from which node),
+destination (to which node), weight coefficient, and activation flag, i.e. whether this connection
+is active or not.
+Three connections were added during the search and have innovation numbers 84, 107 and 152.
+Note that connection 107 is connected to itself, i.e. it creates a loop, and all values at the 
+output of  node  57  are  sent  to  the  input. 
+The  graphical  representation  of  this  individual  is  presented  below, showing the nodes and
+connections as a directed multigraph.
+The encoding scheme  presented  allows  starting with a  minimal network and thus  begin the search
+in smaller dimensional space, unlike the TWEANNs. 
+The number of nodes and connections has no strict limitations, which makes NEAT an evolutionary
+algorithm with varying chromosome length, and requires specific mutation and crossover operations 
+to be used.
+The calculations of the output values are  repeated  during  several  steps  until  all  reachable 
+nodes  are  activated  and  the  signal  from  them  is propagated to the output nodes.
+\begin{figure}[htb] 
+	\label{fig:neat_encoding}
+	\centering
+	\includegraphics[width=\textwidth]{figures/neat_encoding}
+	\caption{Example of neural network encoded by neat}
+\end{figure}
 
+The original study on NEAT proposed two main mutation operations: adding connections and adding 
+nodes to connections.
+In this study the following operators were used:
+\begin{enumerate}
+	\item Adding connection. Two random nodes are selected and the connection is created between
+		them, with a random weight assigned from randnorm(0,0.1) or randnorm(1,0.1) with 0.5
+		probability.
+	\item The destination node cannot be the bias or input node.Probability to use: 0.1.
+	\item Mutating random node. The operation type of a randomly selected node is changed 
+		to another one.Probability to use: 0.05.
+	\item Removing connection. If there are at least several connections in the solution,
+		one of them is randomly selected and removed.Probability to use: 0.15.
+	\item Merging  connections.  If there  are  two  nodes  linked  to  each  other  by  to 
+		connections,  these connections  are  merged  into  one,  with  the  weight  vector 
+		equal  to  the  sum  of  their  weights.Probability to use: 0.4.
+	\item Adding node to connection. A random connection is selected and divided into two,
+		with a node between them, and a random operation type is assigned to this node.
+		One of the weight either to the new node or from it is set to 1, while the other is set to 
+		be the same as previous.Probability to use: 0.1.
+	\item Random  weights.  With  probability  equal  to  1/NumberOfConnectionsthe  random  weight
+		is assigned   to   one   or   several   connections,   generated   from   either
+		randnorm(0,0.1)   or randnorm(1,0.1) with 0.5 probability. Probability to use: 0.1.
+\end{enumerate}
