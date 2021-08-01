@@ -1,0 +1,50 @@
+%----------------------------------------------------------------------------------------
+%	DOCUMENT CONFIGURATION
+%----------------------------------------------------------------------------------------
+\include{others/metaconfig}
+\include{others/config}
+
+\begin{document}
+\frontmatter % Use roman page numbering style (i, ii, iii, iv...) for the pre-content pages
+\pagestyle{plain} % Default to the plain heading style until the thesis style is called for the body content
+
+%----------------------------------------------------------------------------------------
+%	TITLE AND ALL FORMALITIES	
+%----------------------------------------------------------------------------------------
+\include{others/title}
+%\include{others/declaration}
+%\cleardoublepage
+%\include{others/quotation}
+%\include{others/abstract}
+%\include{others/acknowledgements}
+\tableofcontents % Prints the main table of contents
+
+%----------------------------------------------------------------------------------------
+%	CHAPTERS
+%----------------------------------------------------------------------------------------
+\mainmatter % Begin numeric (1,2,3...) page numbering
+\pagestyle{thesis} % Return the page headers back to the "thesis" style
+
+\include{chapters_final/neural_networks}
+
+%----------------------------------------------------------------------------------------
+%	LISTINGS OF STUFF	
+%----------------------------------------------------------------------------------------
+\listoffigures % Prints the list of figures
+\listoftables % Prints the list of tables
+\include{others/abbreviations}
+\include{others/constants}
+\include{others/symbols}
+
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+\printbibliography[heading=bibintoc]
+
+%----------------------------------------------------------------------------------------
+%	APPENDICES
+%----------------------------------------------------------------------------------------
+%\appendix % Cue to tell LaTeX that the following "chapters" are Appendices
+%\include{appendices/code_listing}
+
+\end{document}  

@@ -12,6 +12,7 @@
 *.lot
 *.bcf
 phd-blx.bib
+phd_final-blx.bib
 *.run.xml
 __pycache__
 env
