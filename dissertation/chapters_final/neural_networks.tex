@@ -66,3 +66,33 @@ There are two basic types of synapses:
 	across the synaptic cleft and binds to the specific receptor on the postsynaptic membrane.
 	Most of the synapses seen in the mammalian central nervous system are chemical \cite{Boto2019}.
 \end{itemize}
+The way in which signal processing in neuron occurs starts with neurotransmitters released by
+postsynaptic sides of other neurons reaching receptors on dendrites which causes electrical
+potential on soma to change. Under neutral condition electrical potential of cell membrane is 
+maintained at $-70 mV$ and is referred to as resting potential \cite{Tadeusiewicz1994}. 
+How much that potential changes depends on two factors, amount of neurotransmitter released by 
+other neuron and type as well as  amount of receptors on neuron which potential is modified.
+Number of neurotransmitters is synonymous with input signal strength while receptor type and count
+can be understood as a  weight assigned to given connection.
+Those weight can be either positive in which case such connection is called excitatory or negative 
+for inhibitory connections. 
+Receptor configuration is what determines individual neuron transfer function and defines it as 
+a signal processing unit.  
+\begin{figure}[htb] 
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/bio_activation}
+	\caption{Membrane potential of neural cell \cite{Verber2012}}
+	\label{fig:bio_activation}
+\end{figure}
+Effects of all synapses sum up and moderate neuron electrical potential that until action 
+potential is reached will return to resting potential after neurotransmitter will no longer
+be present \cite{Osowski1994}. However if action potential is reached neuron polarization almost
+instantly changes to $30 mV$, such event is referred to as neuron activation. 
+This state lasts for a very short time, less than microsecond, and after that neuron enters
+refractory period in which membrane potential drops bellow resting potential and cell cannot
+be activated. Such process of singleactivation is visualised by a plot on Figure 
+\ref{fig:bio_activation}. As long as neurotransmitters are still present at neuron dendrites when
+refractory period ends cell will once again activate.
+Activation causes neuron to release its own neurotransmitters at end of its axon and so signal
+can propagate over multiple neurons. 
+
