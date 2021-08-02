@@ -1,6 +1,6 @@
 %==================================================================================================
-\chapter{Neural networks}
 \FloatBarrier
+\chapter{Neural networks}
 
 In this chapter attention will be given to artificial neural networks (ANN) which are one of most 
 popular data processing models in self learning systems \cite{Abiodun2019} \cite{Tran2021}
@@ -14,8 +14,8 @@ computational complexity of both running and teaching described ANN models.
 
 
 %==================================================================================================
-\section{Neural circuits in biological systems}
 \FloatBarrier
+\section{Neural circuits in biological systems}
 In case of organic systems two kinds of information processing subsystems can be distinguished
 \cite{Johnson2016}:
 \begin{itemize}
@@ -31,8 +31,8 @@ special focus on interneurons that process already collected data.
 
 
 %--------------------------------------------------------------------------------------------------
-\subsection{Neural cell as a base of information processing circuit}
 \FloatBarrier
+\subsection{Neural cell as a base of information processing circuit}
 At most basic level a neuron is an animal cell which means it must contain all organelle that
 are common among those type of cells as well as be able to realize most of metabolic processes.
 \begin{figure}[htb] 
@@ -90,9 +90,50 @@ be present \cite{Osowski1994}. However if action potential is reached neuron pol
 instantly changes to $30 mV$, such event is referred to as neuron activation. 
 This state lasts for a very short time, less than microsecond, and after that neuron enters
 refractory period in which membrane potential drops bellow resting potential and cell cannot
-be activated. Such process of singleactivation is visualised by a plot on Figure 
+be activated. Such process of single activation is visualised by a plot on Figure 
 \ref{fig:bio_activation}. As long as neurotransmitters are still present at neuron dendrites when
 refractory period ends cell will once again activate.
 Activation causes neuron to release its own neurotransmitters at end of its axon and so signal
 can propagate over multiple neurons. 
+In living organisms there are many different types of neurons with most general distinction
+between receptors, effectors and interneurons.
+\begin{definition}[Receptor]
+	In context of neural systems receptor is defined as a neuron connected, by dendrites to sensory 
+	cells like rod cells in eye.
+\end{definition}
+\begin{definition}[Effector]
+	In context of neural systems effectors are neurons that connect to motor cells like muscle 
+	cells.
+\end{definition}
+\begin{definition}[Interneuron]
+	Interneurons are neural cells that are connected only to other neural cells.
+\end{definition}
+
+\begin{figure}[htb] 
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/bio_neurons}
+	\caption{Selected types of neural cells}
+	\label{fig:bio_neurons}
+\end{figure}
+Every type of neuron have noticeable differences in cell structure as visualised on 
+Figure \ref{fig:bio_neurons}. 
+While neuron can be considered signal processing system on its own its true potential lies in 
+ability to interconnect with other neurons and create a complex information processing circuits.
+
+%--------------------------------------------------------------------------------------------------
+\FloatBarrier
+\subsection{Neural circuits as information processing systems}
+In order to properly understand role of neural circuits (NC) in organisms a overview of role
+of information processing in living systems is required. An approach used here is based on 
+cybernetic system theory \cite{Wiener2011} as it do not require detailed knowledge of animal
+biology to describe interactions between organism subsystems. Another upside of this approach is 
+ease of translation between description of organic NC into ANN.
+Model used as base of analysis is based on Marian Mazur autonomous system definition 
+\cite{Mazur1966} and its block diagram is visualised on Figure \ref{fig:auto_system}. 
+\begin{figure}[htb] 
+	\centering
+	\includegraphics[width=\textwidth]{figures/auto_system}
+	\caption{Block diagram of autonomous system}
+	\label{fig:auto_system}
+\end{figure}
 
