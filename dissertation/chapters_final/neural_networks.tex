@@ -136,4 +136,26 @@ Model used as base of analysis is based on Marian Mazur autonomous system defini
 	\caption{Block diagram of autonomous system}
 	\label{fig:auto_system}
 \end{figure}
-
+Following Mazur work a definition of autonomous system can be made.
+\begin{definition}[Autonomous system]
+	An autonomous system is an entity that exists in some environment and is able gather 
+	informations about that environment as well as affect it in order to accomplish its own
+	goals.
+\end{definition}
+In such system a information path and energy path can be separated, due to level of abstraction
+of this work only information path will be analyzed in more details. This path consist of 
+receptors, effectors, correlator and homeostat.  While receptor and effector definition for 
+organic system is already known a two additional elements must be defined.
+\begin{definition}[Correlator]
+	Correlator is a subsystem responsible for translating a set of receptor signals, called
+	observation, into a set of receptor signals referred to as a reaction.
+\end{definition}
+\begin{definition}[Homeostat]
+	A subsystem responsible for maintaining balance of complex system that it is a part of.
+	Disturbance in balance is detected based on correlator internal state and results in 
+	modification of that state.
+\end{definition}
+In organic entities correlator is purely neural system as endocrine mechanics are two slow for
+task realised by it while homeostat is mix of neural and endocrine subsystems. 
+However as in this work endocrine systems is ignored all elements of autonomous system 
+information path can be modelled as a single NC. 
