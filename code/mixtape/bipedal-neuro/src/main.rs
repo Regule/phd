@@ -3,7 +3,9 @@ extern crate rand;
 
 use gym::{GymClient, Environment, State, Action, GymError, SpaceData};
 use log::{self, info, warn, debug, Record, Level, Metadata, LevelFilter};
-use ndarray::{Array1, Array2, array};
+use ndarray::{Array, Array1, Array2, array};
+use ndarray_rand::RandomExt;
+use ndarray_rand::rand_distr::Uniform;
 
 static GLOBAL_LOGGER: SimpleLogger = SimpleLogger{level: LevelFilter::Info};
 
@@ -12,10 +14,9 @@ fn main() {
     log::set_logger(&GLOBAL_LOGGER).expect("Failed to initialize logger.");
 	let client = GymClient::default();
     let walker = Walker::new(&client);
-    let dummy_array = Array2::zeros((4, 3));
     walker.reset();
     loop{
-        walker.step(&dummy_array);
+        walker.random_step();
     }
 }
 
@@ -99,7 +100,7 @@ impl Walker<'_>{
     pub fn step(&self, action: &Array1<f64>)-> WalkerState{
         self.walker_env.render();
         debug!("Action ==> {}",action);
-        let response = self.walker_env.step(&Action::BOX(action));
+        let response = self.walker_env.step(&Action::BOX(action.clone()));
         let state = match response{
             Ok(st)=> st,
             Err(err)=>{
@@ -119,17 +120,21 @@ impl Walker<'_>{
 //=================================================================================================
 
 struct WalkerAI{
-    neural_layers: Vec<Array1<f64>>,
+    neural_layers: Vec::<Array1<f64>>,
     score: f64,
 }
 
 impl WalkerAI{
 
     pub fn new(layer_sizes: Vec<usize>)-> WalkerAI{
-        let neural_layers = Vec<Array1<f64>>::new();
+        let a = Array::random((2, 5), Uniform::new(0., 10.));
+        println!("{:8.4}", a);
+
+        let neural_layers = Vec::<Array1<f64>>::new();
         for layer_size in layer_sizes{
-            neural_layers.push();
+            neural_layers.push(Array::random((1, layer_size), Uniform::new(-1.0, 1.0)));
         }
+        WalkerAI{neural_layers, score: 0.0}
     }
 
     pub fn process_input(_observation: &Array2<f32>)-> Array2<f32>{
