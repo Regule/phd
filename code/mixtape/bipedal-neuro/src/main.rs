@@ -130,9 +130,10 @@ impl WalkerAI{
         let a = Array::random((2, 5), Uniform::new(0., 10.));
         println!("{:8.4}", a);
 
-        let neural_layers = Vec::<Array1<f64>>::new();
+        let mut neural_layers = Vec::<Array1<f64>>::new();
         for layer_size in layer_sizes{
-            neural_layers.push(Array::random((1, layer_size), Uniform::new(-1.0, 1.0)));
+            let mut layer = Array::random((layer_size), Uniform::new(-1.0, 1.0));
+            neural_layers.push(layer);
         }
         WalkerAI{neural_layers, score: 0.0}
     }

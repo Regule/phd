@@ -1,0 +1,22 @@
+\chapter{Introduction}
+
+%==================================================================================================
+\section{Hypothesis}
+With the application of modern machine learning algorithms, especially artificial neural networks,
+it is possible to predict a clock bias with an error of less than 1 $\mu s$ basing only on
+previously measured errors. 
+
+
+
+%==================================================================================================
+\section{Motivation}
+I have encountered a problem that was an inspiration for this work during my research in the 
+field of mobile robotics.
+While my initial focus was directed more towards emergent behavior in robotics and self-organizing 
+systems \cite{Gnys2017}\cite{Gnys2019} I have encountered an issue with localization in marine 
+robotics \cite{Cabrera-Gamez2014}.
+With the high cost of internet connection for robots operating far away from land, 
+it is important to be able to calculate precise position without updating data from the internet.
+One of the issues when working with a satellite navigation system is a requirement for clock bias
+correction, to keep error drift to minimum readouts for both local and satellite clocks must
+be corrected by predicted bias.
