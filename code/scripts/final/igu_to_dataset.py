@@ -12,9 +12,15 @@ BIAS_COLUMN = 'Clock_bias'
 def process_clock_readout(input_file, output_file, separator):
     dataset = pd.read_csv(input_file, sep=separator)
     bias = dataset[BIAS_COLUMN].to_numpy()
-    derivatives = []
+    new_dataset = {}
+    new_dataset['x0'] = bias
     for i in range(4):
-        derivatives.append(np.diff(bias, n=i+1))
+        n = i+1
+        padding = np.zeros(n)
+        derivative = np.diff(bias, n=n)
+        new_dataset[f'x{n}'] = np.concatenate((padding, derivative))
+    new_dataset = pd.DataFrame(new_dataset) 
+    new_dataset.to_csv(output_file, sep=separator)
 
 def main(args):
     for root, _, files in os.walk(args.input_directory):
