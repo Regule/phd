@@ -20,7 +20,7 @@ def process_clock_readout(input_file, output_file, separator):
         derivative = np.diff(bias, n=n)
         new_dataset[f'x{n}'] = np.concatenate((padding, derivative))
     new_dataset = pd.DataFrame(new_dataset) 
-    new_dataset.to_csv(output_file, sep=separator)
+    new_dataset.to_csv(output_file, sep=separator, index=False)
 
 def main(args):
     for root, _, files in os.walk(args.input_directory):
