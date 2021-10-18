@@ -10,12 +10,13 @@ import sys
 EPOCH_COLUMN = 'Epoch'
 BIAS_COLUMN = 'Clock_bias'
 
-def process_clock_readout(input_file, output_file, separator):
+def process_clock_readout(input_file, output_file, separator, derivative_degree):
     dataset = pd.read_csv(input_file, sep=separator)
     bias = dataset[BIAS_COLUMN].to_numpy()
     new_dataset = {}
-    new_dataset['x0'] = bias
-    for i in range(4):
+    x_index=0
+    for i in range(derivative_degree):
+        x_index += 1
         n = i+1
         padding = np.zeros(n)
         derivative = np.diff(bias, n=n)
@@ -42,6 +43,10 @@ def parse_arguments():
             help='Directory with CSV files for processing')
     parser.add_argument('-o', '--output_directory', type=str, required=True,
             help='Directory to whih processed files will be saved.')
+    parser.add_argument('--derivative_degree', type=int, default=4,
+            help='Highest degree of derivative that will be generated.')
+    parser.add_argument('--window_size', type=int, default=3,
+            help='Size of observation window')
     parser.add_argument('--separator', type=str, default=';',
             help='Character used for column separation in csv file.')
     return parser.parse_args()
