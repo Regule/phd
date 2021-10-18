@@ -12,14 +12,32 @@ import numpy as np
 import pandas as pd
 
 
+training_data = {}
+test_data = {}
+
+
 def prepare_datasets(data_folder, window_size, separator):
-    for root, _, files in os.walk(args.data_folder):
+    satellites = {}
+    for root, _, files in os.walk(data_folder):
         for file in files:
             if '.csv' in file:
+                sat_name = file.split('.')[0]
                 single_satellite = pd.read_csv(os.path.join(root, file), sep=separator)
+                satellites[sat_name] = single_satellite.to_numpy()
+                print(f'Loaded satellite {sat_name}.')
+    return satellites
+
+
+def eval_genomes(genomes, config):
+    for genome_id, genome in genomes:
+        genome.fitness = .0
+        net = neat.nn.FeedForwardNetwork.create(genome, config)
+        for satellite, data in test_data.items():
+            output = net.activate(xi)
+            genome.fitness -= (output[0] - xo[0]) ** 2
 
 def main(args):
-    pass
+    prepare_datasets(args.training_folder, 0, args.separator)
 
 
 def parse_arguments():

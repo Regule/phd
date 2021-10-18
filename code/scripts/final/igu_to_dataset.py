@@ -5,6 +5,7 @@ import argparse
 import os
 import pandas as pd
 import numpy as np
+import sys
 
 EPOCH_COLUMN = 'Epoch'
 BIAS_COLUMN = 'Clock_bias'
@@ -19,6 +20,10 @@ def process_clock_readout(input_file, output_file, separator):
         padding = np.zeros(n)
         derivative = np.diff(bias, n=n)
         new_dataset[f'x{n}'] = np.concatenate((padding, derivative))
+    series = pd.Series(new_dataset)
+    #for window in series.rolling(window=2):
+    #    print(window)
+    #    sys.exit()
     new_dataset = pd.DataFrame(new_dataset) 
     new_dataset.to_csv(output_file, sep=separator, index=False)
 
