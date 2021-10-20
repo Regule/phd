@@ -44,7 +44,7 @@ preffered in most cases. However, this approach is not without a downsides:
 \end{itemize}
 Mobile robots depend heavily on exteroceptive sensors as their role is to acquire information on
 objects in the robot’s immediate vicinity so that it may model its environment and make a 
-decision on what action to take. Of course all objects are detected within robot local reference 
+decision on what action to take. All objects are detected within robot local reference 
 frame. 
 \begin{table}[htb] 
 	\centering
@@ -86,3 +86,93 @@ mechanisms.
 %==================================================================================================
 \FloatBarrier
 \section{Hardware and software specifications}
+
+%==================================================================================================
+\FloatBarrier
+\section{Concepts in machine learning}
+
+%--------------------------------------------------------------------------------------------------
+\FloatBarrier
+\subsection{Differences between knowledge and data based models}
+While creating a model of physical processes one of two approaches may be used.
+First, is the knowledge-driven model that as the name implies relays on knowledge of underlying
+laws of physics that govern the process.
+The main advantage of this approach is its high explainability and reliability as every parameter
+of the model corresponds with some specific physical property.
+However this model has a very significant downside, it requires detailed knowledge of physical
+phenomena. This means that for complex processes it might be very difficult or even
+impossible, at a~given moment, to create a model. Another drawback is that the complexity of
+the process grows the computational cost of its model.
+If those problem makes creating usable knowledge-based model impossible or economically
+non-efficient a data-driven approach may be used.
+It model used is chosen arbitrarily with little or no relation to underlying physics,
+then model parameters are adjusted until it will fit experimental data to the best of its
+capability.
+The main advantage of a data-driven approach is the lack of required knowledge on the process
+inner workings, which allow prediction of events which exact mechanics have not
+yet been discovered.
+Another element characteristic in the data-driven approach, that can be either advantageous or
+disadvantageous is the lack of direct correlation between the complexity
+of the process and computational cost of the model.
+This is a very welcome trait for complex processes like orbital atomic clock ensembles.
+The main disadvantage in comparison with the knowledge-driven approach is its 
+lower reliability and explainability. 
+This is the main reason why the data-driven approach is usually avoided in
+critical implementations. Another significant downside is a requirement of a large amount of
+experimental data for model adjustment which means that in many cases this approach simply
+cannot be used.
+The last thing that must be said about the data-driven approach is that it still requires some
+amount of knowledge to work efficiently as the selection of models that will be adjusted to
+data requires some assumption. For example, the use of linear regression assumes that the model
+is linear.
+
+%----------------------------------------------------------------------------------------------------
+\FloatBarrier
+\subsection{What is a machine learning algorithm}
+Unlike artificial intelligence (AI) which is more of a loose term machine learning (ML) is 
+more rigidly defined \cite{AurelienGeron2019}.
+\begin{definition}[Machine Learning]
+Machine learning  describes subset of algorithms that adjusts parameter of other algorithms 
+according to data.
+\end{definition}
+To provide more formal definition an algorithm can be described as a transformation 
+function $\phi_{a}$ such that:
+\begin{equation}
+	\label{equ:algorithm_general}
+	\mathcal{Y}_{a} = \phi_{a}(\mathcal{X},\Theta_{a}),
+\end{equation}
+where $\mathcal{Y}_{a}$ is set of algorithm responses, $\mathcal{X}$ is set of observations
+(algorithm inputs) and $\Theta_{a}$ is algorithm parameter set \cite{Tadeusiewicz1994}.
+Observation space $\mathcal{U}_{x}$ and response space $\mathcal{U}_{y}$ can be simply a numerical
+space, in which case algorithm is called numerical algorithm \cite{G1989}, but can also represent
+more abstract concepts. For example in case of database software input space will consist of 
+queries while response space will contain information stored in database as well as error 
+status in case query was written incorrectly\cite{Banachowski2013}.
+Machine learning algorithm, denoted as $\phi_{m}$ can also be described in that general form
+however what is special in this case is that input space $\mathcal{U}_{m}$ consists of either :
+\begin{equation}
+	\label{equ:supervised_input}
+	\mathcal{X}_{m} = \{\phi_{a}, \mathcal{X}_{a}, \mathcal{Y}_{a}, \Theta_{a} \},
+\end{equation}
+in case of supervised learning or just :
+\begin{equation}
+	\label{equ:supervised_input}
+	\mathcal{X}_{m} = \{\phi_{a}, \mathcal{X}_{a}, \Theta_{a} \},
+\end{equation}
+in case of unsupervised learning.
+In both cases response of machine learning algorithm is described as a:
+\begin{equation}
+	\label{equ:ml_response}
+	\mathcal{Y}_{m} = \{\hat{\Theta}_{a}, E_{a}\},
+\end{equation}
+where $\hat{\Theta}_{a}$ is adjusted set of parameters and $E_{a}$ is value prediction 
+error for this new set of parameters.
+Aim of machine learning algorithm is to adjust parameters $\Theta_{a}$ of given algorithm 
+$\phi_{a}$ in such a way to minimize error $E_{a}$ for given data. In case of supervised learning
+a correct response $\mathcal{Y}_{a}$ for inputs is known where in case of unsupervised learning
+only input set $\mathcal{X}_{a}$ is known. In order to avoid confusion parameters of machine 
+learning algorithm $\Theta_{m}$ will be referred to as a \textit{metaparameters}. 
+Exact set of meteaparameters vary between specific algorithms, however there is one 
+crucial metaparameter that will appear in every machine learning algorithm.
+That metaparameter is error function as it is required for error value calculation and as 
+minimization of that value is goal of machine learning it is mandatory to be able to calculate it.
