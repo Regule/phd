@@ -7,6 +7,18 @@ import gym
 import argparse
 
 
+def show_agent_behaviour(genome, config):
+    environment = gym.make(config.environment)
+    observation = environment.reset()
+    for _ in range(config.max_cycles):
+        net = neat.nn.FeedForwardNetwork.create(genome, config)
+        environment.render() 
+        reaction = net.activate(observation) 
+        observation, _, finished, _ = environment.step(reaction)
+        if finished:
+            break
+
+
 def run_simulation(population, config):
     environment = gym.make(config.environment)
     top_genome = None
@@ -16,12 +28,12 @@ def run_simulation(population, config):
         genome.fitness = 0.0
         observation = environment.reset()
         finished = False
-        for _ in range(500):
+        for _ in range(config.max_cycles):
             reaction = net.activate(observation) 
             observation, reward, finished, _ = environment.step(reaction)
             genome.fitness += reward
             if finished:
-                genome.fitness = -1000.0
+                genome.fitness -= config.break_punishment 
                 break
         if top_genome is None or genome.fitness > top_genome.fitness:
             top_genome = genome
@@ -36,8 +48,11 @@ def main(args):
     for key, value in config.__dict__.items():
         print(f'{key} --> {value}')
     population = neat.Population(config)
-    winner = population.run(run_simulation, 100)
-    #show_agent_behaviour(winner, 500, config)
+    population.add_reporter(neat.StdOutReporter(True))
+    stats = neat.StatisticsReporter()
+    population.add_reporter(stats)
+    winner = population.run(run_simulation, config.max_generations)
+    show_agent_behaviour(winner, config)
     #draw_net(config, winner, True)
 
 
@@ -47,6 +62,12 @@ def parser_arguments():
             help='Path to configuration file.')
     parser.add_argument('-e', '--environment', type=str, required=True,
             help='An AI Gym environment name.')
+    parser.add_argument('--max_generations', type=int, default=100,
+            help='Maximum number of generations for which algorithm will work.')
+    parser.add_argument('--max_cycles', type=int, default=500,
+            help='Maximum number of cycles for which simulation will be ran')
+    parser.add_argument('--break_punishment', type=float, default=-100.0,
+            help='Punishment for failure that causes simulation to stop early')
     return parser.parse_args()
 
 
