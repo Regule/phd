@@ -14,11 +14,6 @@
 \FloatBarrier
 \subsection{OpenAI Gym}
 
-%--------------------------------------------------------------------------------------------------
-\FloatBarrier
-\subsection{Selected environments}
-Environments selected for use 
-
 \FloatBarrier
 \subsubsection{Cart pole}
 A pole is attached by a non actuated joint to a cart, which moves along a frictionless track.
@@ -102,6 +97,10 @@ If the V box is on, your video display will flash on and off. C means that your 
 firing power is cut in half. R indicates that your radar has been rendered useless.
 T simply slows down the turning ability of your Robotank
 
+%--------------------------------------------------------------------------------------------------
+\FloatBarrier
+\subsection{Computation device}
+
 %==================================================================================================
 \FloatBarrier
 \section{Topological neural network implementation in low resource environment}
@@ -109,10 +108,61 @@ T simply slows down the turning ability of your Robotank
 %--------------------------------------------------------------------------------------------------
 \FloatBarrier
 \subsection{Native implementation on 64-bit architecture}
+Native representation of topologically varying neural network must rely on graph structure as 
+simple matrix per layer representation assumes fully connected layered structure.
+\begin{figure}[htb] 
+	\centering
+	\includegraphics[width=0.3\textwidth]{figures/xor_network}
+	\caption{An example of network graph for solving XOR problem.}
+	\label{fig:xor_network}
+\end{figure}
+As shown on figure \ref{fig:xor_network} ANN consists of typical graph elements, 
+nodes and links. Some of the nodes are recognised as an inputs or outputs where others are 
+considered hidden nodes. While not visible on this visualisation nodes also need to store 
+additional information, because of that a connection graph is also not a valid solution
+as it only contains information about connection weights as shown on equation 
+\ref{equ:connection_grid}.
+\begin{equation}
+	\label{equ:connection_grid}
+	NET = \begin{bmatrix}
+		0 & 0 & 2 & 2 & -1\\
+		0 & 0 & 0 & 0 & 3\\
+		0 & 0 & 0 & 0 & -3\\
+	\end{bmatrix}
+\end{equation}
+Another significant disadventage is high memory requirements for use of that representation as 
+each node requires its own row as well as column. This makes memory complexity of connection 
+matrix $n^2$ where $n$ is number of nodes.
+This negates one of main advantages of neuroevolution, it ability to create sparsly connected 
+networks.
+After rejecting that approach next logical step is selection of memory pointer functionality
+that is natively implemented in most of lower level programming languages.
+In shuch representation both nodes and links are stored in specialised structures in program
+memory. Relations between those elements are modeled as a pointers to memory parts where target
+objects are stored.
+In case of solution described in this paper all implementation was done in C programming language
+as it a solution with least overhead and a well established language in microcontroller
+programming. 
+Implementation details are crutial to thesis formed in this work an as such code listings will be
+provided in a specific language instead of pseudocode.
+\begin{lstlisting}[frame=single, language=C, caption={Implementation of Node and Link structures in C}]
+typedef struct Node_t{
+	int cycle;
+	double value;
+	double (*activation)(double);
+	double (*agregation)(const Vector*);
+	size_t connection_count;
+	Connection** connections;
+} Node;
 
+typedef struct Connection_t{
+	double weight;
+	Node* target;
+}Connection;
+\end{lstlisting}
 %--------------------------------------------------------------------------------------------------
 \FloatBarrier
-\subsection{Limitations in used embedded system}
+\subsection{Limitations in robotic applications}
 
 %--------------------------------------------------------------------------------------------------
 \FloatBarrier
