@@ -1,7 +1,5 @@
 '''
-This module contains classes and functions that are required for running embedded neuroevolution
-experiments but are not part of actual neuroevolution model.
-Mainly those are interfaces between separate elements of project.
+This module contains an Overseer class that is central element of experiment.
 '''
 
 import gym
@@ -12,9 +10,10 @@ def verify_neural_library(neural_library):
     This class checks if selected neural_library provides required level of compatibility 
     with PyNeat.
 
-        :param neural_library: Module that handles neural network and neuroevolution functionality.
-        :return: Tuple that contains (True,None) if module provides compatibility or tuple that contains
-        (False, List) if it does not. Returned list contains elements that are not found in module.
+        @param neural_library Module that handles neural network and neuroevolution functionality.
+        @return Tuple that contains (True,None) if module provides compatibility or tuple that
+                contains (False, List) if it does not. Returned list contains elements that are 
+                not found in module.
     '''
     # TODO: Add actual body to this function if needed.
     return (True, None)
@@ -34,11 +33,11 @@ class Overseer:
         name of one of default ones. In second case it will attempt to load given environment
         from Gym.
 
-            :param environment: Name of default Gym environment or a object that is custom one.
-            :param signal_preprocessing_unit: Object that relay signals between Gym environment 
-            and neural network
-            :param neural_library: Module responsible for handling networks and neuroevolution
-            :return: Returns nothing
+            @param environment Name of default Gym environment or a object that is custom one.
+            @param signal_preprocessing_unit Object that relay signals between Gym environment 
+                                             and neural network.
+            @param neural_library Module responsible for handling networks and neuroevolution
+            @return Returns nothing
         '''
         if  isinstance(environment, str):
             self.environment = gym.make(environment)

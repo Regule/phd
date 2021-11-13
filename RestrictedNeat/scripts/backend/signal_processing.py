@@ -1,3 +1,7 @@
+'''
+This module contains all classes and functions related to signal processing alongside used 
+machine learning models.
+'''
 
 class SignalPerprocessingUnit:
     '''
@@ -17,8 +21,8 @@ class SignalPerprocessingUnit:
         '''
         This function transforms Gym observation into a format used by the neural network.
 
-            :param observation: Observation returned by gym.env.step
-            :return: Observation in format expected by neural network
+            @param observation Observation returned by gym.env.step
+            @return Observation in format expected by neural network
         '''
         return observation
 
@@ -26,7 +30,7 @@ class SignalPerprocessingUnit:
         '''
         This function processes network reaction into format acceptable by Gym environment.
 
-            :param reaction: Reaction returned by network.activate
-            :return: Reaction in format expected by gym.env.step
+            @param reaction Reaction returned by network.activate
+            @return Reaction in format expected by gym.env.step
         '''
         return reaction

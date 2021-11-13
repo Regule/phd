@@ -20,3 +20,5 @@ env
 local
 kybdata.txt
 target
+docs
+build
