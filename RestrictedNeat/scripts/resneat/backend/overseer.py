@@ -3,6 +3,7 @@ This module contains an Overseer class that is central element of experiment.
 '''
 
 import gym
+import neat
 from signal_rocessing import SignalPerprocessingUnit
 
 def verify_neural_library(neural_library):
@@ -55,4 +56,7 @@ class Overseer:
             raise ImportError(f'Module {neural_library} lacks following compatibilities with PyNeat {problem_list}')
         self.neural_library = neural_library
 
+        self.best_specimen = None
+        self.population = None
 
+    
