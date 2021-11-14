@@ -4,7 +4,7 @@ This module contains an Overseer class that is central element of experiment.
 
 import gym
 import neat
-from signal_rocessing import SignalPerprocessingUnit
+from resneat.backend.signal_processing import SignalPreprocessingUnit
 
 def verify_neural_library(neural_library):
     '''
@@ -42,12 +42,12 @@ class Overseer:
         '''
         if  isinstance(environment, str):
             self.environment = gym.make(environment)
-        elif isinstance(environment, gym.Env)):
+        elif isinstance(environment, gym.Env):
             self.environment = environment
         else:
             raise TypeError(f'Overseer expects environment as either string or gym.Env object, instead recieved {type(environment)}.')
         
-        if not isinstance(signal_preprocessing_unit, SignalPerprocessingUnit):
+        if not isinstance(signal_preprocessing_unit, SignalPreprocessingUnit):
             raise TypeError(f'Signal preprocessing unit must inherit SignalPerprocessingUnit class while {type(environment)} do not.')
         self.signal_preprocessing_unit = signal_preprocessing_unit
         

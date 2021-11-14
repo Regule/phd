@@ -3,7 +3,7 @@ This module contains all classes and functions related to signal processing alon
 machine learning models.
 '''
 
-class SignalPerprocessingUnit:
+class SignalPreprocessingUnit:
     '''
     Objects of this class are responsible for translating between Gym environment signals and 
     those used by neural networks. This is important for two reasons, first one is that it is 
