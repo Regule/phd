@@ -46,3 +46,38 @@ def plot_statistics(statistics, name, display_window=False,
 
     plt.close()
 
+
+def plot_speciation(statistics, name, display_window=False, file_name=None, 
+        csv_file=None):
+    '''
+    This function generates plot that shows spieces participation in population over
+    generations.
+
+        @param statistics A statistics reporter object from PyNeat
+        @param name Name identifing a specific neuroevolution experiment
+        @param display_window If set to true a window with plot will be displayed to user
+        @param file_name If not none a plot will be saved into given file
+        @param csv_file_name If not none data used for generating plot will be also to written to
+                             csv file for future use.
+    '''
+
+    species_sizes = statistics.get_species_sizes()
+    generations = len(species_sizes)
+    curves = np.array(species_sizes).T
+
+    fig, ax = plt.subplots()
+    ax.stackplot(range(generations), *curves)
+
+    plt.title('Speciation')
+    plt.ylabel('Size per Species')
+    plt.xlabel('Generations')
+
+    if file_name is not None:
+        plt.savefig(file_name)
+    if display_window is not None:
+        plt.show()
+    # FIXME: ADD THIS FUNCTIONALITY
+#    if csv_file_name is not None:
+#        data_frame = pd.DataFrame({'best': best, 'avarage':avarage})
+
+    plt.close()
