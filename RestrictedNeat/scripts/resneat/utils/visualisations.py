@@ -27,14 +27,14 @@ def plot_statistics(statistics, name, display_window=False,
     best = [c.fitness for c in statistics.most_fit_genomes]
     avarage = np.array(statistics.get_fitness_mean())
 
-    plt.plot(generations, avarage, '--', label="average")
-    plt.plot(generations, best, '-', label="best")
+    plt.plot(generations, avarage, '--', label='average')
+    plt.plot(generations, best, '-', label='best')
 
-    plt.title("Population fitness")
-    plt.xlabel("Generations")
-    plt.ylabel("Fitness")
+    plt.title('Population fitness')
+    plt.xlabel('Generations')
+    plt.ylabel('Fitness')
     plt.grid()
-    plt.legend(loc="best")
+    plt.legend()
 
     if file_name is not None:
         plt.savefig(file_name)

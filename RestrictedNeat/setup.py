@@ -6,6 +6,6 @@ setup(name='RestrictedNeat',
       author='Piotr Gnyś',
       author_email='regule@runbox.com',
       package_dir = {'': 'scripts'},
-      packages=['resneat.backend'],
+      packages=['resneat.backend', 'resneat.utils'],
      )
 

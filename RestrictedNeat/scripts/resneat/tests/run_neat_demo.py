@@ -7,7 +7,7 @@ It should be ran to manually test results generated.
 import neat
 from resneat.backend.signal_processing import SignalPreprocessingUnit
 from resneat.backend.overseer import Overseer
-from resneat.backend.visualisations import plot_statistics 
+from resneat.utils.visualisations import plot_statistics 
 
 o = Overseer('BipedalWalker-v3', SignalPreprocessingUnit(), neat, 400)
 stats = neat.StatisticsReporter()
