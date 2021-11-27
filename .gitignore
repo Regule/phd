@@ -1,4 +1,5 @@
 .ipynb_checkpoints
+*.egg-info
 *.so
 *.aux
 *.pdf
