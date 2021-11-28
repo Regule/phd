@@ -15,8 +15,15 @@ experiments and ends with conclusions and suggestions for future research.
 %--------------------------------------------------------------------------------------------------
 \FloatBarrier
 \subsection{Enviroment architecture}
-
-\subsubsection{Modules}
+The experiment environment is separated into distinct modules that serve specific purposes and
+communicate with each other trough serial ports with use of protocol described in section
+\ref{sec:com-prot}.
+Thanks to that approach each of modules is separated from other and their internal implementation
+details do not affect each other. As such modifications made to one part of system do not propagate
+to others, this is important as due to innovative nature of RNEAT implementation a multiple 
+modifications can be implemented over the course of experiments.
+Detailed interactions between modules, as well as their develpment environment and hardware
+location, are visualised on Figure \ref{fig:experiment_arch}.
 \begin{figure}[htb] 
 	\centering
 	\includegraphics[width=0.6\textwidth]{figures/experiment_arch}
@@ -24,7 +31,10 @@ experiments and ends with conclusions and suggestions for future research.
 	\label{fig:experiment_arch}
 \end{figure}
 
+\subsubsection{Modules}
+
 \subsubsection{Communication protocol}
+\label{sec:com-prot}
 To be able to interact with one another each module must use same communication protocol.
 For this project main role of this protocol is to send observations and reactions between 
 neural network and agent sensor and effector controler.
