@@ -85,6 +85,44 @@ metadata remain unchanged.
 \subsection{Simulation environment - OpenAI Gym}
 When preparing a simulation environment a decision must be made,wheter to creat a dedicated one
 for the project or use a already available one.
+As in this case purpose of experiments is to compare results of NEAT and RNEAT in variety of 
+robotics related tasks a already prepared environment is a better solution.
+Following simulation environments were taken into a consideration:
+\begin{enumerate}
+	\item Webots
+	\item Gazebo
+	\item Stage
+	\item Gym
+\end{enumerate}
+Initially more attention was given to a strictly robotics dedicated environments such as 
+Webots or Stage. Those were main contenders due to their use in resarch and didactics at PJATK.
+However finally a decision was made to use much more general Gym as it was able to replicate
+most issues faced in robotisc, such as control of mobile systems and image processing, and it
+was more fit for use alongside already existing implementations of NEAT.
+
+OpenAI Gym was created with reinforcement learning in mind, where the agent’s experience is broken
+down into a series of episodes. 
+In each episode, agent recieves an observation and responds with an reaction and that 
+interaction cotinues until the environment reaches a terminal state. 
+The goal in episodic reinforcement learning is to maximize the expectation of total reward per 
+episode, this is easily translatable into a fittnes function of a genetic algorithm by cumulative
+sum of rewards.
+
+\begin{lstlisting}[frame=single, language=Python, caption={A simple simulation in Gym}]
+import gym
+env = gym.make('CartPole-v1')
+observation = env.reset()
+finished = False
+total_reward = 0.0
+env.render()
+while not finished:
+  env.render()
+  reaction = env.action_space.sample() # random reaction
+  observation, reward, done, _ = env.step(reaction)
+  total_reward += reward
+  env.render()
+env.close()
+\end{lstlisting}
 
 \FloatBarrier
 \subsubsection{Cart pole}
