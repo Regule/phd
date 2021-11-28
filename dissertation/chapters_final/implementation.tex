@@ -270,6 +270,12 @@ typedef struct Connection_t{
 	Node* target;
 }Connection;
 \end{lstlisting}
+Additionally to be able to determine how much resources does implementation use a knowledge of 
+hardware architecure of used device is requred.
+Most of moder computers use 64-bit architecture witch hardware implementation of floating point
+operations. That means that single integer takes 64 bits of memory space and there is no 
+computation overhead when using floating point variables instead of fixed point ones.
+
 %--------------------------------------------------------------------------------------------------
 \FloatBarrier
 \subsection{Limitations in robotic applications}
@@ -278,6 +284,7 @@ typedef struct Connection_t{
 \FloatBarrier
 \subsection{Computation efficiency - 24-bit fixed point model}
 \label{sec:fixed-model}
+In order to implement 
 
 %--------------------------------------------------------------------------------------------------
 \FloatBarrier
