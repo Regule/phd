@@ -15,6 +15,8 @@ experiments and ends with conclusions and suggestions for future research.
 %--------------------------------------------------------------------------------------------------
 \FloatBarrier
 \subsection{Enviroment architecture}
+
+\subsubsection{Modules}
 \begin{figure}[htb] 
 	\centering
 	\includegraphics[width=0.6\textwidth]{figures/experiment_arch}
@@ -22,9 +24,67 @@ experiments and ends with conclusions and suggestions for future research.
 	\label{fig:experiment_arch}
 \end{figure}
 
+\subsubsection{Communication protocol}
+To be able to interact with one another each module must use same communication protocol.
+For this project main role of this protocol is to send observations and reactions between 
+neural network and agent sensor and effector controler.
+As this protocol is also used for communication with learning algorithm an additional information,
+such as reward value or end of simulation, must be sent.
+For that reason protocol starts with a command byte that identifies operation.
+\begin{sidewaystable}[htb] 
+	\centering
+	\caption{ResNeat communication protocol}
+	\label{tab:resneat-protocol}
+	\begin{tabularx}{\textwidth}{cccX}
+		\hline
+		\hline
+		Code (hex)& Command& Description& Payload\\
+		\hline
+		01& ORQ&  Request observation& None\\
+		02& RRQ& Request reaction& None\\
+		03& OSN& Observation sent& Unsigned integer indicating numer of features per obserbation 
+		followed by array said features*\\
+		04& RSN& Reaction sent& Unsigned integer indicating numer of features per reaction 
+		followed by array said features*\\
+		05& MRQ& Request mode info& None\\
+		06& MSN& Mode info& A single byte set to 1 if in restricted mode or 0 if in classic\\
+		07& DRQ& Request observation description& None\\
+		08& DSN& Observation description& Unsigned integer indicating numer of features per observation 
+		followed by two arrays containing minimum and maximum values of  said features*\\
+		09& ERQ& Request reaction description& None\\
+		0A& ESN& Reaction description& Unsigned integer indicating numer of features per reaction 
+		followed by two arrays containing minimum and maximum values of  said features*\\
+		0B& SRQ& Request simulation metadata& None\\
+		0C& SSN& Simulation metadata& An 64-bit integer representing cycle number, a 64-bit float 
+		representing reward and a single byte set to 1 if simulation is running or 0 if stopped\\
+		0D& ERR& Error& None\\
+		0E& RST& Request reset& None\\
+
+		\hline
+		\hline
+	\end{tabularx}
+	\newline
+	{\footnotesize *This can be either 64-bit integer and array of doubles or 32-bit integer
+	and array of 32-bit integers depending if protocol operates in classic or restricted mode}
+\end{sidewaystable}
+
+Due to differences between observation and reaction representation in in standard implementation
+of NEAT and in RNEAT communincation protocol works in two modes:
+\begin{enumerate}
+	\item Classic - In this mode both observation and reaction are represented as a vector
+		of double precision floating point numbers.
+	\item Restricted - In this mode both observation and reaction are represented as a 
+		24 bit fixed point number, more information about this representation is given in
+		section \ref{sec:fixed-model}
+\end{enumerate}
+It is role of \textit{rss\_signal\_converter} to transform data between two modes. What is 
+important is that only observation and reaction representation must be converted, simulation
+metadata remain unchanged.
 %--------------------------------------------------------------------------------------------------
 \FloatBarrier
-\subsection{OpenAI Gym}
+\subsection{Simulation environment - OpenAI Gym}
+When preparing a simulation environment a decision must be made,wheter to creat a dedicated one
+for the project or use a already available one.
 
 \FloatBarrier
 \subsubsection{Cart pole}
@@ -179,6 +239,7 @@ typedef struct Connection_t{
 %--------------------------------------------------------------------------------------------------
 \FloatBarrier
 \subsection{Computation efficiency - 24-bit fixed point model}
+\label{sec:fixed-model}
 
 %--------------------------------------------------------------------------------------------------
 \FloatBarrier
