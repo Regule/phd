@@ -135,6 +135,38 @@ env.close()
 \end{lstlisting}
 
 \FloatBarrier
+\subsubsection{Exclusive alternative}
+This is most basic environment that contain four observation, expected reaction pairs that 
+correspond to XOR function as shown in table \ref{tab:xor-env}.
+\begin{table}[htb] 
+	\centering
+	\caption{Observation, expected reaction pairs for XOR environment}
+	\label{tab:xor-env}
+	\begin{tabular}{ccc}
+		\hline
+		\hline
+		 \multicolumn{2}{c}{Observation}& Reaction\\
+		\hline
+		$x_{2}$& $x_{1}$& $y_{1}$ \\
+		\hline
+		0& 0& 0\\
+		0& 1& 1\\
+		1& 0& 1\\
+		1& 1& 1\\
+		\hline
+		\hline
+	\end{tabular}
+	\newline
+\end{table}
+Exclusive or is simpliest example of function that cannot be solved by a single layer perceptron
+and in this case will be used as a form of verification if network implementation was written
+correctly.
+As solving XOR can be done with only three neurons and weights set to either 1, 0 or -1 it 
+should be trivial for even a such limited model as one used in this project to solve it.
+Because of that inability to solve this problem will indicate errors in implementation as it is
+known that theoretical model should be able to do it.
+
+\FloatBarrier
 \subsubsection{Cart pole}
 A pole is attached by a non actuated joint to a cart, which moves along a frictionless track.
 The system is controlled by applying a force of +1 or -1 to the cart.
@@ -216,10 +248,36 @@ The type of damage inflicted upon your tank is random.
 If the V box is on, your video display will flash on and off. C means that your cannon 
 firing power is cut in half. R indicates that your radar has been rendered useless.
 T simply slows down the turning ability of your Robotank
+\begin{figure}[htb] 
+	\centering
+	\includegraphics[width=\textwidth]{figures/robotank-cam}
+	\caption{A greyscale variant of a camera part of the robotank input.}
+	\label{fig:robotank-cam}
+\end{figure}
+\begin{figure}[htb] 
+	\centering
+	\includegraphics[width=0.3\textwidth]{figures/robotank-radar}
+	\caption{A greyscale variant of a radar part of the robotank input.}
+	\label{fig:robotank-radar}
+\end{figure}
 
 %--------------------------------------------------------------------------------------------------
 \FloatBarrier
 \subsection{Computation device}
+The chipKIT uC32 is based on the popular Arduino open-source hardware prototyping platform and
+adds the performance of the  PIC32 microcontroller. 
+The uC32 is the same form factor as the Arduino Uno board and is compatible with Arduino shields.
+It features a USB serial port interface for connection to the IDE and can be powered via USB or an 
+external power supply. 
+The uC32 board takes advantage of the powerful PIC32MX340F512 microcontroller, which features a 
+32-bit MIPS processor core running at 80 MHz, 512K of flash program memory, and 32K of
+SRAM data memory.
+\begin{figure}[htb] 
+	\centering
+	\includegraphics[width=\textwidth]{figures/pic_board}
+	\caption{A uC32 board used in this experiments.}
+	\label{fig:pic-board}
+\end{figure}
 
 %==================================================================================================
 \FloatBarrier
