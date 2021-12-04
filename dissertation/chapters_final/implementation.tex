@@ -51,9 +51,9 @@ For that reason protocol starts with a command byte that identifies operation.
 		Code (hex)& Command& Description& Payload\\
 		\hline
 		01& ORQ&  Request observation& None\\
-		02& RRQ& Request reaction& None\\
-		03& OSN& Observation sent& Unsigned integer indicating numer of features per obserbation 
+		02& OSN& Observation sent& Unsigned integer indicating numer of features per obserbation 
 		followed by array said features*\\
+		03& RRQ& Request reaction& None\\
 		04& RSN& Reaction sent& Unsigned integer indicating numer of features per reaction 
 		followed by array said features*\\
 		05& MRQ& Request mode info& None\\
@@ -67,8 +67,10 @@ For that reason protocol starts with a command byte that identifies operation.
 		0B& SRQ& Request simulation metadata& None\\
 		0C& SSN& Simulation metadata& An 64-bit integer representing cycle number, a 64-bit float 
 		representing reward and a single byte set to 1 if simulation is running or 0 if stopped\\
-		0D& ERR& Error& None\\
-		0E& RST& Request reset& None\\
+		0D& RST& Request reset& None\\
+		0E& INI& Initiallize connection& None\\
+		0F& AOK& All ok& None\\
+		10& ERR& Error& None\\
 
 		\hline
 		\hline
