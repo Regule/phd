@@ -25,14 +25,16 @@ class SerialEmulator():
 
     def __enter__(self):
         self.open()
+        return self
 
     def __exit__(self):
         self.close()
+        return False
 
     def open(self):
-        cmd=[f'socat','-d','-d','PTY,link={self.master_port},raw,echo=0',
+        cmd=['socat','-d','-d',f'PTY,link={self.master_port},raw,echo=0',
                 f'PTY,link={self.satellite_port},raw,echo=0']
-        self.proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        self.proc = subprocess.Popen(cmd) 
         time.sleep(5)
         self.serial = serial.Serial(self.master_port, self.baudrate, rtscts=True, dsrdtr=True)
 
