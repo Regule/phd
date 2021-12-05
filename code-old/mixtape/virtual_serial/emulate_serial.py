@@ -27,7 +27,7 @@ class SerialEmulator():
         self.open()
         return self
 
-    def __exit__(self):
+    def __exit__(self, type, value, tb):
         self.close()
         return False
 
@@ -47,9 +47,10 @@ class SerialEmulator():
         self.serial.write(out)
 
     def read(self):
-        line = ''
+        line = []
         while self.serial.inWaiting() > 0:
             line += self.serial.read(1)
+        line = bytearray(line).decode('UTF-8')
         return line
 
     def wait_for_serial(self):
