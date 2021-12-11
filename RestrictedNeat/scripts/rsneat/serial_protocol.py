@@ -4,6 +4,8 @@ experiment environment.
 '''
 
 import serial
+import time
+import subprocess
 
 # Command codes for protocol
 CMD_INI = 0x00 # Initialize simulation
@@ -27,10 +29,9 @@ ERR_FMT = 0x04 # Wrong reaction format
 ERR_ENV = 0x05 # Unknow environment requested
 
 class RstnSerialMasterNode:
-'''
-This class is used for creation of pseudoterminal endpoint of simulator.
-'''
-
+#'''
+#This class is used for creation of pseudoterminal endpoint of simulator.
+#'''
     def __init__(self, master_port='./tty_master',
             satellite_port='./tty_satellite', baudrate=9600):
         '''
@@ -49,6 +50,7 @@ This class is used for creation of pseudoterminal endpoint of simulator.
         self.err = ''
         self.out = ''
         self.proc = None
+        self.serial = None
 
     def open(self, safety_delay=1):
         '''
@@ -64,6 +66,11 @@ This class is used for creation of pseudoterminal endpoint of simulator.
         self.proc = subprocess.Popen(cmd) 
         time.sleep(safety_delay)
         self.serial = serial.Serial(self.master_port, self.baudrate, rtscts=True, dsrdtr=True)
+
+    def close(self):
+        if self.proc is not None:
+            self.proc.kill()
+            self.out, self.err = self.proc.communicate()
 
     def __write(self, contents=[]):
         self.serial.write(bytearray(contents))

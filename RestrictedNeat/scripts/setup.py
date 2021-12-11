@@ -19,8 +19,8 @@ setup(name='RestrictedNeat',
           'pyserial==3.5'
           ],
       entry_points={
-          'console_scripts': ['restneat_test_classic_neat=resneat.tests.run_neat_demo:main']
+          'console_scripts': ['rsneat_run_tests=rsneat.tests:run_tests']
           },
-      setup_requires=['flake8']
+      setup_requires=['flake8'],
      )
 
