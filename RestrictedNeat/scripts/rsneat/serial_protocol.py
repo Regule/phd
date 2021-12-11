@@ -52,6 +52,17 @@ class RstnSerialMasterNode:
         self.proc = None
         self.serial = None
 
+    def __del__(self):
+        self.close()
+
+    def __enter__(self):
+        self.open()
+        return self
+
+    def __exit__(self, type, value, tb):
+        self.close()
+        return False
+
     def open(self, safety_delay=1):
         '''
         This function uses "socat" command to create a pseudoterminal.
@@ -72,5 +83,5 @@ class RstnSerialMasterNode:
             self.proc.kill()
             self.out, self.err = self.proc.communicate()
 
-    def __write(self, contents=[]):
+    def write(self, contents=[]):
         self.serial.write(bytearray(contents))
