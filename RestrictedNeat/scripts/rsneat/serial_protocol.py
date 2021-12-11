@@ -8,17 +8,18 @@ import time
 import subprocess
 
 # Command codes for protocol
-CMD_INI = 0x00 # Initialize simulation
-CMD_RST = 0x00 # Request simualtion reset
-CMD_AOK = 0x00 # Everything ok
-CMD_ERR = 0x00 # Error occured
-CMD_ORQ = 0x00 # Observation request
-CMD_OSN = 0x01 # Observation sent
-CMD_RSN = 0x03 # Response sent
-CMD_DRQ = 0x00 # Request oservation and reaction description
-CMD_DSN = 0x00 # Observation and reaction description sent
-CMD_MRQ = 0x00 # Request simulation metadata
-CMD_MSN = 0x00 # Simulation metadata sent
+CMD_INI = 0x01 # Initialize simulation
+CMD_RST = 0x02 # Request simualtion reset
+CMD_AOK = 0x03 # Everything ok
+CMD_ERR = 0x04 # Error occured
+CMD_ORQ = 0x05 # Observation request
+CMD_OSN = 0x06 # Observation sent
+CMD_RSN = 0x07 # Response sent
+CMD_DRQ = 0x08 # Request oservation and reaction description
+CMD_DSN = 0x09 # Observation and reaction description sent
+CMD_MRQ = 0x0a # Request simulation metadata
+CMD_MSN = 0x0b # Simulation metadata sent
+CMD_TERMINATOR = 0x0c # This is suppport variable, all codes are smaller than this number
 
 # Error codes for protocoll
 ERR_UNK = 0x00 # Unknown error
@@ -27,6 +28,7 @@ ERR_UIN = 0x02 # Simulation not initialized
 ERR_SST = 0x03 # Simulation stopped
 ERR_FMT = 0x04 # Wrong reaction format
 ERR_ENV = 0x05 # Unknow environment requested
+CMD_TERMINATOR = 0x06 # This is suppport variable, all codes are smaller than this number
 
 class RstnSerialMasterNode:
 #'''
@@ -79,9 +81,24 @@ class RstnSerialMasterNode:
         self.serial = serial.Serial(self.master_port, self.baudrate, rtscts=True, dsrdtr=True)
 
     def close(self):
+        '''
+        This method closes serial port created by this class.
+        '''
         if self.proc is not None:
             self.proc.kill()
             self.out, self.err = self.proc.communicate()
 
     def write(self, contents=[]):
         self.serial.write(bytearray(contents))
+
+    def send(self, code, payload=[]):
+        '''
+        This is main function that should be used for interacting with port. It takes a 
+        command code and list of numpy arrays and then sends it trough port.
+
+        @param code A command code, if given value is not valid an exception is thrown
+        @param payload list of numpy arrays
+        '''
+        if code >= CMD_TERMINATOR:
+            raise ValueError(f'Command codes must be in range from 0 to {CMD_TERMINATOR}, value given is {code}.')
+
