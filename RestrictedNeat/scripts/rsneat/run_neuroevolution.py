@@ -17,6 +17,16 @@ def verify_arguments(args):
     if args.environment not in ALLOWED_ENVIRONMENTS:
         raise ValueError(f'Environment {args.environment} is not allowed, available environments are {ALLOWED_ENVIRONMENTS}')
 
+def print_fields_recursively(name, obj, depth=1):
+    tabulation = ' '*(depth-1)
+    print(f'{tabulation}{name}:')
+    tabulation = ' '*(depth)
+    for field, value in obj.__dict__.items():
+        if value.__str__ is not object.__str__:
+            print(f'{tabulation}{field} --> {value}')
+        else:
+            print_fields_recursively(field, value, depth+1)
+
 def prepare_config(args):
     '''
     This is function that loads neat configuration file as well as adds additional fields to 
@@ -30,8 +40,9 @@ def prepare_config(args):
                          args.configuration)
     config.__dict__.update(args.__dict__) # An ugly hack that will add our fields to config object
     print('CONFIGURATION')
-    for key, value in config.__dict__.items():
-        print(f'{key} --> {value}')
+    print_fields_recursively('Configuration', config)
+    #for key, value in config.__dict__.items():
+    #    print(f'{key} --> {value}')
     return config
 
 
@@ -86,6 +97,8 @@ def parser_arguments():
             help='Maximum number of cycles for which simulation will be ran')
     parser.add_argument('--break_punishment', type=float, default=-100.0,
             help='Punishment for failure that causes simulation to stop early')
+    parser.add_argument('-d', '--dry_run', action='store_true', 
+            help='Do not run neuroeolution, used for testing configs')
     return parser.parse_args()
 
 def main():
@@ -98,7 +111,8 @@ def main():
         print(e)
         return
     config = prepare_config(args)
-    run_classic_neat(config)
+    if not config.dry_run:
+        run_classic_neat(config)
 
 if __name__ == '__main__':
     main()

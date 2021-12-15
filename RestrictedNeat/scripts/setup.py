@@ -19,7 +19,7 @@ setup(name='RestrictedNeat',
           'pyserial==3.5'
           ],
       entry_points={
-          'console_scripts': ['rsneat_run_tests=rsneat.tests:run_tests']
+          'console_scripts': ['rsneat=rsneat.run_neuroevolution:main']
           },
       setup_requires=['flake8'],
      )
