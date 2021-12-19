@@ -1,0 +1,119 @@
+%==================================================================================================
+\begin{thebibliography}{000}
+
+\bibitem{Abiodun2019}
+Abiodun, Oludare Isaac and Jantan, Aman and Omolara, Abiodun Esther and Dada, Kemi Victoria and Umar, Abubakar Malah and Linus, Okafor Uchenwa and Arshad, Humaira and Kazaure, Abdullahi Aminu and Gana, Usman and Kiru, Muhammad Ubale
+\newblock{Comprehensive Review of Artificial Neural Network Applications to Pattern Recognition} 
+\newblock{IEEE Access, vol. 7, "pp. 158820-158846, 2019, doi: 10.1109/ACCESS.2019.2945545}
+
+\bibitem{Blewitt1997}
+Blewitt, G. 
+\newblock{Basics of the GPS Technique : Observation Equations}
+\newblock{Geodetic Applications of GPS, 1–46, 1997}
+
+\bibitem{Cabrera2014}
+Cabrera-Gámez J., Ramos de Miguel A., Domínguez-Brito A.C., Hernández-Sosa J.D., Isern-González J., Fernández-Perdomo E.
+\newblock{An Embedded Low-Power Control System for Autonomous Sailboats.}
+\newblock{Robotic Sailing 2013. https://doi.org/10.1007/978-3-319-02276-5\_6}
+
+\bibitem{Chollet2018}
+Chollet, F.
+\newblock{Deep Learning with Phyton}.
+
+\bibitem{Doberstein2012}
+Doberstein, D. 
+\newblock{Fundamentals of GPS receivers: A hardware approach.} 
+\newblock{Springer New York 2012. https://doi.org/10.1007/978-1-4614-0409-5}
+
+\bibitem{Enge2011}
+Enge, P. (2011)
+\newblock{Global Positioning System: Signals, Measurements, and Performance - Revised Second Edition}
+\newblock{International Journal of Wireless Information Networks (p. 115). 2011}
+
+\bibitem{Faraway2008}
+Faraway, J., \& Chatfield, C.
+\newblock{Time series forecasting with neural networks: a comparative study using the air line data.}
+\newblock{Journal of the Royal Statistical Society: Series C (Applied Statistics), 47(2),
+231–250. 2019.  https://doi.org/10.1111/1467-9876.00109}
+
+\bibitem{Hinton2012}
+Hinton G. Srivastava N. Swersky K.
+\newblock{Lecture 6a- overview of mini-batch gradient descent.}
+\newblock{COURSERA: Neural Networks for Machine Learning. 2012.}
+
+\bibitem{Hochreiter1997}
+Hochreiter, S., \& Schmidhuber, J. (1997). 
+\newblock{Long Short-Term Memory.}
+\newblock{Neural Computation. 1997. https://doi.org/10.1162/neco.1997.9.8.1735}
+
+\bibitem{Indriyatmoko2008}
+Indriyatmoko A., Kang T., Lee Y. J., Jee G., Cho Y.B., Kim J. 
+\newblock{Artificial neural networks for predicting DGPS carrier phase and pseudorange correction.}
+\newblock{GPS Solutions, 12(4), 237–247. 2008. https://doi.org/10.1007/s10291-008-0088-x}
+
+\bibitem{Khan2019}
+Khan A., Sohail A., Zahoora U., Qureshi A. S.
+\newblock{A Survey of the Recent Architectures of Deep Convolutional Neural Networks.}
+\newblock{http://arxiv.org/abs/1901.06032}
+
+\bibitem{Kim2019}
+Kim, H.-U., \& Bae, T.-S.
+\newblock{Deep Learning-Based GNSS Network-Based Real-Time Kinematic Improvement for
+		Autonomous Ground Vehicle Navigation.}
+\newblock{Journal of Sensors, 2019, 1–8. https://doi.org/10.1155/2019/3737265}
+
+\bibitem{Kingma2015}
+Kingma, D. P., \& Ba, J. L. 
+\newblock{Adam: A method for stochastic optimization.}
+\newblock{3rd International Conference on Learning Representations,
+ICLR 2015 - Conference Track Proceedings. 2015}
+
+\bibitem{Kouba2009}
+Kouba, J.
+\newblock{A Guide to using international GNSS Service ( IGS ) Products.}
+\newblock{Geodetic Survey Division Natural Resources Canada Ottawa, 6. 2009.}
+
+\bibitem{McCulloch1943}
+McCulloch, W. S., \& Pitts, W. 
+\newblock{A logical calculus of the ideas immanent in nervous activity.}
+\newblock{The Bulletin of Mathematical Biophysics. 1943.  https://doi.org/10.1007/BF02478259}
+
+\bibitem{Miller1993}
+Miller, A. S. 
+\newblock{A review of neural network applications in Astronomy.}
+\newblock{Vistas in Astronomy 36, 141–161. 1993. https://doi.org/10.1016/0083-6656(93)90118-4}
+
+\bibitem{Perez2019}
+Orus Perez, R.
+\newblock{Using TensorFlow-based Neural Network to estimate GNSS single 
+frequency ionospheric delay (IONONet).}
+\newblock{Advances in Space Research, 63(5), 1607–1618. 2019.
+https://doi.org/10.1016/j.asr.2018.11.011}
+
+\bibitem{Riley2007}
+Riley, W. J. 
+\newblock{Handbook of Frequency Stability Analysis.}
+\newblock{NIST Special Publication 1065 (Vol. 31, Issue 1). 2007.}
+
+\bibitem{Vallado2008}
+Vallado, D. A., \& Crawford, P. 
+\newblock{SGP4 orbit determination.}
+\newblock{AIAA/AAS Astrodynamics Specialist Conference and Exhibit. 2008.
+https://doi.org/10.1007/978-3-662-50370-6\_6}
+
+\bibitem{Wang2017}
+Wang, Y. Zhiping Lu, Yunying Qu, Linyang Li  Ning Wang 
+\newblock{Improving prediction performance of GPS satellite clock bias based 
+on wavelet neural network.}
+\newblock{GPS Solutions, 21(2), 523–534. 2017. https://doi.org/10.1007/s10291-016-0543-z}
+
+\bibitem{Wei2016}
+Wei J., Ding A., Li K., Zhao L., Wang Y., Li Z. 
+\newblock{The Satellite Selection Algorithm of GNSS Based on Neural Network.}
+\newblock {China Satellite Navigation Conference (CSNC) 2016 Proceedings: Volume I. https://doi.org/10.1007/978-981-10-0934-1\_11}
+
+\end{thebibliography}
+
+\end{document}
+
+
