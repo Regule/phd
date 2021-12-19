@@ -1,0 +1,46 @@
+Korekta do artykułu "Application of Long Short Term Memory  neural  networks for GPS satellite 
+clock bias prediction" autorstwa Piotra Gnysia i Pawła Przestrzelskiego.
+
+-----
+Słowa kluczowe: Neural Netrworks, LSTM, Time series prediction, Clock bias, GNSS
+
+-----
+Do rysunku 3 (strona 382) jest odwołanie, zaraz przed samą grafiką znajduje się linijka w której
+napisano "Analyse of data on Figures \ref{fig:diffed_bias} and \ref{fig:diffed_shifts} shows that"
+gdzie rysunek "fig:diffed_shifts" jest po skompilowaniu reprezentowany przez numer 3.
+Dla zwiększenia czytelności można tą linię zastąpić "Analyse of data on Fiigure \ref{fig:diffed_bias}
+and Figure \ref{fig:diffed_shifts} shows that".
+
+-----
+Do rysunku 4 faktycznie nie ma odniesienia w tekście, musiało zniknąć w czasie dosyć drastycznego
+okrajania tego rozdziału. Proponuję dodać je na samym końcu sekcji dopisując odniesienie 
+do zdania "Such a solution is used..." tak że efekt końcowy w źródle będzie wyglądał następująco:
+"Such a solution is used in the long-short term memory (LSTM) networks \cite{Hochreiter1997} as 
+presented on Figure \ref{fig:lstm}.
+
+Zauważyłem też przy okazji że poprawiono "long short term memory" na "long-short term memory"
+podczas gdy nie jest to poprawny zapis. Najczęściej spotyka się "long short-term memory".
+
+-----
+Do tabeli 3 jest odwołanie w tekście ale podczas kompilacji coś poszło nie tak przez co pojawia
+się napis "as show in table TREFtab3" w moim kodzie źródłowym ta linia wygląda "as shown in Table 
+\ref{tab:optimizers}". Jedyne co jestem w tym przypadku stwierdzić to mało pomocne "u mnie działa".
+
+-----
+Do tabeli 5 faktycznie brakuje odniesienia, należy je dodać po frazie "due to the higher value
+of divergence.". Przykład źródła "due to the higher value of divergence as shown in table 
+\ref{tab:optimizers2}.
+
+-----
+Tabela 9 też nie została wspomniana w tekście, należało by dodać odniesienie po zdaniu 
+"Experiments described in this paper have proven that even relatively simple LSTM network can
+handle bias prediction well."
+Dodając przed kropką "compared to state of the art as shown in table \ref{tab:result}
+
+-----
+Rysunek 9 nie istnieje, podejżewam że chodziło o 8 do którego faktycznie nie ma odwołania.
+Ten rysunek należy usunąć, wydaje mi się że stanowi dobrą wizualizację ale jego opis wymagałby 
+zbyt dużych zmian w tekście na tym etapie.
+
+
+
