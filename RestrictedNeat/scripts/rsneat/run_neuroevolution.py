@@ -27,15 +27,18 @@ def run_simulation(population, config):
     for genome_id, genome in population:
         net = neat.nn.recurrent.RecurrentNetwork.create(genome, config)
         genome.fitness = 0.0
-        observation = environment.reset()
-        finished = False
-        for _ in range(config.max_cycles):
-            reaction = net.activate(observation) 
-            observation, reward, finished, _ = environment.step(reaction)
-            genome.fitness += reward
-            if finished:
-                genome.fitness -= config.break_punishment 
-                break
+        for _ in range(config.simulations_per_specimen):
+            net.reset()
+            observation = environment.reset()
+            finished = False
+            for _ in range(config.max_cycles):
+                reaction = net.activate(observation) 
+                observation, reward, finished, _ = environment.step(reaction)
+                genome.fitness += reward
+                if finished:
+                    genome.fitness -= config.break_punishment 
+                    break
+        genome.fitness /= config.simulations_per_specimen
         if top_genome is None or genome.fitness > top_genome.fitness:
             top_genome = genome
     print(f'Best specimen fitness is {top_genome.fitness}')
@@ -60,6 +63,8 @@ def parser_arguments():
             help='Maximum number of generations for which algorithm will work.')
     parser.add_argument('--max_cycles', type=int, default=500,
             help='Maximum number of cycles for which simulation will be ran')
+    parser.add_argument('--simulations_per_specimen', type=int, default=5,
+            help='Number of times a simulation is run for single specimen, avarage result is considered its fitness function')
     parser.add_argument('--break_punishment', type=float, default=-100.0,
             help='Punishment for failure that causes simulation to stop early')
     parser.add_argument('-d', '--dry_run', action='store_true', 
