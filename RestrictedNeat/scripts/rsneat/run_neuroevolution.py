@@ -2,7 +2,7 @@ import neat
 import gym
 import argparse
 from rsneat.utils import prepare_config
-from rsneat.visualisations import show_agent_behaviour, plot_fitness
+from rsneat.visualisations import show_agent_behaviour, plot_fitness, draw_net
 
 ALLOWED_ENVIRONMENTS = ['BipedalWalker-v3']
 
@@ -25,7 +25,7 @@ def run_simulation(population, config):
     top_genome = None
 
     for genome_id, genome in population:
-        net = neat.nn.recurrent.create(genome, config)
+        net = neat.nn.recurrent.RecurrentNetwork.create(genome, config)
         genome.fitness = 0.0
         observation = environment.reset()
         finished = False
@@ -48,6 +48,7 @@ def run_classic_neat(config):
     winner = population.run(run_simulation, config.max_generations)
     show_agent_behaviour(winner, config)
     plot_fitness(stats, ylog=False, view=True)
+    draw_net(config, winner)
 
 def parser_arguments():
     parser = argparse.ArgumentParser(description=__doc__)
