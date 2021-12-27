@@ -48,6 +48,7 @@ def run_classic_neat(config):
     population.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
     population.add_reporter(stats)
+    population.add_reporter(neat.Checkpointer(5))
     winner = population.run(run_simulation, config.max_generations)
     show_agent_behaviour(winner, config)
     plot_fitness(stats, ylog=False, view=True)

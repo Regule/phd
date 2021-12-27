@@ -41,7 +41,7 @@ def plot_fitness(statistics, ylog=False, view=False, filename='local/avg_fitness
     plt.close()
 
 
-def draw_net(config, genome, view=False, filename='local/net_img.svg', node_names=None, show_disabled=True, prune_unused=False,
+def draw_net(config, genome, view=False, filename='local/net_img', node_names=None, show_disabled=True, prune_unused=False,
              node_colors=None, fmt='svg'):
     """ Receives a genome and draws a neural network with arbitrary topology. """
 
