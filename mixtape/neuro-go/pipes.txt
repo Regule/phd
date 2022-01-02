@@ -1,0 +1,5 @@
+mkfifo --mode=0666 /tmp/AtoB
+mkfifo --mode=0666 /tmp/BtoA
+A < BtoA > AtoB
+B < AtoB > BtoA
+
