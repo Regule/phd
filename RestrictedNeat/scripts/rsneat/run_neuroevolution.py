@@ -2,7 +2,7 @@ import neat
 import gym
 import argparse
 from rsneat.utils import prepare_config
-from rsneat.visualisations import show_agent_behaviour, plot_fitness, draw_net
+from rsneat.visualisations import show_agent_behaviour, plot_fitness, draw_net, save_frames_as_gif
 
 ALLOWED_ENVIRONMENTS = ['BipedalWalker-v3']
 
@@ -52,7 +52,8 @@ def run_classic_neat(config):
     winner = population.run(run_simulation, config.max_generations)
     show_agent_behaviour(winner, config)
     plot_fitness(stats, ylog=False, view=True)
-    draw_net(config, winner)
+    frames = draw_net(config, winner)
+    save_frames_as_gif(frames)
 
 def parser_arguments():
     parser = argparse.ArgumentParser(description=__doc__)
