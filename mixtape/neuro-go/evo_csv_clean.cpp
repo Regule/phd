@@ -68,12 +68,63 @@ public:
 		feature_names = src.feature_names;
 	}
 
+	Dataset(std::vector<string> feature_names, std::vector<NumericVector> observations):
+		std::vector<NumericVector>(observations){
+		this->feature_names = feature_names;
+	}
+
 	int get_feature_count() const{
 		return feature_names.size();
 	}
 
 	string get_feature_name(int i) const{
 		return feature_names[i];
+	}
+
+	static Dataset* read_csv(const char* csv_name, char separator){
+		fstream csv_file;
+		csv_file.open(csv_name, std::ios::in);
+		string line;
+		if(!csv_file.is_open()){
+			cout<<"Filed to open file "<< csv_name <<endl;
+		}
+		int observation_count=0;
+		while(getline(csv_file,line)){
+			observation_count++;
+		}
+		observation_count--;
+		cout<<"There are "<<observation_count<<" observations."<<endl;
+		std::vector<NumericVector> observations = std::vector<NumericVector>(observation_count);
+		csv_file.clear();
+		csv_file.seekg(0);
+		getline(csv_file,line);
+		int feature_count = std::count(line.begin(), line.end(), separator)+1;
+		cout<<"Tere are "<< feature_count<< " features."<<endl;
+		std::vector<string> feature_names = std::vector<string>(feature_count);
+		size_t start=0;
+		size_t end=0;
+		for(size_t feature=0; feature<feature_count; feature++){
+			while(end<line.size()&&line[end]!=';')end++;
+			feature_names[feature] = line.substr(start,end-start);
+			end++;
+			start=end;
+		}
+		for(size_t i=0; i<observation_count; i++){
+			if(!getline(csv_file,line)) break;
+			NumericVector features = NumericVector(feature_count);
+			start=0;
+			end=0;
+			for(size_t feature=0; feature<feature_count; feature++){
+				while(end<line.size()&&line[end]!=';')end++;
+				string source = line.substr(start,end-start);
+				features[feature] = atof(source.c_str());	
+				end++;
+				start=end;
+			}
+			observations[i] = features; 
+		}
+		Dataset *ds = new Dataset(feature_names, observations);
+		return ds;
 	}
 };
 
@@ -103,4 +154,6 @@ int main(int agrc, char** argv){
 	cout<<"--------------------------"<<endl;
 	Dataset ds(10,4);
 	cout<<ds;
+	Dataset *data = Dataset::read_csv("./test.csv",';');
+	cout<<*data;
 }
