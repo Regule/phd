@@ -2,6 +2,7 @@ import neat
 import gym
 import argparse
 import numpy as np
+import sys
 
 def show_agent_behaviour(genome, config):
     environment = gym.make(config.environment)
@@ -30,15 +31,20 @@ def main(args):
     observation = environment.reset()
     finished = False
     for _ in range(args.max_cycles):
+        print('Printing observation',file=sys.stderr)
         print_observation(observation)
+        print('Rendering environment',file=sys.stderr)
         environment.render()
+        print('Reading reaction',file=sys.stderr)
         reaction = read_reaction() 
+        print('Running simulation step',file=sys.stderr)
         observation, reward, finished, _ = environment.step(reaction)
         if finished:
             break
 
 
 def parser_arguments():
+    print('Parsing command line parameters',file=sys.stderr)
     parser = argparse.ArgumentParser(description='smth')
     parser.add_argument('-e', '--environment', type=str, required=True,
             help='An AI Gym environment name.')
