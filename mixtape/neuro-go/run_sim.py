@@ -54,4 +54,5 @@ def parser_arguments():
 
 
 if __name__ == '__main__':
+    print('HMM')
     main(parser_arguments())

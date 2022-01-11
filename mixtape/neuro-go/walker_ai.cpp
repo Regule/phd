@@ -56,6 +56,7 @@ int main(int argc, char**argv){
 	string s;
 	cin>>s;
 	cerr<<"Recieved : "<<s<<endl;
+	cout<<s<<endl;
 	//cin>>observation;
 	//cout<<reaction<<endl;
 	//cerr<<reaction<<endl;
