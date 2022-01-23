@@ -18,12 +18,22 @@ def setup_logger(logging_level=logging.INFO, log_file=None):
     global logger
     logger = logging.getLogger(LOGGER_NAME)
     logger.setLevel(logging_level)
+    formatter = logging.Formatter(LOGGER_FORMAT)
+    
+    # Logging to stdout
     ch = logging.StreamHandler()
     ch.setLevel(logging_level)
-    formatter = logging.Formatter(LOGGER_FORMAT)
     ch.setFormatter(formatter)
     logger.addHandler(ch)
+    
+    # Logging to file
+    if log_file is not None:
+        fileHandler = logging.FileHandler(log_file)
+        fileHandler.setFormatter(formatter)
+        logger.addHandler(fileHandler)
+
     logger.info("Started Logger")
+
 
 def string_to_log_level(level_str):
     level_map = {
@@ -43,10 +53,12 @@ def parse_arguments():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--log_level', type=string_to_log_level, default=DEFAULT_LOGGER_LEVEL,
             help='Logging level, valid values: silent, critical, error, warning, info, debug')
+    parser.add_argument('--log_file', type=str, default=None,
+            help='If set logs will be written to this file.')
     return parser.parse_args()
 
 def main(args):
-    setup_logger(args.log_level)
+    setup_logger(args.log_level, args.log_file)
     logger.critical('critical')
     logger.error('error')
     logger.warning('warning')
@@ -55,3 +67,6 @@ def main(args):
 
 if __name__ == '__main__':
     main(parse_arguments())
+
+if logger is None:
+    setup_logger()
