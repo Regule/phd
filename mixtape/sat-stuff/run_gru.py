@@ -5,6 +5,24 @@ a new one. If only validation set is given no training occures.
 
 import logging
 import argparse
+import numpy as np
+import glob
+import json
+import time
+import os
+import sys
+
+
+import theano, keras
+from keras.models import Sequential
+from keras.layers.core import Dense, Dropout, Activation 
+from keras.layers.core import Flatten, Permute, Reshape
+from keras.layers.embeddings import Embedding
+from keras.layers.recurrent import LSTM, GRU
+from keras.layers.convolutional import Convolution1D, MaxPooling1D, Convolution2D, MaxPooling2D
+from keras.preprocessing.sequence import pad_sequences
+
+
 
 
 
@@ -49,6 +67,7 @@ def string_to_log_level(level_str):
     except KeyError:
         return logging.INFO
 
+
 def parse_arguments():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--log_level', type=string_to_log_level, default=DEFAULT_LOGGER_LEVEL,
@@ -57,13 +76,11 @@ def parse_arguments():
             help='If set logs will be written to this file.')
     return parser.parse_args()
 
+
 def main(args):
     setup_logger(args.log_level, args.log_file)
-    logger.critical('critical')
-    logger.error('error')
-    logger.warning('warning')
-    logger.info('info')
-    logger.debug('debug')
+    logger.info(f'Using Keras version {keras.__version__}' )
+    logger.info(f'Using Theano version {theano.__version__}')
 
 if __name__ == '__main__':
     main(parse_arguments())
