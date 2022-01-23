@@ -3,6 +3,11 @@ This script takes train, test and validation csv files then either loads neural 
 a new one. If only validation set is given no training occures.
 '''
 
+
+#==================================================================================================
+#                                           IMPORTS
+#==================================================================================================
+
 import logging
 import argparse
 import numpy as np
@@ -22,15 +27,38 @@ from keras.layers.recurrent import LSTM, GRU
 from keras.layers.convolutional import Convolution1D, MaxPooling1D, Convolution2D, MaxPooling2D
 from keras.preprocessing.sequence import pad_sequences
 
+import pandas as pd
+from datetime import datetime
 
 
+#==================================================================================================
+#                                            GLOBALS
+#==================================================================================================
 
-
-logger = None # Global logger for this script
 DEFAULT_LOGGER_LEVEL = logging.INFO
 LOGGER_NAME = 'GRU_RUNNER'
 LOGGER_FORMAT = '%(name)s %(levelname)s %(asctime)s:%(message)s'
+EPOCH_STR_FORMAT = '%Y-%m-%d %H:%M:%S'
 
+logger = None # Global logger for this script
+#==================================================================================================
+#                                        DATA PROCESSING
+#==================================================================================================
+
+def epoch_str_to_timestamp(epoch_str):
+    return datetime.strptime(epoch_str, EPOCH_STR_FORMAT).timestamp()
+
+def data_from_csv(file_name, train_test_split=0.0):
+    data = pd.read_csv(file_name, sep=';')
+    #data.iloc[0] = data.iloc[0].map(epoch_str_to_timestamp)
+    X = data.iloc[:,0].to_numpy()
+    Y = data.iloc[:,1:].to_numpy()
+    return X, Y
+
+
+#==================================================================================================
+#                                       UTILITY FUNCTIONS
+#==================================================================================================
 
 def setup_logger(logging_level=logging.INFO, log_file=None):
     global logger
@@ -74,13 +102,22 @@ def parse_arguments():
             help='Logging level, valid values: silent, critical, error, warning, info, debug')
     parser.add_argument('--log_file', type=str, default=None,
             help='If set logs will be written to this file.')
+    parser.add_argument('-t', '--training_file', type=str, default=None,
+            help='File with training observations')
     return parser.parse_args()
 
+
+#==================================================================================================
+#                                       MAIN FUNCTION
+#==================================================================================================
 
 def main(args):
     setup_logger(args.log_level, args.log_file)
     logger.info(f'Using Keras version {keras.__version__}' )
     logger.info(f'Using Theano version {theano.__version__}')
+    X, Y = data_from_csv(args.training_file)
+    print(X)
+    print(Y)
 
 if __name__ == '__main__':
     main(parse_arguments())
