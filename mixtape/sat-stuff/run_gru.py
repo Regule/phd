@@ -38,23 +38,29 @@ from datetime import datetime
 DEFAULT_LOGGER_LEVEL = logging.INFO
 LOGGER_NAME = 'GRU_RUNNER'
 LOGGER_FORMAT = '%(name)s %(levelname)s %(asctime)s:%(message)s'
-EPOCH_STR_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 logger = None # Global logger for this script
 #==================================================================================================
 #                                        DATA PROCESSING
 #==================================================================================================
 
-def epoch_str_to_timestamp(epoch_str):
-    return datetime.strptime(epoch_str, EPOCH_STR_FORMAT).timestamp()
 
-def data_from_csv(file_name, train_test_split=0.0):
+def data_from_csv(file_name):
     data = pd.read_csv(file_name, sep=';')
-    #data.iloc[0] = data.iloc[0].map(epoch_str_to_timestamp)
     X = data.iloc[:,0].to_numpy()
     Y = data.iloc[:,1:].to_numpy()
     return X, Y
 
+
+def build_windowed_data(time_series, window_size):
+    windows = []
+    outputs = []
+    step = 0
+    while step + window_size < time_series.shape[0]:
+        windows.append(time_series[step:step+window_size])
+        outputs.append(time_series[step+window_size])
+        step += 1
+    return np.asarray(windows), np.asarray(outputs)
 
 #==================================================================================================
 #                                       UTILITY FUNCTIONS
@@ -104,6 +110,8 @@ def parse_arguments():
             help='If set logs will be written to this file.')
     parser.add_argument('-t', '--training_file', type=str, default=None,
             help='File with training observations')
+    parser.add_argument('-d', '--derivative_level', type=int, default=2,
+            help='To what degree a derivative should be included in input')
     return parser.parse_args()
 
 
