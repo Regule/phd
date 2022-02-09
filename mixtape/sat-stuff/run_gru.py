@@ -58,7 +58,8 @@ def build_input_with_derivatives(timeseries, derivative_level):
     for l in range(derivative_level):
         derivative = np.diff(derivative)
         logger.info(f'Derivative {l} shape = {derivative.shape}')
-        derivatives.append(derivative.reshape(derivative.shape[0]))
+        padding = np.zeros(l+1)
+        derivatives.append(np.vstack(padding,derivative.reshape(derivative.shape[0])))
     return np.asarray(derivatives)
 
 def build_windowed_data(time_series, window_size):

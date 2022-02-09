@@ -48,17 +48,15 @@ def build_input_with_derivatives(timeseries, derivative_level):
     for l in range(derivative_level):
         derivative = np.diff(derivative, axis=0)
         logger.info(f'Derivative {l+1} shape = {derivative.shape}')
-        derivatives.append(derivative.reshape(derivative.shape[0]))
+        padding = np.zeros(l+1)
+        derivatives.append(np.hstack([padding,derivative.reshape(derivative.shape[0])]))
+    return np.array(derivatives).T
 
-def build_windowed_data(time_series, window_size):
-    windows = []
-    outputs = []
-    step = 0
-    while step + window_size < time_series.shape[0]:
-        windows.append(time_series[step:step+window_size])
-        outputs.append(time_series[step+window_size])
-        step += 1
-    return np.asarray(windows), np.asarray(outputs)
+
+def write_observation_dataset(X, file_name):
+    dataset = pd.DataFrame(X)
+    print(dataset.head())
+    dataset.to_csv(file_name, sep=';')
 
 #==================================================================================================
 #                                       UTILITY FUNCTIONS
@@ -110,6 +108,8 @@ def parse_arguments():
             help='File with training observations')
     parser.add_argument('-d', '--derivative_level', type=int, default=2,
             help='To what degree a derivative should be included in input')
+    parser.add_argument('-o', '--output_file', type=str, required=True,
+            help='File to which output will be saved')
     return parser.parse_args()
 
 
@@ -121,6 +121,7 @@ def main(args):
     setup_logger(args.log_level, args.log_file)
     X, Y = data_from_csv(args.training_file)
     X = build_input_with_derivatives(Y, args.derivative_level)
+    write_observation_dataset(X,args.output_file)
 
 if __name__ == '__main__':
     main(parse_arguments())
