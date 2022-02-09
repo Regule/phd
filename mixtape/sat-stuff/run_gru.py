@@ -53,9 +53,11 @@ def data_from_csv(file_name):
 
 def build_input_with_derivatives(timeseries, derivative_level):
     derivative = timeseries
+    logger.info(f'Derivative 0 shape = {derivative.shape}')
     derivatives = [derivative.reshape(derivative.shape[0]), ]
-    for _ in range(derivative_level):
+    for l in range(derivative_level):
         derivative = np.diff(derivative)
+        logger.info(f'Derivative {l} shape = {derivative.shape}')
         derivatives.append(derivative.reshape(derivative.shape[0]))
     return np.asarray(derivatives)
 
@@ -131,11 +133,7 @@ def main(args):
     logger.info(f'Using Keras version {keras.__version__}' )
     logger.info(f'Using Theano version {theano.__version__}')
     X, Y = data_from_csv(args.training_file)
-    print(X)
-    print(Y)
-    print('========================')
     X = build_input_with_derivatives(Y, args.derivative_level)
-    print(X)
 
 if __name__ == '__main__':
     main(parse_arguments())
