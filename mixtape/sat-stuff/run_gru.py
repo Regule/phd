@@ -51,6 +51,13 @@ def data_from_csv(file_name):
     Y = data.iloc[:,1:].to_numpy()
     return X, Y
 
+def build_input_with_derivatives(timeseries, derivative_level):
+    derivative = timeseries
+    derivatives = [derivative.reshape(derivative.shape[0]), ]
+    for _ in range(derivative_level):
+        derivative = np.diff(derivative)
+        derivatives.append(derivative.reshape(derivative.shape[0]))
+    return np.asarray(derivatives)
 
 def build_windowed_data(time_series, window_size):
     windows = []
@@ -126,6 +133,9 @@ def main(args):
     X, Y = data_from_csv(args.training_file)
     print(X)
     print(Y)
+    print('========================')
+    X = build_input_with_derivatives(Y, args.derivative_level)
+    print(X)
 
 if __name__ == '__main__':
     main(parse_arguments())
