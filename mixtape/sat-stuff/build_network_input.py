@@ -45,7 +45,7 @@ def write_observation_dataset(observation, file_name):
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('-t', '--training_file', type=str, default=None,
+    parser.add_argument('-i', '--input_file', type=str, default=None,
             help='File with training observations')
     parser.add_argument('-d', '--derivative_level', type=int, default=2,
             help='To what degree a derivative should be included in input')
@@ -59,7 +59,7 @@ def parse_arguments():
 #==================================================================================================
 
 def main(args):
-    observation, reaction = data_from_csv(args.training_file)
+    observation, reaction = data_from_csv(args.input_file)
     observation = build_input_with_derivatives(reaction, args.derivative_level)
     write_observation_dataset(observation,args.output_file)
 
