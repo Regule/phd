@@ -35,10 +35,13 @@ def build_stage_zero_model(input_size, input_shape, hidden_factor):
 
 def build_lstm(input_shape, hidden_factor, input_dropout, input_recurrent_dropout,
                hidden_dropout, hidden_recurrent_dropout, input_regularization,
-               hidden_regularization, optimizer):
+               hidden_regularization, optimizer, besel=False):
     input_size = input_shape[1]
     input_shape = (input_shape[1], input_shape[2])
     hidden_size = int(input_size*hidden_factor)
+    first_layer_activation = 'relu'
+    if besel:
+        first_layer_activation = tf.math.bessel_i0e
     model = tf.keras.Sequential()
     model.add(tf.keras.layers.LSTM(input_size,
                                    dropout=input_dropout,
@@ -74,6 +77,9 @@ def build_network_models(input_shape, experiment_phase=4):
         models['8_low'] = build_lstm(input_shape, 8, 0.1, 0.01, 0.1, 0.01, 0.001, 0.001, 'rmsprop')
         models['8_high'] = build_lstm(input_shape, 8, 0.5, 0.1, 0.5, 0.1, 0.001, 0.001, 'rmsprop')
         models['8_no'] = build_lstm(input_shape, 8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 'rmsprop')
+    elif experiment_phase == 5:
+        models['8_relu'] = build_lstm(input_shape, 8, 0.1, 0.01, 0.1, 0.01, 0.001, 0.001, 'rmsprop')
+        models['8_besel'] = build_lstm(input_shape, 8, 0.1, 0.01, 0.1, 0.01, 0.001, 0.001, 'rmsprop', True)
     else:
         print(f'Experiment phase {experiment_phase} unavailable in this implementation.')
         sys.exit()
