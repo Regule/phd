@@ -11,14 +11,6 @@ from keras import regularizers
 #                                     FILE PROCESSING 
 #==================================================================================================
 
-#def read_data_from_csv(csv, epoch_column, bias_column):
-#    clock_data = pd.read_csv(csv, sep=';')
-#    if type(clock_data[epoch_column][0]) == str:
-#        clock_data[epoch_column] = clock_data[epoch_column].map(epoch_str_to_timestamp)
-#    x = clock_data.iloc[:][epoch_column].values
-#    y = clock_data.iloc[:][bias_column].values
-#    return x, y
-
 def read_data_from_csv(file_name, epoch_column, bias_column):
     data = pd.read_csv(file_name, sep=';')
     X = data.iloc[:,0].to_numpy()
