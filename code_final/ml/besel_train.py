@@ -102,8 +102,6 @@ def build_lstm(input_shape, hidden_factor, input_dropout, input_recurrent_dropou
                hidden_dropout, hidden_recurrent_dropout, input_regularization,
                hidden_regularization, optimizer, besel=False):
     input_size = input_shape[1]
-    print(input_shape)
-    sys.exit()
     input_shape = (input_shape[1], input_shape[2])
     hidden_size = int(input_size*hidden_factor)
     first_layer_activation = 'relu'
