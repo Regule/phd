@@ -10,14 +10,20 @@ from keras import regularizers
 #==================================================================================================
 #                                     FILE PROCESSING 
 #==================================================================================================
-def read_data_from_csv(csv, epoch_column, bias_column):
-    clock_data = pd.read_csv(csv, sep=';')
-    if type(clock_data[epoch_column][0]) == str:
-        clock_data[epoch_column] = clock_data[epoch_column].map(epoch_str_to_timestamp)
-    x = clock_data.iloc[:][epoch_column].values
-    y = clock_data.iloc[:][bias_column].values
-    return x, y
 
+#def read_data_from_csv(csv, epoch_column, bias_column):
+#    clock_data = pd.read_csv(csv, sep=';')
+#    if type(clock_data[epoch_column][0]) == str:
+#        clock_data[epoch_column] = clock_data[epoch_column].map(epoch_str_to_timestamp)
+#    x = clock_data.iloc[:][epoch_column].values
+#    y = clock_data.iloc[:][bias_column].values
+#    return x, y
+
+def read_data_from_csv(file_name, epoch_column, bias_column):
+    data = pd.read_csv(file_name, sep=';')
+    X = data.iloc[:,0].to_numpy()
+    Y = data.iloc[:,1:].to_numpy()
+    return X, Y
 
 def save_to_csv(x, y, csv, epoch_column, bias_column):
     x = list(map(timestamp_to_epoch_str, x))
@@ -85,6 +91,7 @@ def build_windowed_data(time_series, window_size):
         windows.append(time_series[step:step+window_size])
         outputs.append(time_series[step+window_size])
         step += 1
+    print(windows[0])
     return np.asarray(windows), np.asarray(outputs)
 
 #==================================================================================================
@@ -95,6 +102,8 @@ def build_lstm(input_shape, hidden_factor, input_dropout, input_recurrent_dropou
                hidden_dropout, hidden_recurrent_dropout, input_regularization,
                hidden_regularization, optimizer, besel=False):
     input_size = input_shape[1]
+    print(input_shape)
+    sys.exit()
     input_shape = (input_shape[1], input_shape[2])
     hidden_size = int(input_size*hidden_factor)
     first_layer_activation = 'relu'
@@ -175,6 +184,8 @@ def main(satellites, training_directory, validation_directory, window_size, epoc
          networks_folder, preprocessors_folder, bias_column, epoch_column, experiment_phase):
     satellite_data_training = get_files_from_folder(training_directory, 'csv')
     satellite_data_validation = get_files_from_folder(validation_directory, 'csv')
+    print(satellite_data_training)
+    print(satellite_data_validation)
     for sat_name in satellites.split(','):
         try:
             training_file = satellite_data_training[sat_name]
