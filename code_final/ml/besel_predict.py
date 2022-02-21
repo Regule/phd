@@ -99,13 +99,21 @@ def predict(model, windowed_data, window_size, depth):
     network_inputs = windowed_data.tolist()
 
     while depth > 0:
+        print(f'Depth = {depth}')
         x = np.array(network_inputs.pop(0))
         y = model.predict(x.reshape(1, window_size, feature_count), verbose=0)
-
+        print(f'network observation shape = {x.shape}')
+        print(f'network response shape = {y.shape}')
         if len(network_inputs) == 0:
+            print(f'Appending prediction')
             predicted_data.append(y[0][0])
-            window = np.delete(x, 0, 0)
+            window = x
+            print(f'Window size before first element removal = {window.shape}')
+            window = np.delete(window, 0, 0)
+            print(f'Window size after first element removal = {window.shape}')
             window= np.append(window, y)
+            window = window.reshape(window_size, feature_count)
+            print(f'Window size after appending response= {window.shape}')
             network_inputs.append(window)
             depth -= 1
     return predicted_data

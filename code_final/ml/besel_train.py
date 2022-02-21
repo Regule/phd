@@ -93,8 +93,14 @@ def build_windowed_data(time_series, window_size):
 def build_lstm(input_shape, hidden_factor, input_dropout, input_recurrent_dropout,
                hidden_dropout, hidden_recurrent_dropout, input_regularization,
                hidden_regularization, optimizer, besel=False):
-    input_size = input_shape[1]
-    input_shape = (input_shape[1], input_shape[2])
+    window_size = input_shape[1]
+    feature_count = input_shape[2]
+    input_size = window_size 
+    output_size = feature_count
+    input_shape = (window_size, feature_count)
+    #print(f'Input shape = {input_shape}')
+    #print(f'Output size = {output_size}')
+    #sys.exit()
     hidden_size = int(input_size*hidden_factor)
     first_layer_activation = 'relu'
     if besel:
@@ -116,7 +122,7 @@ def build_lstm(input_shape, hidden_factor, input_dropout, input_recurrent_dropou
                                    kernel_regularizer=regularizers.l2(hidden_regularization),
                                    stateful=False
                                    ))
-    model.add(tf.keras.layers.Dense(1,
+    model.add(tf.keras.layers.Dense(output_size,
                                     activation='linear'
                                     ))
     model.compile(loss='mse', optimizer=optimizer)
