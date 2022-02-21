@@ -1,9 +1,3 @@
-'''
-This script takes a clock bias csv and turns it into and observation set for prediction
-algorithm.
-'''
-
-
 #==================================================================================================
 #                                           IMPORTS
 #==================================================================================================
@@ -11,6 +5,7 @@ import argparse
 
 import pandas as pd
 import numpy as np
+import os
 
 
 #==================================================================================================
@@ -38,10 +33,14 @@ def write_observation_dataset(observation, file_name):
     dataset = pd.DataFrame(observation)
     dataset.to_csv(file_name, sep=';')
 
+def parse_single_sat(input_file, output_file, derivative_level):
+    observation, reaction = data_from_csv(input_file)
+    observation = build_input_with_derivatives(reaction, derivative_level)
+    write_observation_dataset(observation, output_file)
+
 #==================================================================================================
 #                                       UTILITY FUNCTIONS
 #==================================================================================================
-
 def get_files_from_folder(folder, extension, satellites=None):
     files = {}
     extension = f'.{extension}'
@@ -53,26 +52,31 @@ def get_files_from_folder(folder, extension, satellites=None):
                     files[file_name.split('_')[0]] = os.path.join(r, file)
     return files
 
+def build_output_file_path(output_dir, sat_name, ext):
+    file_name = '{}.{}'.format(sat_name, ext)
+    return os.path.join(output_dir, file_name)
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('-i', '--input_file', type=str, default=None,
+    parser.add_argument('-i', '--input_folder', type=str, default=None,
             help='File with training observations')
     parser.add_argument('-d', '--derivative_level', type=int, default=2,
             help='To what degree a derivative should be included in input')
-    parser.add_argument('-o', '--output_file', type=str, required=True,
+    parser.add_argument('-o', '--output_folder', type=str, required=True,
             help='File to which output will be saved')
     return parser.parse_args()
-
 
 #==================================================================================================
 #                                       MAIN FUNCTION
 #==================================================================================================
 
 def main(args):
-    observation, reaction = data_from_csv(args.input_file)
-    observation = build_input_with_derivatives(reaction, args.derivative_level)
-    write_observation_dataset(observation,args.output_file)
+    input_files = get_files_from_folder(args.input_folder, 'csv')
+    for sat, path in input_files.items():
+        print(f'Parsing satellite {sat}')
+        out_file = build_output_file_path(args.output_folder, sat, 'csv')
+        parse_single_sat(path, out_file,args.derivative_level)
+
 
 if __name__ == '__main__':
     main(parse_arguments())
