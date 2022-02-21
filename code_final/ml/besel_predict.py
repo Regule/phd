@@ -3,6 +3,7 @@ import tensorflow as tf
 import numpy as np
 import pandas as pd
 import os
+import sys
 
 
 
@@ -92,11 +93,14 @@ def build_windowed_data(time_series, window_size):
 
 def predict(model, windowed_data, window_size, depth):
     predicted_data = []
+    window_size = windowed_data.shape[1]
+    feature_count = windowed_data.shape[2]
+    print(windowed_data.shape)
     network_inputs = windowed_data.tolist()
 
     while depth > 0:
         x = np.array(network_inputs.pop(0))
-        y = model.predict(x.reshape(1, window_size, 1), verbose=0)
+        y = model.predict(x.reshape(1, window_size, feature_count), verbose=0)
 
         if len(network_inputs) == 0:
             predicted_data.append(y[0][0])
@@ -116,8 +120,6 @@ def process_single_satellite(sat_name, net_name, initializer_file, model_file,
         network = tf.keras.models.model_from_json(json_file.read())
     network.load_weights(weights_file)
     x, y = read_data_from_csv(initializer_file, epoch_column, bias_column)
-    preprocessor.fit_differentiator(y)
-    x, y = preprocessor.transform(x, y)
     windowed_data, _ = build_windowed_data(y, window_size)
     predicted = predict(network, windowed_data, window_size, prediction_depth)
     epochs = build_epochs(preprocessor.timeframe_shifter.t_end, 15, prediction_depth)
@@ -134,6 +136,9 @@ def main(satellites, initializer_folder, networks_folder, preprocessors_folder,
     weight_files = get_files_from_folder(networks_folder, 'h5', satellites)
     for satellite in satellites:
        for network in networks:
+           print(initializer_files)
+           print(topologies_files)
+           print(weights_files)
            try:
                process_single_satellite(satellite, network,
                                         initializer_files[satellite],
