@@ -83,7 +83,6 @@ def build_windowed_data(time_series, window_size):
         windows.append(time_series[step:step+window_size])
         outputs.append(time_series[step+window_size])
         step += 1
-    print(windows[0])
     return np.asarray(windows), np.asarray(outputs)
 
 #==================================================================================================
@@ -95,27 +94,20 @@ def predict(model, windowed_data, window_size, depth):
     predicted_data = []
     window_size = windowed_data.shape[1]
     feature_count = windowed_data.shape[2]
-    print(windowed_data.shape)
     network_inputs = windowed_data.tolist()
 
     while depth > 0:
-        print(f'Depth = {depth}')
         x = np.array(network_inputs.pop(0))
         y = model.predict(x.reshape(1, window_size, feature_count), verbose=0)
-        print(f'network observation shape = {x.shape}')
-        print(f'network response shape = {y.shape}')
         if len(network_inputs) == 0:
-            print(f'Appending prediction')
-            predicted_data.append(y[0][0])
+            predicted_data.append(y)
             window = x
-            print(f'Window size before first element removal = {window.shape}')
             window = np.delete(window, 0, 0)
-            print(f'Window size after first element removal = {window.shape}')
             window= np.vstack([window, y])
-            #window = window.reshape(window_size, feature_count)
-            print(f'Window size after appending response= {window.shape}')
             network_inputs.append(window)
             depth -= 1
+    predicted_data = np.asarray(predicted_data)
+    predicted_data = predicted_data.reshape([predicted_data.shape[0], predicted_data.shape[2]])
     return predicted_data
     
 
@@ -130,8 +122,7 @@ def process_single_satellite(sat_name, net_name, initializer_file, model_file,
     x, y = read_data_from_csv(initializer_file, epoch_column, bias_column)
     windowed_data, _ = build_windowed_data(y, window_size)
     predicted = predict(network, windowed_data, window_size, prediction_depth)
-    epochs = build_epochs(preprocessor.timeframe_shifter.t_end, 15, prediction_depth)
-    dataframe = pd.DataFrame(data={epoch_column: epochs, bias_column: predicted})
+    dataframe = pd.DataFrame(data=predicted)
     dataframe.to_csv(os.path.join(output_file, f'{sat_name}_{net_name}.csv'), sep=';', index=False)
 
 
@@ -144,9 +135,6 @@ def main(satellites, initializer_folder, networks_folder, preprocessors_folder,
     weight_files = get_files_from_folder(networks_folder, 'h5', satellites)
     for satellite in satellites:
        for network in networks:
-           print(initializer_files)
-           print(topologies_files)
-           print(weights_files)
            try:
                process_single_satellite(satellite, network,
                                         initializer_files[satellite],
