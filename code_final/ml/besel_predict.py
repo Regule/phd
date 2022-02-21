@@ -111,8 +111,8 @@ def predict(model, windowed_data, window_size, depth):
             print(f'Window size before first element removal = {window.shape}')
             window = np.delete(window, 0, 0)
             print(f'Window size after first element removal = {window.shape}')
-            window= np.append(window, y)
-            window = window.reshape(window_size, feature_count)
+            window= np.vstack([window, y])
+            #window = window.reshape(window_size, feature_count)
             print(f'Window size after appending response= {window.shape}')
             network_inputs.append(window)
             depth -= 1
