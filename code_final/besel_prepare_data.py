@@ -21,7 +21,8 @@ def data_from_csv(file_name):
 
 def build_input_with_derivatives(timeseries, derivative_level):
     derivative = timeseries
-    derivatives = [derivative.reshape(derivative.shape[0]), ]
+    #derivatives = [derivative.reshape(derivative.shape[0]), ]
+    derivatives = []
     for level in range(derivative_level):
         derivative = np.diff(derivative, axis=0)
         padding = np.zeros(level+1)
