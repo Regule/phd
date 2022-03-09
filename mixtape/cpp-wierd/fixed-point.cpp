@@ -1,4 +1,5 @@
 #include <cstdint>
+#include <exception>
 
 //=================================================================================================
 //                                           EXCEPTIONS
@@ -10,21 +11,21 @@ class OutOfRangeException: public std::exception{
 		double upper_limit;
 
 	public:
-		FileNotFoundException(double value, double lower_limit, double upper_limit){
+		OutOfRangeException(double value, double lower_limit, double upper_limit){
 			this->value = value;
 			this->lower_limit = lower_limit;
 			this->upper_limit = upper_limit;
 		}
 
-		double get_upper_limit() conts{
+		double get_upper_limit() const{
 			return this->upper_limit;
 		}
 
-		double get_lower_limit() conts{
+		double get_lower_limit() const{
 			return this->lower_limit;
 		}
 
-		double get_value() conts{
+		double get_value() const{
 			return this->value;
 		}
 };
@@ -54,13 +55,13 @@ public:
 	char get_flag() const{
 		uint32_t flag = data | FLAG_MASK;
 		flag = flag >> VALUE_SIZE;
-		char *flag_bytes = reinterpreter_cast<char*>(&flag);
+		char *flag_bytes = (char*)(&flag);
 		return flag_bytes[3];
 	}
 
 
 
-	static is_in_valid_range(double value){
+	static bool is_in_valid_range(double value){
 	}
 };
 
