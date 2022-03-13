@@ -85,6 +85,11 @@ threshold returns to its resting value. In the period of At.
 the cell can be stimulated, but with the use of stronger forces.
 Usually in real processes the following relation Ar »At is fulfilled.
 
+%--------------------------------------------------------------------------------------------------
+\FloatBarrier
+\subsection{Mathematical model of neural network}
+
+
 %==================================================================================================
 \FloatBarrier
 \section{Representation in computer}
@@ -95,4 +100,94 @@ Usually in real processes the following relation Ar »At is fulfilled.
 
 %==================================================================================================
 \FloatBarrier
-\section{Neuroevolution}
+\section{Neuroevolution for agumented topologies}
+NeuroEvolution of Augmenting Topologies (NEAT) is a genetic algorithm based on the use of three 
+key techniques: tracing the history of genes, applying species division, and developing the 
+topology of a neural network. 
+In NEAT, genetic coding is used to record information about the structure of the neural network. 
+It was designed in such a way as to allow easy assembly of genes during crossbreeding. 
+Genomes are a linear representation of a neural network. Each genome is made up of two lists, 
+one representing the genes for the nodes of the network and the other representing the 
+genes for existing connections between the nodes. Node genes provide information about network 
+entrances, nodes in the hidden layer, and network exit. 
+Each of the connection genes contains information about the nodes between which the connection 
+exists, the connection weight value, whether the connection is active or not, 
+and has an identification number assigned. 
+Mutations in the NEAT algorithm can change both the value of the weight of a given connection and 
+the structure of the network. 
+There are two possibilities for mutating the network structure by adding a link and by adding 
+a node. 
+When a link is added, a new link gene is created with a random weight value that connects the 
+two nodes that did not have a link between them. 
+In the case of a node addition mutation, the existing connection is split and the new node is put 
+in place of the old connection, which is deactivated (this information is included in 
+the connection genes). 
+As a result, two new connections are added to the genome. 
+The link leading to the new node is assigned a weight value of 1, and the link originating from 
+the new node is assigned the weight value of the old link. 
+Mutations cause genes to expand and the size of genes in a population varies. 
+This fact requires an appropriate approach to the process of interbreeding of individuals from the 
+population. During the process of evolution, information is gathered that tells us what genes 
+correspond to genes from other individuals in a topologically diverse population. 
+This information tells us the origin of each gene, so we can determine from which ancestor the 
+gene was inherited. 
+When a new gene is created (previously non-existent link), the Global Identification Number is 
+increased and assigned to that gene. 
+Hence the identification numbers represent the chronology of the emergence of new genes. 
+In the case of a cross between two genomes, the descendant inherits the same identification numbers
+corresponding to each gene, these numbers never change, thanks to which we have the opportunity 
+to learn the history of the formation of a given unit. 
+During the crossing process, genes with the same identification numbers are paired, 
+they are called corresponding genes. 
+Those that do not match are disjoint or redundant (depending on whether their numbers are 
+within the range of the numbers of the other parent) 
+If, when matching the connection genes, the given parent 'A' gene does not match the parent 'B' 
+gene and the identification number of this gene is smaller from the largest parent identification 
+number 'B' such a gene is disjoint. 
+If the parent 'A' has non-corresponding genes and their numbers are greater than the largest gene 
+number of the parent 'B', they are called redundant genes. 
+Disjoint and redundant genes represent a structure that is not part of the other genome. 
+When matching genes during crossbreeding, matching genes are inherited randomly 
+(a gene with the same ID number is inherited from either parent 'A' or parent 'B'), 
+while disjoint and redundant genes are inherited from the parent whose adjustment function results 
+are greater. 
+The result of the emergence of new genes and the crossing of units with different structures is 
+the building of a topologically diverse population. Since entities with a smaller structure 
+optimize faster than larger ones, and the fact that enlarging the network with nodes and 
+connections usually lowers the result of the alignment function, newly developed structures have 
+little chance of survival. 
+It also results from the fact that topological diversity in the population will not be maintained. 
+As a consequence, individuals with innovative changes in the structure, which in the future could 
+turn out to be very positive for the course of evolution, will die out.
+
+To maintain the diversity of the population in terms of topology, a division into species has been 
+introduced, in which individuals compete with each other, having time to optimize and improve 
+their structures within a given niche. 
+Units are allocated to species based on their similarity in structure. 
+The similarity is determined by the number of disconnected and redundant genes. 
+The more disjoint genes there are, the fewer individuals are related, and therefore 
+less compatible. The measure of agreement is calculated from the formula in which E 
+is responsible for the number of redundant genes, D is disjointed, and the average of the 
+difference in weight of the corresponding genes. 
+The coefficients c1, c2, c3 are responsible for the significance of these parameters, 
+N is responsible for normalization, when both genomes consist of less than 20 genes, N can be 1. 
+The calculated compliance distance is compared with the established compliance threshold, 
+if the threshold is exceeded, the unit is not classified into a given species. 
+At each generation, genomes are allocated to species, each unit is compared in terms of 
+compliance with the representatives of the species. The units representing the species are 
+randomly selected genomes from the previous generation. 
+If an entity from the current generation is not compatible with any existing species, 
+a new species is created, so that unit becomes the representative of that species. 
+In the case of genetic algorithms, as population diversity disappears, there is a tendency to 
+converge to one solution, this is called genetic drift. 
+To counteract this, when assigning an individual to a species, its adjustment function result is 
+adjusted based on the results of the individuals in that species. 
+Consequently, a given species does not make up the majority of the population, and therefore the 
+entire population will not be assigned to one species. 
+An important feature of the NEAT algorithm is maintaining population diversity, but the structure 
+of the generated solutions is also very important in the context of the final solution. 
+The ultimate goal of this model is to strive for the most optimal result. 
+This is done by minimizing the dimensionality in the space of the solutions sought, therefore, 
+when creating the base population, units with hidden layers are not generated. 
+During the process of evolution, when mutations take place, only those structures that have a 
+positive effect on the results obtained survive.
