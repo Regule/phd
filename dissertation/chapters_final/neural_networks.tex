@@ -88,7 +88,26 @@ Usually in real processes the following relation Ar »At is fulfilled.
 %--------------------------------------------------------------------------------------------------
 \FloatBarrier
 \subsection{Mathematical model of neural network}
-
+Based on the principle of operation of the real neuron, a number of mathematical models were 
+created that take into account, to a greater or lesser extent, the properties of 
+the real nerve cell. 
+The circuit diagram associated with most of these models corresponds to the McCulloch-Pitts model 
+in Fig. 1.3, which includes an adder that adds weight to the input signals and a 
+non-linear block that produces an output that is a non-linear function of the adder output. 
+The type of the nonlinear function, in particular its continuity, has a decisive influence on 
+the choice of the neuron learning technique (selection of weights). 
+The second important factor is the pre-selection of the learning strategy. 
+Two approaches can be distinguished here: supervised learning and unsupervised learning. 
+In the teacher learning mode, it is assumed that the desired output signal of the neuron 
+(destination d,) is known, and the selection of weights must be carried out in such a way that the 
+current output signal of the neuron y is closest to the set value d. 
+An important element here is the knowledge of the desired value of d, of the neuron output. 
+If we are unable to provide this, it remains to choose a learning strategy without a teacher. 
+The selection of weights then takes place on a different basis, either by using the competition of 
+neurons with each other (Winner Takes All strategy) or by using the Hebb learning method. 
+In teaching without a teacher, at the stage of teaching the neuron, we are not able to predict the 
+output signal of the neuron, unlike the mode with the teacher, where the learning result 
+is predetermined by the choice of learning values. 
 
 %==================================================================================================
 \FloatBarrier
