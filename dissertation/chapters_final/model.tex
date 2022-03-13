@@ -9,6 +9,65 @@
 %==================================================================================================
 \FloatBarrier
 \section{Network representations}
+The main element for which there is a potential to reduce resource requirements is the node model, 
+in this case, two facts have been highlighted. 
+First of all, because there are only two objects in the network topology model, it is not required 
+to use pointers to links in the node, it is enough to assume that all link objects 
+saved after the node belong to it.
+
+
+As visualized in Figure 6, the connections marked in yellow are right behind their source 
+nodes marked in orange. 
+This means that there is no need to store information about the number and destination addresses 
+of connections because it is enough to iterate through the memory until encountering the next 
+node acting as a terminator of the connection string. 
+This is similar to the ASCII text string implementation in most operating systems where the 
+string is represented by a memory fragment terminated with a character code 0. 
+It should be noted that in such a model nodes and links share the same memory area, 
+therefore it must be possible to identify the type of an object in memory during program 
+execution, knowing only the position of the first byte of such an object in memory. 
+In the proposed model it is realized by treating the first bit of the first byte as the flag 
+identifying the object type if this bit is set to 0 it is a node and if it is 1 it is a link. 
+The second important feature that can be used is the low ratio of active neurons to the total 
+number of neurons in the case of larger networks. Since we expect the generated networks to be 
+of significant size, we can take advantage of this fact and separate the information about the 
+activation of nodes from their models to external objects. 
+As a result, the proposed model will consist of three structures: 
+\begin{itemize}
+	\item node - stores information on the method of aggregation,
+		activation and the last cycle in which it was activated,
+	\item link - stores the connection weight and the target node address
+	\item spider - stores information about the node it is on, about the result of its
+		aggregation and then activation, and about the cycle in which it is currently located.
+\end{itemize}
+
+The project developed a model representing both a node and a link using a single 32-bit number and 
+a spider using two 32-bit numbers. 
+This is a significant value because the 32-bit number in fixed-point encoding is a native 
+representation of numbers in the processor used in the project. 
+Since all the data stored in the model does not match the standard 32-bit number division into 
+four bytes, it is not possible to use the structured programming functionality provided by the 
+C language. Instead, functions operating on the memory representation as a whole will be used.
+
+As shown in Figure 7, a single 32-bit memory cell is divided into three sections: 
+\begin{enumerate}
+	\item Flag of type (T) - the highest bit informs about what type of object is represented,
+		in case of setting the value to zero it is a node and for one it is a link.
+	\item Address/flags (A) - the next eight bits, in the case of a link, act as a shift written
+		as an integer in the U2 code, it is an equivalent of the native model pointer.
+		For a node, the same eight bits act as flags:
+		\begin{enumerate}
+				\item Inputs (I) - if set to 1 node is an input.
+				\item Outputs (O) - if set to 1 node is an exit.
+				\item Aggregation (G) - informs about the type of aggregation function.
+				\item Activation (C) - informs about the type of activation function.
+				\item Not Used (X) - These bits hold no value. 
+		\end{enumerate}
+	\item Values (V) - the value stored by the object. For a node, it is the current
+		cycle stored as an integer value, while for a connection it is its weight written as a
+		fixed-point number with a comma at the 21st-byte position.
+\end{enumerate}
+
 
 %==================================================================================================
 \FloatBarrier
