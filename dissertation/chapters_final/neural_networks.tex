@@ -21,49 +21,52 @@ computational complexity of both running and teaching described ANN models.
 \FloatBarrier
 \subsection{Biological networks}
 The subject of artificial neural networks belongs to the interdisciplinary field of research 
-related to biocybernetics, electronics, applied mathematics, automation, and even medicine.
+related to biology, electronics, mathematics, automation, and medicine.
 Artificial neural networks were created based on knowledge about the functioning of the nervous
-system of living creatures and are an attempt to use the phenomena occurring in nervous systems
-in the search for new technological solutions.
+system of living creatures. 
 The nerve cell, or neuron for short, is the basic component of the nervous system.
 Understanding the mechanisms of operation of individual neurons and their interaction is 
 particularly important for understanding the processes of acquiring, transmitting, processing,
-and using information running in neural networks.
+and using information in neural networks.
 For this reason, the real neuron model is extremely important. Like any other cell, a neuron has
-a body with cytological equipment called a soma, inside which is a nucleus.
-From the soma of the neuron - numerous projections play an important role in connection with
-other cells.
-Two types of projections can be distinguished: numerous, thin, and densely branched dendrites
-and a thicker axon, forking at the end.
+a body called a soma, inside which is a nucleus.
+From the soma of the neuron numerous connections to other cells emerge.
+Two types of connections can be distinguished:
+\begin{itemize}
+	\item dendrites - numerous, thin, and densely branched, 
+	\item axon -  single thicc forking at the end.
+\end{itemize}
 Input signals go to the cell via synapses, and the output signal goes through the axon
 and its numerous branches called collateral.
+\begin{figure}[htb] 
+	\label{fig:neuron}
+	\centering
+	\includegraphics[width=\textwidth]{figures/neural_cell}
+	\caption{Biological neuron}
+\end{figure}
 The collaterals reach the soma and dendrites of other neurons to form more synapses. 
 Synapses that connect the outputs of other nerve cells to a given cell can therefore be found
 both on the dendrites and directly on the cell body.
 The transmission of signals inside the nervous system is a complex chemical-electrical process. 
 In simplified terms, it can be assumed that the transmission of the nerve impulse from one cell to
-another is based on the secretion of special chemical substances under the influence of stimuli 
-coming from synapses.
+another is based on the secretion of special chemical substances called neurotransmiter 
+under the influence of stimuli coming from synapses.
 
 These substances act on the cell membrane to cause a change in its electric potential, 
-the change being stronger the more neuro mediators appear on the cell membrane.
-Individual synapses differ in size and the ability to accumulate neuro mediators near the synaptic
+the change being stronger the more neurotransmiters appear on the cell membrane.
+Individual synapses differ in size and the ability to accumulate neurotransmiters near the synaptic
 membrane. 
 For this reason, the same impulse reaching the cell's input via a specific synapse may cause a
 stronger or weaker excitation of the cell than in the case of another input.
 The degree of cell excitation is measured by the degree of its membrane polarization,
-which depends on the total amount of neuro mediators emitted in all synapses.
+which depends on the total amount of neurotransmiters emitted in all synapses.
 It follows that the cell inputs can be assigned numerical coefficients (weights) corresponding to 
-the number of neuro mediators isolated at one time on individual synapses.
+the number of neurotransmiters isolated at one time on individual synapses.
 In the mathematical model, input signals must be multiplied by these coefficients to correctly 
 take into account the influence of individual input signals on the state of the nerve cell.
-Synaptic weights are real numbers and can take both positive and negative values.
-One of them has a stimulating effect and the other is inhibitory, making it difficult for the cell
-to be stimulated by other signals.
-The action of the excitatory synapse can be interpreted as assuming a positive value for 
-the synaptic weight, and a negative value for the inhibitory synapse.
+More information on mathematical models of neural networks are presentet in section \ref{sec:maths}
 As a result of the input pulses reaching individual synapses and the release of appropriate
-amounts of the neuro mediators, specific electrical stimulation of the cell takes place.
+amounts of the neurotransmiters, specific electrical stimulation of the cell takes place.
 If the electrical imbalance is minor or if the balance of excitations and inhibitions is negative,
 the cell returns to its initial state by itself, and no change can be seen in its output.
 
@@ -71,7 +74,7 @@ If, on the other hand, the sum of stimulations and inhibitions exceeds the cell 
 threshold, the output signal increases rapidly and a characteristic shape of
 the nerve impulse is formed, sent by an axon to other neurons connected to a given cell.
 This signal depends on the degree of exceeding the threshold.
-The cell works on the principle: all or nothing. After fulfilling his role, the neuro mediators
+The cell works on the principle: all or nothing. After fulfilling his role, the neurotransmiters
 are removed. The mechanism of its removal is either absorbed by the cell,
 broken down, or moved beyond the synaptic area.
 It stays at the same time as generating an impulse by the nerve cell the refraction
@@ -80,6 +83,12 @@ It is a rapid increase in the cell activation threshold to the infinite value,
 as a result of which, immediately after generating the impulse, the neuron will not be able 
 to generate the next one, even with strong stimulation. This state persists for some time Ar,
 called absolute refraction.
+\begin{figure}[htb] 
+	\label{fig:bio_activation}
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/bio_activation}
+	\caption{Response to an activation potential in neuron}
+\end{figure}
 This period is followed by a period of relative refraction, delta t, in which the operating
 threshold returns to its resting value. In the period of At.
 the cell can be stimulated, but with the use of stronger forces.
@@ -88,6 +97,7 @@ Usually in real processes the following relation Ar »At is fulfilled.
 %--------------------------------------------------------------------------------------------------
 \FloatBarrier
 \subsection{Mathematical model of neural network}
+\label{sec:maths}
 Based on the principle of operation of the real neuron, a number of mathematical models were 
 created that take into account, to a greater or lesser extent, the properties of 
 the real nerve cell. 
