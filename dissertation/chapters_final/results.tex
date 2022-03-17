@@ -50,6 +50,33 @@ matrix.
 The metadata pipeline, on the other hand, transmits additional information that is not part of 
 the observation-reaction loop but is required for the correct interaction between the processes 
 and for the training algorithm to be performed.
+\begin{lstlisting}[language=C]
+struct AiGymMetadata{
+	int cycle;
+	float reaward;
+	int running;
+	int error_code;
+	string error_msg;
+};
+\end{lstlisting}
+
+From the example in Listing 1, you can see five metadata elements:
+\begin{enumerate}
+	\item Cycle - the simulation has been divided into cycles, each of which, 
+		except the zero one, is initiated by receiving a reaction and returns the 
+		observation and metadata itself
+	\item Reward - As part of the simulation, a reward is given for each cycle, 
+		in the case of negative values it is called a penalty. 
+		The exact rules for granting the awards depend on the simulation environment selected. 
+	\item Simulation state - the variable takes the value of 1 when the simulation is active or 
+		0 when it is stopped.
+	\item Error code - if the simulation answer does not contain an error, the code is set to zero,
+		otherwise the exact error code is here. In case the error code is nonzero,
+		the observation pipeline is empty.  
+	\item The content of the error - a detailed description of the error from the simulation, 
+		allows you to send more accurate information without unnecessarily complicating the 
+		metadata modelled.
+\end{enumerate}
 
 %--------------------------------------------------------------------------------------------------
 \FloatBarrier
