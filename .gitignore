@@ -13,6 +13,8 @@
 *.lof
 *.lot
 *.bcf
+*.nav
+*.snm
 phd-blx.bib
 phd_final-blx.bib
 *.run.xml
