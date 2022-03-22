@@ -43,7 +43,6 @@
 	to use pointers to links in a node, it suffices to assume that all link saved after a node 
 	belongs to it.
 	\begin{figure}[htb] 
-		\label{fig:neuron}
 		\includegraphics[width=\textwidth]{figures/in_memo}
 		\caption{Memory layout}
 	\end{figure}
@@ -53,6 +52,21 @@
 	that acts as a terminator for the string connections.
 	This is similar to the ASCII text string implementation on most systems where the string is 
 	represented by a fragment of memory ended with a character with code 0.
+\end{frame}
+
+%--------------------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Encoding numerical values}
+	\begin{figure}[htb] 
+		\includegraphics[width=\textwidth]{figures/u2_example}
+		\caption{Example of encoding}
+	\end{figure}
+	Table 2 illustrates the method of encoding the eight-bit number in the fixed-position U2 code,
+	the problem of the lack of symmetry in the above encoding becomes immediately apparent.
+	The smallest number that we are able to encode is yin = 100000002 = -8 and the largest is 
+	ymax = 011111112 = 7.9375.
+	This is a problem because in the neural network model the most desirable encoding range is 
+	the symmetric interval <-1.1>. 
 \end{frame}
 
 %--------------------------------------------------------------------------------------------------
