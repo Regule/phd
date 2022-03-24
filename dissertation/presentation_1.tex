@@ -28,12 +28,40 @@
 
 %--------------------------------------------------------------------------------------------------
 \begin{frame}
-\frametitle{Representation of network graph}
+\frametitle{Motivation}
+\end{frame}
+
+%--------------------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Contributions}
+\end{frame}
+
+%--------------------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Neuroevolution for agumented topologies.}
+\begin{columns}[T,onlytextwidth]
+        \begin{column}{.4\textwidth}
+            \begin{minipage}{\textwidth}
+                \begin{figure}
 	The neural network created by the process of neuroevolution must be represented by a structure
 	graph.
 	It is not possible to use the matrix model because it assumes dense connection between the 
 	layers of constant size in the case of networks with variable topology however, it is required 
 	to store information on existing connections.
+                \end{figure}
+            \end{minipage}
+        \end{column}
+        \begin{column}{.4\textwidth}
+            \begin{onlyenv}<2->
+                \begin{minipage}{\textwidth}
+                    \begin{figure}
+                        \includegraphics[width=\textwidth]{figures/graph_xor}
+                    \end{figure}
+                \footnotetext{XOR network}
+                \end{minipage}
+            \end{onlyenv}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 %--------------------------------------------------------------------------------------------------
@@ -76,5 +104,10 @@ The second important feature that can be used is the low ratio of active neurons
 the total number of them in the case of larger networks.
 Since we expect the generated networks will be of significant size, we can take advantage of this
 fact and separate the information about activation nodes from their models to external objects. 
+\end{frame}
+
+%--------------------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Experiment environment}
 \end{frame}
 \end{document}
