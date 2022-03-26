@@ -8,9 +8,11 @@
 //                                          IMPORTS 
 //=================================================================================================
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <exception>
 #include <random>
+#include <unistd.h>
 
 using std::cout;
 using std::endl;
@@ -233,3 +235,10 @@ public:
 
 };
 
+//=================================================================================================
+//                                         MAIN 
+//=================================================================================================
+
+int main(int argc, char** argv){
+	return 0; // For now so that we can test if it compiles
+}
