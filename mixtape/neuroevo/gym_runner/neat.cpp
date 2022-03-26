@@ -167,7 +167,7 @@ class ArgumentParsingError: public std::exception{
 //=================================================================================================
 struct EnvironmentMetadata{
 	int cycle;
-	float reward;
+	double reward;
 	int running;
 	int error_code;
 	string error_msg;
@@ -190,7 +190,7 @@ template<class Numeric> class Environment{
 
 
 
-class AiGymAPI{
+template<class Numeric> class AiGymAPI: public Environment<Numeric>{
 private:
 	string observation_pipe;
 	string reaction_pipe;
@@ -208,11 +208,11 @@ public:
 		this->reaction_size = reaction_size;
 	}
 
-	vector<double> get_observation() const{
+	vector<Numeric> get_observation() const{
 		std::fstream pipe;
 		pipe.open(this->observation_pipe, std::ios::in);
-		vector<double> features;
-		double feature;
+		vector<Numeric> features;
+		Numeric feature;
 		while(pipe.peek()!= EOF){
 			pipe >> feature;
 			features.push_back(feature);
@@ -221,11 +221,11 @@ public:
 		return features;
 	}
 
-	void send_reaction(const vector<double> &reaction) const{
+	void send_reaction(const vector<Numeric> &reaction) const{
 		std::fstream pipe;
 		pipe.open(this->reaction_pipe, std::ios::out);
 		for(auto feature: reaction){
-			double d = reaction[0];
+			Numeric d = reaction[0];
 			pipe << d << ' ';
 		}
 		pipe << endl;
@@ -243,12 +243,17 @@ public:
 	}
 
 };
+//=================================================================================================
+//                                              NEAT 
+//=================================================================================================
+
+
 
 //=================================================================================================
 //                                         MAIN 
 //=================================================================================================
 
 int main(int argc, char** argv){
-	Environment<double> env;
+	AiGymAPI<double> env("aa","bb", "cc", 12, 12);
 	return 0; // For now so that we can test if it compiles
 }
