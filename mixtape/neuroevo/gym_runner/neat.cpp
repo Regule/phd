@@ -165,7 +165,7 @@ class ArgumentParsingError: public std::exception{
 //=================================================================================================
 //                                      AI GYM API 
 //=================================================================================================
-struct AiGymMetadata{
+struct EnvironmentMetadata{
 	int cycle;
 	float reward;
 	int running;
@@ -173,12 +173,21 @@ struct AiGymMetadata{
 	string error_msg;
 };
 
-std::ostream & operator << (std::ostream &out, const AiGymMetadata &metadata){
+std::ostream & operator << (std::ostream &out, const EnvironmentMetadata &metadata){
 	out << "Cycle=" << metadata.cycle << " Reward=" << metadata.reward << " Running=";
 	out << (metadata.running?"true":"false") << " Error=" << metadata.error_code;
 	out << " Message=" << metadata.error_msg;
 	return out;
 }
+
+
+template<class Numeric> class Environment{
+	virtual vector<Numeric> get_observation() const = 0;
+	virtual void send_reaction(const vector<Numeric> &reaction) const = 0;
+	virtual EnvironmentMetadata get_metadata() const = 0;
+
+};
+
 
 
 class AiGymAPI{
@@ -223,10 +232,10 @@ public:
 		pipe.close();
 	}
 
-	AiGymMetadata get_metadata() const{
+	EnvironmentMetadata get_metadata() const{
 		std::fstream pipe;
 		pipe.open(this->metadata_pipe, std::ios::in);
-		AiGymMetadata metadata;
+		EnvironmentMetadata metadata;
 		pipe >> metadata.cycle >> metadata.reward >> metadata.running;
 		pipe >> metadata.error_code >> metadata.error_msg;
 		pipe.close();
@@ -240,5 +249,6 @@ public:
 //=================================================================================================
 
 int main(int argc, char** argv){
+	Environment<double> env;
 	return 0; // For now so that we can test if it compiles
 }
