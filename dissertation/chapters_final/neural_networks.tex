@@ -164,7 +164,17 @@ The p-value is usually very small, so a small number of chromosomes undergo such
 %--------------------------------------------------------------------------------------------------
 \FloatBarrier
 \subsection{Operators}
+Figure \ref{fig:genetic_algorithm} shows the flowchart on which the genetic algorithm works.
+There are 7 essential steps that will now be discussed in sequence.
 
+\begin{figure}[htb] 
+	\centering
+	\includegraphics[width=\textwidth]{figures/genetic_algorithm}
+	\caption{Overwiew of genetic algorthm}
+	\label{fig:genetic_algorithm}
+\end{figure}
+
+\FloatBarrier
 \subsubsection{Selection of the initial population} 
 Establishing an initial population is the first step in the genetic algorithm. 
 It consists of the deliberate selection of the desired number of chromosomes (individuals), 
@@ -231,10 +241,10 @@ Thus, the probability of selecting a given chromosome is greater, the greater th
 of its fitness function. 
 If we treat the entire circle of the roulette wheel as the numerical interval [0, 100], 
 then the random selection of the chromosome can be treated as a random selection of a 
-number from the range [a, b], where a and b mean, respectively, the beginning and the 
+number from the range $[a, b]$, where a and b mean, respectively, the beginning and the 
 end of the circle segment corresponding to this segment of the circle. 
- of course, 0 ≤a <b≤ 100. Then the drawing with the roulette wheel is reduced to a 
- random selection of a number from the range [0,100], 
+ of course, $0 \leq a < b \leq 100$. Then the drawing with the roulette wheel is reduced to a 
+ random selection of a number from the range $[0,100]$, 
  which corresponds to a specific point on the roulette wheel. 
  As a result of the selection process, a parental population is created, also known as 
  a mating pool, with a size equal to N, i.e. the same as the size of the current population.
