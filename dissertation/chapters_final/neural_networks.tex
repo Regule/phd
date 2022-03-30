@@ -129,6 +129,119 @@ is predetermined by the choice of learning values.
 
 %==================================================================================================
 \FloatBarrier
+\section{Evolutionary algorithms}
+
+%--------------------------------------------------------------------------------------------------
+\FloatBarrier
+\subsection{Overwiew}
+Genetic algorithms are methods of solving various problems, mainly optimization problems, 
+based on evolution. 
+They mimic the natural process of evolution that involves genetic changes occurring in populations 
+of living organisms over time. 
+The main factor of evolution is natural selection, which makes it possible that among genetically 
+different individuals of a population they survive and leave only the offspring best adapted to 
+the environment. 
+Genetic algorithms perform simulated evolution on the so-called chromosomes, consisting of genes.
+The gene values are alleles. In the classic (basic) genetic algorithm, chromosomes are binary 
+sequences with alleles equal to 0 or 1. 
+Individuals of the population (chromosomes) are assessed utilizing an appropriately defined fitness 
+function. 
+In genetic algorithms, we distinguish a selection stage that selects individuals with the highest 
+value of the adaptation function to the parental population (parental pool) from the current 
+chromosome population. 
+The next step is to use genetic operators, such as crossing and mutation, to recombine genes 
+in the chromosomes. 
+The operation of crossing is the exchange of fragments of parents' chromosomes. Parent pairs to be 
+crossed are selected randomly from the parent pool with a defined probability of crossing. 
+After the crossing operation, the parents in the parent pool are replaced with their descendants. 
+The mutation operation changes the values of genes in the chromosomes according to the given 
+probability p. 
+This means that the values of the genes selected in this way are changed from 0 to 1 or 
+vice versa. 
+The p-value is usually very small, so a small number of chromosomes undergo such changes.
+
+
+%--------------------------------------------------------------------------------------------------
+\FloatBarrier
+\subsection{Operators}
+
+\subsubsection{Selection of the initial population} 
+Establishing an initial population is the first step in the genetic algorithm. 
+It consists of the deliberate selection of the desired number of chromosomes (individuals), 
+i.e. chains - ordered sequences of genes - of a certain length.
+
+\subsubsection{Assessment of the chromosome adaptation}
+Each chromosome in the population is assessed based on an appropriately defined fitness 
+function. 
+In the classical (basic) genetic algorithm, the greater the value of this function, 
+the better the chromosome and its better adaptation. The form of the adaptation function 
+depends on the type of problem to be solved. 
+In the classical algorithm, it is assumed that the adaptation function always takes 
+non-negative values and that The optimization problem is the task of searching for the 
+maximum of this function If the original form of the adaptation function does not meet 
+these assumptions, the appropriate transformation is carried out (eg the problem of finding 
+the minimum of the function can be easily reduced to the problem of searching for the maximum). 
+
+\subsubsection{Checking the stop condition of the algorithm} 
+The determination of a stop condition for a genetic algorithm depends on the specific algorithm. 
+In optimization problems, if the maximum (or minimum) value of the fitness function is known, 
+the algorithm may be stopped after the desired optimal value has been obtained, possibly with 
+a specified accuracy. 
+You can also stop the algorithm if continuing to run it does not improve the best value 
+already obtained. 
+It can also be stopped after a certain run time or after a certain number of iterations. 
+If the stop condition is met, it goes to the last step, which is the derivation of the best 
+chromosome. If not, the next step is selection.
+
+\subsubsection{Chromosome selection} 
+As mentioned before, the selection consists in selecting from the current chromosome population into 
+the parental population, the individuals of which are then crossed and mutated to form a new 
+population of descendants. 
+The basic selection method used in the classical genetic algorithm is the roulette method, 
+but other methods are also used, such as a tournament or ranking selection. 
+We will now introduce the above-mentioned methods. 
+
+\paragraph{Roulette algorithm} 
+Chromosome selection consists in selecting, based on the value of the fitness function 
+(calculated in step 2), those chromosomes that will be involved in creating descendants for 
+the next generation, i.e. the next generation. 
+This selection is carried out following the principle of natural selection, i.e. the 
+chromosomes have the greatest chance of participating in the creation of new individuals
+with the highest value of fitness function. The most famous selection method is the roulette 
+wheel selection method, which owes its name to the analogy of drawing with a roulette wheel. 
+It is used in the classical (basic) genetic algorithm. In this method, each chromosome is 
+assigned a segment of a roulette cat with a size proportional to the value of the adaptation 
+function of a given chromosome. 
+Thus, the greater the value of the adaptation function, the larger the sector (sector) on 
+the roulette wheel. 
+The entire roulette wheel corresponds to the sum of the values of the fitness function of 
+all chromosomes of the population under consideration. For each chromosome, 
+specimen $s$ in population $\mathfrak{B}$ size, the corresponding segment of the 
+circle $P(s)$ is part of the whole circle expressed according to the following formula:
+\begin{equation}
+	P(s) = \frac{F(s)}{\sum_{s \in \mathfrak{B}}F(s)}
+\end{equation}
+wherein F (ch.) is the value of the chromosome adaptation function ch, p. (ch) is 
+the selection probability of the ch chromosome. 
+Choosing a chromosome can be viewed as spinning the roulette wheel, with the result that
+the chromosome belonging to the roulette wheel segment thus drawn wins (selected). 
+Obviously, the larger the wheel segment, the more likely it is to win the corresponding 
+chromosome. 
+Thus, the probability of selecting a given chromosome is greater, the greater the value 
+of its fitness function. 
+If we treat the entire circle of the roulette wheel as the numerical interval [0, 100], 
+then the random selection of the chromosome can be treated as a random selection of a 
+number from the range [a, b], where a and b mean, respectively, the beginning and the 
+end of the circle segment corresponding to this segment of the circle. 
+ of course, 0 ≤a <b≤ 100. Then the drawing with the roulette wheel is reduced to a 
+ random selection of a number from the range [0,100], 
+ which corresponds to a specific point on the roulette wheel. 
+ As a result of the selection process, a parental population is created, also known as 
+ a mating pool, with a size equal to N, i.e. the same as the size of the current population.
+
+
+%==================================================================================================
+\FloatBarrier
 \section{Neuroevolution for agumented topologies}
 NeuroEvolution of Augmenting Topologies (NEAT) is a genetic algorithm based on the use of three 
 key techniques: tracing the history of genes, applying species division, and developing the 
