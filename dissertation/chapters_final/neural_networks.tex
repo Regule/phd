@@ -249,6 +249,110 @@ end of the circle segment corresponding to this segment of the circle.
  As a result of the selection process, a parental population is created, also known as 
  a mating pool, with a size equal to N, i.e. the same as the size of the current population.
 
+\paragraph{Tournament selection}
+
+In tournament selection, the individuals of the population are divided into subgroups, 
+and then from each of them, the individual with the best adaptation (with the highest 
+value of the fitness function - step 2) is selected. 
+There are two different ways of making such a selection: deterministic tournament
+selection and stochastic tournament selection. In the case of a deterministic 
+selection, the probability is equal to me, and in the case of a random selection, 
+the probability is less than 1. 
+The subgroups can be of any size, most often the population is divided into subgroups 
+consisting of two or three individuals. The tournament method is suitable for both 
+maximization and function minimization problems. In addition, it can be easily 
+extended to tasks related to multi-criteria optimization, i.e. optimization of several 
+functions at the same time. 
+In the tournament method, you can change the size of the subgroups into which the 
+tournament size is divided. 
+Research shows that the tournament method works better than the roulette method. 
+It is most often used in practice.
+
+\paragraph{Ranking selection} 
+In ranking selection, the individuals of the population are arranged 
+sequentially according to the value of their fitness function. 
+This can be imagined as a ranking list of individuals ranked from best to worst 
+(or vice versa), where each individual is assigned a number denoting its order on 
+the list and called a rank. 
+The number of copies of each individual, placed in the parent pool, is set 
+according to a predefined function depending on the rank of the individual. 
+The advantage of the ranking method is that it can be used both to maximize and 
+minimize functions. It also does not encounter the problem of premature convergence, 
+which can occur when using the roulette method.
+
+\subsubsection{The crossover operator}
+The first step in crossing is selecting chromosome pairs from the parent population 
+(parent pool) of a temporary population of chromosomes selected by selection and 
+destined for further processing with crossing and mutation operators to form a new 
+descendant population. At this stage, the chromosomes from the parental population 
+are matched in pairs. This is done randomly, according to the probability of p 
+crossing. 
+Then, for each pair of parents selected in this way, the position of the gene 
+(locus) in the chromosome is drawn, which determines the so-called crossing point. 
+If the chromosome of each parent consists of L genes, then of course the crossing point 
+is a natural number smaller than L. 
+Therefore, the choice of the crossing point comes down to drawing a number from the 
+interval [1, L-1]. 
+As a result of crossing a pair of chromosomes in the body, the following pair 
+of descendants is obtained: - descendant 1 - chromosome consisting of genes at 
+positions 1 to 1 coming from the first parent and subsequent genes, from positions 
+1 + 1 to L. coming from the second parent. - descendant 2 - chromosome consisting of 
+genes in positions 1 to 4 from the second parent and subsequent genes, from position 
+1, + 1 to L, from the first parent. 
+A modification of the so defined one-point crossing is also used, namely a two-point 
+cross over. It differs from single-point crossing in that descendants inherit fragments
+of randomized crossing points. There is also a multiple-point crossover, which is a 
+generalization of the previous operations, characterized by a correspondingly greater 
+number of crossing points.
+
+\subsubsection{Mutation operator}
+The mutation operator, according to the probability of mutation, changes the value 
+of the gene in the chromosome to the opposite (ie from 0 to 1 or from 1 to 0). 
+For example, if the mutation in the following chromosome [101010011010] has a 
+gene at position 9, its value of 1 changes to 0, and we obtain a chromosome 
+[101010010010]. 
+As mentioned before, the probability of a mutation is usually very small and 
+of course, it depends on whether a given gene in a chromosome is mutated or not. 
+Performing a mutation in accordance with the probability p. 
+Consists, for example, in drawing a number from the interval [0, 1] 
+for each gene and selecting for mutation those genes for which the drawn number 
+is lower or equal to the probability p
+
+\subsubsection{Create a new population}
+Individuals obtained by the action of the genetic operators on the diseases of the 
+temporary parental population are included in the new population. 
+This population becomes the so-called current population for a given iteration of 
+the genetic algorithm. 
+In each subsequent iteration, values of the fitness function of each of the 
+chromosomes of that population are computed. 
+Then the stop condition of the algorithm is checked and either the result in 
+the form of the chromosome with the highest value of the fitness function is derived 
+or the next step of the genetic algorithm, i.e. selection, is passed. 
+In the classical genetic algorithm, the entire previous chromosome population is 
+replaced by an equally large new population of descendants. 
+Sometimes the so-called elitist strategy consists in protecting the best 
+chromosomes in subsequent iterations. 
+In the classical genetic algorithm, the best-adapted individuals do not always 
+pass to the next generation. 
+The elite strategy is used to prevent the loss of such an individual. 
+It is always included in a new population. Another modification of the classical 
+genetic algorithm is the partial population replacement genetic algorithm, also 
+known as the steady-state algorithm, which is characterized by the fact that 
+part of the population passes to the next generation without any changes. 
+This means that this part of the population is not subject to crossing and mutation 
+operations. 
+Often, in a specific implementation of this type of algorithm, only one or
+individuals are replaced at a time instead of crossing and mutating within
+the entire population. The next iteration in the genetic algorithmic is called 
+generation a new generation or generation of descendants is also referred to as 
+the newly created population of individuals.
+
+\subsubsection{Derivation of the best chromosome} 
+If the condition of stopping the genetic algorithm is met, the result of the 
+algorithm's operation should be derived, i.e. a solution to the problem should 
+be provided. 
+In the classical genetic algorithm, the best solution is chromo som with the highest 
+value of the fitness function.
 
 %==================================================================================================
 \FloatBarrier
