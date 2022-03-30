@@ -354,6 +354,32 @@ be provided.
 In the classical genetic algorithm, the best solution is chromo som with the highest 
 value of the fitness function.
 
+\subsection{Chromosome coding methods} 
+
+\subsubsection{Binary encoding}
+A very important issue in genetic algorithms is the choice of chromosome representation 
+(binary or other, e.g. realists) and the problem of coding potential solutions in the 
+form of chromosomes. 
+The classical genetic algorithm uses binary representation and decimal coding in the 
+binary system, where each bit of the binary code corresponds to the next power of 2. 
+For example, the binary sequence $[10001]$ is the code of the number 17, because
+\begin{equation}
+	1\dot 2^4 + 0\dot 2^3 + 0 \dot 2^2 + 0\dot 2^1 + 1\dot 2^0 = 17
+\end{equation}
+
+\subsubsection{Logarithmic encoding}
+In order to reduce the length of chromosomes, the so-called logarithmic coding. 
+It is mainly used in optimization problems with many parameters and large search spaces. 
+In logarithmic encoding, the first bit (a) of the code string is the sign bit of the 
+exponential function, the second bit (B) is the sign bit of the exponent, 
+and the remaining bits (bin) are the representation of the exponent of the exponential function:
+\begin{equation}
+	[a\dot b\dot bin] = (-1)^b e^{(-1)^{a}[bin]_{10}}
+\end{equation}
+where $[bin]_{10}$ is the decimal value of the binary encoded number. 
+
+\subsubsection{FLoating point encoding}
+
 %==================================================================================================
 \FloatBarrier
 \section{Neuroevolution for agumented topologies}
