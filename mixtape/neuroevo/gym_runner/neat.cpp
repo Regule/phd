@@ -280,8 +280,21 @@ private:
 	Numeric weight;
 	shared_ptr< Node<Numeric> > target;
 	shared_ptr< Node<Numeric> > source;
+
+	static long last_genetic_marker;
+
+public:
+	Link(Numeric weight, shared_ptr< Node<Numeric> > target, shared_ptr< Node<Numeric> > source);
+	void pass_signal(Numeric signal, long cycle) const;
+	void mutate(double factor);
+	Numeric get_weight() const;
+	shared_ptr< Node<Numeric> > get_target() const;
+	shared_ptr< Node<Numeric> > get_source() const;
+
+	string to_string() const;
 };
 
+template <class Numeric> long Link<Numeric>::last_genetic_marker = 0;
 
 //=================================================================================================
 //                                         MAIN 
