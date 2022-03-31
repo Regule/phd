@@ -23,7 +23,7 @@ using std::string;
 using std::vector;
 using std::exception;
 using std::max;
-using std:shared_ptr;
+using std::shared_ptr;
 
 
 //=================================================================================================
@@ -253,35 +253,33 @@ public:
 template<class Numeric> class Link;
 template<class Numeric> class Node;
 
-typedef shared_ptr<Link> link_ptr;
-typedef shared_ptr<Node> node_ptr;
 
 enum AgregationType{
-	sum,
-	product,
-	min,
-	max
+	SUM,
+	PRODUCT,
+	MIN,
+	MAX
 };
 
 enum ActivationType{
-	linear,
-	rectifier,
-	unipolar,
-	bipolar
+	LINEAR,
+	RECTIFIER,
+	UNIPOLAR,
+	BIPOLAR
 };
 
 enum NodeRole{
-	input,
-	output,
-	hidden
+	INPUT,
+	OUTPUT,
+	HIDDEN
 };
 
 template<class Numeric> class Link{
 private:
 	long genetic_marker;
 	Numeric weight;
-	link_ptr target;
-	link_ptr source;
+	shared_ptr< Node<Numeric> > target;
+	shared_ptr< Node<Numeric> > source;
 };
 
 
