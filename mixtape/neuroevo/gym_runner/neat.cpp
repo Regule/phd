@@ -296,6 +296,39 @@ public:
 
 template <class Numeric> long Link<Numeric>::last_genetic_marker = 0;
 
+template<class Numeric> class Node{
+private:
+	long genetic_marker;
+	ActivationType activation;
+	AgregationType argregation;
+	NodeRole role;
+	vector< shared_ptr<Numeric> > outbound;
+	long cycle;
+	Numeric activation_potential;
+	Numeric bias;
+
+	static long last_genetic_marker;
+
+public:
+	Node(ActivationType activation, AgregationType argregation, NodeRole role, Numeric bias);
+	void add_signal(Numeric signal);
+	void reset_activation_potential();
+	Numeric activate() const;
+	vector< shared_ptr<Numeric> > get_outbound_connections() const;
+	void mutate_activation();
+	void mutate_agregation();
+	void mutate_bias(double factor);
+	void increment_cycle();
+	bool is_current_cycle(long current_cyce);
+	void reset_cycle();
+
+	bool operator==(const Node<Numeric> &other); 
+
+
+};
+
+template <class Numeric> long Node<Numeric>::last_genetic_marker = 0;
+
 //=================================================================================================
 //                                         MAIN 
 //=================================================================================================
