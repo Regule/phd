@@ -291,6 +291,7 @@ public:
 	shared_ptr< Node<Numeric> > get_target() const;
 	shared_ptr< Node<Numeric> > get_source() const;
 
+	bool operator==(const Link<Numeric> &other); 
 	string to_string() const;
 };
 
@@ -303,6 +304,7 @@ private:
 	AgregationType argregation;
 	NodeRole role;
 	vector< shared_ptr<Numeric> > outbound;
+	vector< shared_ptr<Numeric> > inbound;
 	long cycle;
 	Numeric activation_potential;
 	Numeric bias;
@@ -311,18 +313,25 @@ private:
 
 public:
 	Node(ActivationType activation, AgregationType argregation, NodeRole role, Numeric bias);
+
 	void add_signal(Numeric signal);
 	void reset_activation_potential();
 	Numeric activate() const;
-	vector< shared_ptr<Numeric> > get_outbound_connections() const;
-	void mutate_activation();
-	void mutate_agregation();
-	void mutate_bias(double factor);
+
 	void increment_cycle();
 	bool is_current_cycle(long current_cyce);
 	void reset_cycle();
 
+	void mutate_activation();
+	void mutate_agregation();
+	void mutate_bias(double factor);
+
+	vector< shared_ptr<Numeric> > get_outbound_connections() const;
+	void connect_outgoing(shared_ptr< Link<Numeric> > link);
+	void connect_incoming(shared_ptr< Link<Numeric> > link);
+
 	bool operator==(const Node<Numeric> &other); 
+	string to_string() const;
 
 
 };
