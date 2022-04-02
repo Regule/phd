@@ -20,7 +20,11 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # Docs only available if this is the main app
 find_package(Doxygen)
 
+# Source files
+file(GLOB_RECURSE SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 
+add_executable(Neat23 ${SRC_FILES})
+target_include_directories(Neat23 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 if(Doxygen_FOUND)
 	set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile.in)
@@ -39,9 +43,3 @@ if(Doxygen_FOUND)
 else()
   message(STATUS "Doxygen not found, not building docs")
 endif()
-
-# Source files
-file(GLOB_RECURSE SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
-
-add_executable(Neat23 ${SRC_FILES})
-target_include_directories(Neat23 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
