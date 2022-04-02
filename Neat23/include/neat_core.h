@@ -2,38 +2,10 @@
  * This header defines classes and enumerations that are core for the NEAT 
  * algorithm operations. 
  * */
-
 #include<vector>
 
 
 
-
-struct EnvironmentMetadata{
-	int cycle;
-	double reward;
-	int running;
-	int error_code;
-	std::string error_msg;
-};
-
-/*! A interface that represents agent environment.
- * This is an interface that must be used by all classes handling communication 
- * between agents (neural networks) created by NEAT and their environment.
- * Agent gathers an observation from environment, then makes a decision and
- * returns an reaction. Those observations and reactions must be described by
- * a vector corresponding to a data representation in receptors and effectors.
- * This interface additionaly include a metadata information that support 
- * learning process, however not all environment can provide those.
- *
- * \tparam Numeric Must be a C++ builtin numeric type or a class that implement all of equivalent functionalities.
- */
-template<class Numeric> class Environment{
-	virtual std::vector<Numeric> get_observation() const = 0;
-	virtual void send_reaction(const std::vector<Numeric> &reaction) const = 0;
-	virtual EnvironmentMetadata get_metadata() const = 0;
-	virtual bool provides_learning_metadata() const = 0;
-
-};
 
 
 /*! This enumeration informs about type of agregation operator of neuron.
