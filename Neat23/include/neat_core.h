@@ -42,18 +42,27 @@ enum NodeRole{
 template<class Numeric> class Link;
 template<class Numeric> class Node;
 
-
+/*! Objects of this class represent links between two neural cells. 
+ * Each connection have assigned weight and target node, for purposes of evolutionary algorithm it also
+ * stores information about its source node however that is not required during normal operation.
+ * Connections are identified by their unique genetic marker which indicates their position in network
+ * topology. Changing weight do not affect genetic marker.
+ *
+ * \tparam Numeric Must be a C++ builtin numeric type or a class that implement all of equivalent functionalities.
+ */
 template<class Numeric> class Link{
-private:
-	long genetic_marker;
-	Numeric weight;
-	std::shared_ptr< Node<Numeric> > target;
-	std::shared_ptr< Node<Numeric> > source;
 
-	static long last_genetic_marker;
+private:
+	long genetic_marker; /*!< A unique identifier related to position of link in network topology.*/
+	Numeric weight; /*!< Weight by which signal will be multiplied when traveling trough link.*/
+	std::shared_ptr< Node<Numeric> > target; /*!< Node to which signal travels trough given link.*/
+	std::shared_ptr< Node<Numeric> > source; /*!< Node from which this link originates, required only during topology modification.*/
+
+	static long last_genetic_marker; /*!< Last assigned marker, used for generation of new identifiers*/
 
 public:
 	Link(Numeric weight, std::shared_ptr< Node<Numeric> > target, std::shared_ptr< Node<Numeric> > source);
+	Link(long genetic_marker, Numeric weight, std::shared_ptr< Node<Numeric> > target, std::shared_ptr< Node<Numeric> > source);
 	void pass_signal(Numeric signal, long cycle) const;
 	void mutate(double factor);
 	Numeric get_weight() const;
