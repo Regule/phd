@@ -1,6 +1,39 @@
+/*!
+ * This header defines classes and enumerations that are core for the NEAT 
+ * algorithm operations. 
+ * */
 
-template<class Numeric> class Link;
-template<class Numeric> class Node;
+#include<vector>
+
+
+
+
+struct EnvironmentMetadata{
+	int cycle;
+	double reward;
+	int running;
+	int error_code;
+	std::string error_msg;
+};
+
+/*! A interface that represents agent environment.
+ * This is an interface that must be used by all classes handling communication 
+ * between agents (neural networks) created by NEAT and their environment.
+ * Agent gathers an observation from environment, then makes a decision and
+ * returns an reaction. Those observations and reactions must be described by
+ * a vector corresponding to a data representation in receptors and effectors.
+ * This interface additionaly include a metadata information that support 
+ * learning process, however not all environment can provide those.
+ *
+ * \tparam Numeric Must be a C++ builtin numeric type or a class that implement all of equivalent functionalities.
+ */
+template<class Numeric> class Environment{
+	virtual std::vector<Numeric> get_observation() const = 0;
+	virtual void send_reaction(const std::vector<Numeric> &reaction) const = 0;
+	virtual EnvironmentMetadata get_metadata() const = 0;
+	virtual bool provides_learning_metadata() const = 0;
+
+};
 
 
 /*! This enumeration informs about type of agregation operator of neuron.
@@ -15,6 +48,7 @@ enum AgregationType{
 	MAX /*!< Activation potential assumes value of greatest signal.*/
 };
 
+
 /*! This enumeration represents an activation function used by a neuron.
  * Activation function takes neuron activation potential as input, substract
  * bias value form it and then transforms result into a cell response.
@@ -26,9 +60,14 @@ enum ActivationType{
 	BIPOLAR
 };
 
+
+/*! This enumeration describes role which node plays in the network.
+ */
 enum NodeRole{
-	INPUT,
-	OUTPUT,
-	HIDDEN
+	INPUT, /*!< Input nodes have their responses correspond to observation instead of activation*/
+	OUTPUT, /*!< Output nodes are similar hidden ones however they cannot be deleted, network response is taken from them.*/
+	HIDDEN /*!< Most common type of node, there is nothing special about it*/
 };
 
+template<class Numeric> class Link;
+template<class Numeric> class Node;
