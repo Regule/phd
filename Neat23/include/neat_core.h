@@ -26,8 +26,8 @@ enum AgregationType{
 enum ActivationType{
 	LINEAR, /*!< Neuron returns its activation potential with bias substraced.*/
 	RECTIFIER, /*!< If activation potential is positive this acts like a linear function otherwise returns zero.*/
-	UNIPOLAR,
-	BIPOLAR
+	UNIPOLAR, /*!< Approximation of unipolar function, it must be implemeted for type used as Numeric in templates*/
+	BIPOLAR /*!< Approximation of bipolar function, it must be implemeted for type used as Numeric in templates*/
 };
 
 
@@ -61,6 +61,12 @@ private:
 	static long last_genetic_marker; /*!< Last assigned marker, used for generation of new identifiers*/
 
 public:
+
+	/*! This is a constructor used for creating new Links that do not correspond to any existing topology.
+	 * It will automaticly assing a new uniqe genetic marker as well as random weight between -1.0 and 1.0.
+	 *
+	 * */
+	Link(Numeric weight);
 
 	/*! This is a constructor used for creating new Links that do not correspond to any existing topology.
 	 * It will automaticly assing a new uniqe genetic marker.
@@ -127,22 +133,36 @@ public:
 	 */
 	bool is_inhibitory() const;
 
+	/*!
+	 * \return Target node of connection.
+	 */
 	std::shared_ptr< Node<Numeric> > get_target() const;
+
+	/*!
+	 * \return Source node of connection.
+	 */
 	std::shared_ptr< Node<Numeric> > get_source() const;
 
+	/*!
+	 * \return True if unique genetic markers of both links are same.
+	 */
 	bool operator==(const Link<Numeric> &other); 
-	std::string to_string() const;
 };
 
-
+/*! This class represents a neural node, essentialy a cell soma.
+ *  It contains information about neuron activation potential as well as its bias.
+ *
+ *
+ * \tparam Numeric Must be a C++ builtin numeric type or a class that implement all of equivalent functionalities.
+ */
 template<class Numeric> class Node{
 private:
-	long genetic_marker;
-	ActivationType activation;
-	AgregationType argregation;
-	NodeRole role;
-	std::vector< std::shared_ptr<Numeric> > outbound;
-	std::vector< std::shared_ptr<Numeric> > inbound;
+	long genetic_marker; /*!< A unique identifier related to position of link in network topology.*/
+	ActivationType activation; /*!< Type of activation function used by neuron.*/
+	AgregationType argregation; /*!< Type of agregation function used by neuron.*/
+	NodeRole role; /*!< Role of node, it can be input, output or hidden.*/
+	std::vector< std::shared_ptr<Numeric> > outbound; /*!< Connections by which signal leaves node.*/
+	std::vector< std::shared_ptr<Numeric> > inbound; /*!< Connections from which signal enters node.*/
 	long cycle;
 	Numeric activation_potential;
 	Numeric bias;
@@ -169,8 +189,6 @@ public:
 	void connect_incoming(std::shared_ptr< Link<Numeric> > link);
 
 	bool operator==(const Node<Numeric> &other); 
-	std::string to_string() const;
-
 
 };
 
