@@ -61,11 +61,72 @@ private:
 	static long last_genetic_marker; /*!< Last assigned marker, used for generation of new identifiers*/
 
 public:
-	Link(Numeric weight, std::shared_ptr< Node<Numeric> > target, std::shared_ptr< Node<Numeric> > source);
-	Link(long genetic_marker, Numeric weight, std::shared_ptr< Node<Numeric> > target, std::shared_ptr< Node<Numeric> > source);
-	void pass_signal(Numeric signal, long cycle) const;
+
+	/*! This is a constructor used for creating new Links that do not correspond to any existing topology.
+	 * It will automaticly assing a new uniqe genetic marker.
+	 *
+	 * \param weight A weight by which signal traveling trough the link will be multiplied.
+	 * */
+	Link(Numeric weight);
+
+	/*! This constructor copies other link genetic marker. Actual topological linkage is not copied
+	 *  as new link must connect to node eqivalents in its own graph not to the original ones.
+	 *
+	 * \param source Other link
+	 * */
+	Link(const Link& source);
+	
+	/*! Returns genetic marker.
+	 * \return Genetic marker.
+	 */
+	long get_marker() const;
+
+	/*! Attaches link to target node object.
+	 *
+	 * \param target Target node
+	 */
+	void set_target(std::shared_ptr< Node<Numeric>> target);
+
+	/*! Attaches link to source node object.
+	 *  Link to source node is required only during evolution phase.
+	 *
+	 * \param source Source node
+	 */
+	void set_source(std::shared_ptr< Node<Numeric>> source);
+	
+	/*! This function multiplies given signal by link weight.
+	 *
+	 * \param signal A signal sent by source node.
+	 */
+	Numeric pass_signal(Numeric signal) const;
+
+	/*! Mutates link weight in range of given factor. For example if current
+	 * weight is 0.8 and factor is 0.5 resulting weight can reach values from range
+	 * of 0.5*0.8 to 1.5*0.8.  If factor is set to zero a new random value from between
+	 * -1.0 and 1.0 will be generated. Setting factor to zero or value above 1.0 can change
+	 *  a node role betwen excitatory and inhibitory.
+	 *
+	 * \param factor Factor by which weight can be changed. If set to zero new weight is generated.
+	 */
 	void mutate(double factor);
+
+	/*! Returns connection weight. This should be used for display purposes only, for 
+	 * multiplying signal by weight a pass_signal function should be used.
+	 *
+	 * \return weight stored in connection
+	 */
 	Numeric get_weight() const;
+
+	/*! Connections can be either excitatory or inhibitory depending on their weight sign.
+	 *  If weight is greater than zero then positive signal will result in rise of activation
+	 *  potential in target neuron, therfore making such connection excitatory.
+	 *  However if weight is less than zero then positive signal will cause a drop of activation
+	 *  potential in target neuron and such connection will be called inhibitory.
+	 *
+	 *  \return True if connection is inhibitory and false if it is excitatory.
+	 */
+	bool is_inhibitory() const;
+
 	std::shared_ptr< Node<Numeric> > get_target() const;
 	std::shared_ptr< Node<Numeric> > get_source() const;
 
