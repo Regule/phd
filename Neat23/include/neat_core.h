@@ -66,7 +66,7 @@ public:
 	 * It will automaticly assing a new uniqe genetic marker as well as random weight between -1.0 and 1.0.
 	 *
 	 * */
-	Link(Numeric weight);
+	Link();
 
 	/*! This is a constructor used for creating new Links that do not correspond to any existing topology.
 	 * It will automaticly assing a new uniqe genetic marker.
@@ -163,21 +163,57 @@ private:
 	NodeRole role; /*!< Role of node, it can be input, output or hidden.*/
 	std::vector< std::shared_ptr<Numeric> > outbound; /*!< Connections by which signal leaves node.*/
 	std::vector< std::shared_ptr<Numeric> > inbound; /*!< Connections from which signal enters node.*/
-	long cycle;
-	Numeric activation_potential;
-	Numeric bias;
+	long cycle; /*!< Number of cycle in which this node operates, reseting activation potential increments cycle.*/
+	Numeric activation_potential; /*!< Activation potential of node.*/
+	Numeric bias; /*!< Bias by which node dampens activation potential.*/
 
-	static long last_genetic_marker;
+	static long last_genetic_marker; /*!< Last assigned marker, used for generation of new identifiers*/
 
 public:
+
+	/*! This is a constructor used for creating new Nodes that do not correspond to any existing topology.
+	 * It generates a new unique maker for it.
+	 *
+	 */
 	Node(ActivationType activation, AgregationType argregation, NodeRole role, Numeric bias);
 
+	/*! This constructor copies other node genetic marker. Actual topological linkage is not copied
+	 *  as new node must connect to links eqivalents in its own graph not to the original ones.
+	 *
+	 * \param source Other node
+	 * */
+	Node(const Node<Numeric> &source);
+
+	/*! This function adds given signal to an activation potential of node. Activation potential is
+	 * stored for duration of single cycle. Addition of signal is not nesecarly a arithmetical addition,
+	 * it actual implementation depends on node aggregation type.
+	 *
+	 * \param signal A value of signal that will be agreagated into an activation potential
+	 */
 	void add_signal(Numeric signal);
+
+	/*! Function resets node activation potential to zero and increments cycle count by one.
+	 */
 	void reset_activation_potential();
+
+	/*! This function returns response of neural cell. To compute response bias is substracted from
+	 * activation potential and resulting value is passed to activation function.
+	 * This function do not affect neuron itself so it is not complete equivalent to biological concept
+	 * of activation.
+	 *
+	 * \return Neuron response for stored activation potential
+	 */
 	Numeric activate() const;
 
-	void increment_cycle();
-	bool is_current_cycle(long current_cyce);
+	/*!
+	 *
+	 * \return True if this node activation potential is set for current cycle
+	 */
+	bool is_current_cycle(long current_cyce) const;
+
+	/*! Resets cycle back to zero and sets activation potential back to zero.
+	 * It should be used only when reseting whole network.
+	 */
 	void reset_cycle();
 
 	void mutate_activation();
