@@ -328,14 +328,32 @@ struct MutationConfiguration{
 };
 
 
-
+/*! This class represents a single neural network based agent. It recives an observation
+ * that sets value on it sensoric neurons. After that network is activated and signal travels
+ * trough interneurons to finally reach motoric neurons. Values from those motoric neurons are
+ * then treated as agent response also reffered to as reaction.
+ * Agent interactions with environment are described as a discrete process in which for every step
+ * in time, called cycle, agent recieves observation from environment and returns reaction to it.
+ * This class also implements functionality required for agent to participate in evalutionary process,
+ * those elements are not required for agent basic functionality and may be ignored if already pretrained
+ * agent is used.
+ *
+ * \tparam Numeric Must be a C++ builtin numeric type or a class that implement all of equivalent functionalities.
+ */
 template<class Numeric> class NeuralAgent{
 private:
+	long cycle;
+	std::vector< std::shared_ptr< Soma<Numeric> > > sensoric;
+	std::vector< std::shared_ptr< Soma<Numeric> > > interneurons;
+	std::vector< std::shared_ptr< Soma<Numeric> > > motoric;
 	id_type species_id;
 	double fitness;
-	std::vector< std::shared_ptr< Soma<Numeric> > > sensoric;
-	std::vector< std::shared_ptr< Soma<Numeric> > > motoric;
-
+public:
+	std::vector<Numeric> activate(const std::vector<Numeric> &observation);
+	void reset();
+	void add_reward(double reward);
+	std::shared_ptr< NeuralAgent<Numeric> > crossover(std::shared_ptr< NeuralAgent<Numeric> > other) const;
+	void mutate(const MutationConfiguration &config);
 };
 
 #endif
