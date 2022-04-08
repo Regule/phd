@@ -2,6 +2,10 @@
  * class that interfaces neural agents with environment.
  * There are no specific implementations here.
  */
+
+#ifndef ENVIRONMENT_ENDPOINT_H
+#define ENVIRONMENT_ENDPOINT_H
+
 #include<vector>
 
 
@@ -75,3 +79,5 @@ template<class Numeric> class Environment{
 	virtual bool provides_learning_metadata() const = 0;
 
 };
+
+#endif

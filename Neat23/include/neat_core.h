@@ -2,6 +2,10 @@
  * This header defines classes and enumerations that are core for the NEAT 
  * algorithm operations. 
  * */
+
+#ifndef NEAT_CORE_H
+#define NEAT_CORE_H
+
 #include<vector>
 #include <memory>
 
@@ -324,5 +328,8 @@ struct MutationConfiguration{
 
 
 class NeuralAgent{
-
+private:
+	long species_id;
 };
+
+#endif
