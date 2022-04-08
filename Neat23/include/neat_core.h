@@ -8,6 +8,7 @@
 
 #include<vector>
 #include <memory>
+#include "utils.h"
 
 
 /*! This enumeration informs about type of agregation operator of neuron.
@@ -37,14 +38,14 @@ enum ActivationType{
 
 /*! This enumeration describes role which node plays in the network.
  */
-enum NodeRole{
+enum SomaRole{
 	INPUT, /*!< Input nodes have their responses correspond to observation instead of activation*/
 	OUTPUT, /*!< Output nodes are similar hidden ones however they cannot be deleted, network response is taken from them.*/
 	HIDDEN /*!< Most common type of node, there is nothing special about it*/
 };
 
 template<class Numeric> class Connection;
-template<class Numeric> class Node;
+template<class Numeric> class Soma;
 
 /*! Objects of this class represent links between two neural cells. 
  * Each connection have assigned weight and target node, for purposes of evolutionary algorithm it also
@@ -57,12 +58,12 @@ template<class Numeric> class Node;
 template<class Numeric> class Connection{
 
 private:
-	long genetic_marker; /*!< A unique identifier related to position of link in network topology.*/
+	id_type genetic_marker; /*!< A unique identifier related to position of link in network topology.*/
 	Numeric weight; /*!< Weight by which signal will be multiplied when traveling trough link.*/
-	std::shared_ptr< Node<Numeric> > target; /*!< Node to which signal travels trough given link.*/
-	std::shared_ptr< Node<Numeric> > source; /*!< Node from which this link originates, required only during topology modification.*/
+	std::shared_ptr< Soma<Numeric> > target; /*!< Soma to which signal travels trough given link.*/
+	std::shared_ptr< Soma<Numeric> > source; /*!< Soma from which this link originates, required only during topology modification.*/
 
-	static long last_genetic_marker; /*!< Last assigned marker, used for generation of new identifiers*/
+	static id_type last_genetic_marker; /*!< Last assigned marker, used for generation of new identifiers*/
 
 public:
 
@@ -95,14 +96,14 @@ public:
 	 *
 	 * \param target Target node
 	 */
-	void set_target(std::shared_ptr< Node<Numeric>> target);
+	void set_target(std::shared_ptr< Soma<Numeric>> target);
 
 	/*! Attaches link to source node object.
 	 *  Connection to source node is required only during evolution phase.
 	 *
 	 * \param source Source node
 	 */
-	void set_source(std::shared_ptr< Node<Numeric>> source);
+	void set_source(std::shared_ptr< Soma<Numeric>> source);
 	
 	/*! This function multiplies given signal by link weight.
 	 *
@@ -140,12 +141,12 @@ public:
 	/*!
 	 * \return Target node of connection.
 	 */
-	std::shared_ptr< Node<Numeric> > get_target() const;
+	std::shared_ptr< Soma<Numeric> > get_target() const;
 
 	/*!
 	 * \return Source node of connection.
 	 */
-	std::shared_ptr< Node<Numeric> > get_source() const;
+	std::shared_ptr< Soma<Numeric> > get_source() const;
 
 	/*!
 	 * \return True if unique genetic markers of both links are same.
@@ -159,34 +160,34 @@ public:
  *
  * \tparam Numeric Must be a C++ builtin numeric type or a class that implement all of equivalent functionalities.
  */
-template<class Numeric> class Node{
+template<class Numeric> class Soma{
 private:
-	long genetic_marker; /*!< A unique identifier related to position of link in network topology.*/
+	id_type genetic_marker; /*!< A unique identifier related to position of link in network topology.*/
 	ActivationType activation; /*!< Type of activation function used by neuron.*/
 	AgregationType argregation; /*!< Type of agregation function used by neuron.*/
-	NodeRole role; /*!< Role of node, it can be input, output or hidden.*/
+	SomaRole role; /*!< Role of node, it can be input, output or hidden.*/
 	std::vector< std::shared_ptr<Numeric> > outbound; /*!< Connections by which signal leaves node.*/
 	std::vector< std::shared_ptr<Numeric> > inbound; /*!< Connections from which signal enters node.*/
 	long cycle; /*!< Number of cycle in which this node operates, reseting activation potential increments cycle.*/
 	Numeric activation_potential; /*!< Activation potential of node.*/
 	Numeric bias; /*!< Bias by which node dampens activation potential.*/
 
-	static long last_genetic_marker; /*!< Last assigned marker, used for generation of new identifiers*/
+	static id_type last_genetic_marker; /*!< Last assigned marker, used for generation of new identifiers*/
 
 public:
 
-	/*! This is a constructor used for creating new Nodes that do not correspond to any existing topology.
+	/*! This is a constructor used for creating new Somas that do not correspond to any existing topology.
 	 * It generates a new unique maker for it.
 	 *
 	 */
-	Node(ActivationType activation, AgregationType argregation, NodeRole role, Numeric bias);
+	Soma(ActivationType activation, AgregationType argregation, SomaRole role, Numeric bias);
 
 	/*! This constructor copies other node genetic marker. Actual topological linkage is not copied
 	 *  as new node must connect to links eqivalents in its own graph not to the original ones.
 	 *
 	 * \param source Other node
 	 * */
-	Node(const Node<Numeric> &source);
+	Soma(const Soma<Numeric> &source);
 
 	/*! This function adds given signal to an activation potential of node. Activation potential is
 	 * stored for duration of single cycle. Addition of signal is not nesecarly a arithmetical addition,
@@ -271,7 +272,7 @@ public:
 	/*!
 	 *\return True if both nodes have same genetic marker and therfore same place in network topology.
 	 */
-	bool operator==(const Node<Numeric> &other); 
+	bool operator==(const Soma<Numeric> &other); 
 
 };
 
@@ -327,9 +328,14 @@ struct MutationConfiguration{
 };
 
 
-class NeuralAgent{
+
+template<class Numeric> class NeuralAgent{
 private:
-	long species_id;
+	id_type species_id;
+	double fitness;
+	std::vector< std::shared_ptr< Soma<Numeric> > > sensoric;
+	std::vector< std::shared_ptr< Soma<Numeric> > > motoric;
+
 };
 
 #endif
