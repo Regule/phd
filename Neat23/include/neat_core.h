@@ -216,14 +216,57 @@ public:
 	 */
 	void reset_cycle();
 
-	void mutate_activation();
-	void mutate_agregation();
+	/*! This method changes activation function randomly. Choice is limited to functions
+	 * included in ActivationType enumeration. It is possible to draw current node function
+	 * from pool in which case it will remain unchanged.
+	 *
+	 * \param distribution Probability distribution for activation types, values in this vector must sum up to 1.0
+	 */
+	void mutate_activation(std::vector<double> distribution);
+
+	/*! This method changes agregation function randomly. Choice is limited to functions
+	 * included in AgregationType enumeration. It is possible to draw current node function
+	 * from pool in which case it will remain unchanged.
+	 *
+	 * \param distribution Probability distribution for agregation types, values in this vector must sum up to 1.0
+	 */
+	void mutate_agregation(std::vector<double> distribution);
+
+	/*! This method changes node bias according to equation new_bias=old_bias+random(-1;1)*old_bias*factor where 
+	 * random(-1;1) represents a number chosen randomly with uniform distribution from inclusive range.
+	 * Setting factor to zero generates bias with equation new_bias=random(-1;1) ignoring old value of bias.
+	 * All calculations are made with double precision floating point representation however final result is cast
+	 * to numeric representation specified in class template. This may result in precision loss as well as in 
+	 * range clamping.
+	 *
+	 * \param factor Factor by which bias can be changed, if set to zero new bias in range <-1,1> is generated.
+	 * */
 	void mutate_bias(double factor);
 
-	std::vector< std::shared_ptr<Numeric> > get_outbound_connections() const;
-	void connect_outgoing(std::shared_ptr< Link<Numeric> > link);
-	void connect_incoming(std::shared_ptr< Link<Numeric> > link);
+	/*! Intention of this method is to provide access to copy of outbound links vector so that signal propagation
+	 * can be implemented outside of node class. This will allow greater control and easier debuging.
+	 *
+	 * \return Copy of vector of node outbound links
+	 */
+	std::vector< std::shared_ptr< Link<Numeric> > > get_outbound_connections() const;
 
+	/*! Adds a outgoing connection, this function is used for building a network topology.
+	 *
+	 * \param connection An outgoing connection
+	 */
+	void connect_outgoing(std::shared_ptr< Link<Numeric> > connection);
+
+	/*! Adds an information about inboud connection to node. Information about those connections is 
+	 * recuired only during evolution phase as removal of node must also remove all connections that 
+	 * lead to it.
+	 *
+	 * \param connection An incoming connection
+	 */
+	void connect_incoming(std::shared_ptr< Link<Numeric> > connection);
+
+	/*!
+	 *\return True if both nodes have same genetic marker and therfore same place in network topology.
+	 */
 	bool operator==(const Node<Numeric> &other); 
 
 };
