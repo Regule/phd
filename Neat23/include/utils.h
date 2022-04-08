@@ -7,5 +7,6 @@
 #define UTILS_H
 
 typedef unsigned long id_type;
+typedef unsigned long cycle_type;
 
 #endif

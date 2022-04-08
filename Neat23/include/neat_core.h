@@ -342,13 +342,14 @@ struct MutationConfiguration{
  */
 template<class Numeric> class NeuralAgent{
 private:
-	long cycle;
-	std::vector< std::shared_ptr< Soma<Numeric> > > sensoric;
-	std::vector< std::shared_ptr< Soma<Numeric> > > interneurons;
-	std::vector< std::shared_ptr< Soma<Numeric> > > motoric;
-	id_type species_id;
-	double fitness;
+	cycle_type cycle; /*!< Number of current cycle in agent operation, activating agent increments cycle. */
+	std::vector< std::shared_ptr< Soma<Numeric> > > sensoric; /*!< Vector of neurons which values are set according to observation. */
+	std::vector< std::shared_ptr< Soma<Numeric> > > interneurons; /*!< Vector of internal neurons that do not interact directly with neither observation nor reaction. */
+	std::vector< std::shared_ptr< Soma<Numeric> > > motoric; /*!< Vector of neurons which values will be treated as agent reaction. */
+	id_type species_id; /*!< Unique spieces identifier. Agents with same spieces identifier have same topology. */
+	double fitness; /*!< Total fitness value gathered through agent operation. Can be reset alongside with cycle number. */
 public:
+
 	std::vector<Numeric> activate(const std::vector<Numeric> &observation);
 	void reset();
 	void add_reward(double reward);
