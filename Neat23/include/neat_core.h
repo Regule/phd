@@ -39,7 +39,7 @@ enum NodeRole{
 	HIDDEN /*!< Most common type of node, there is nothing special about it*/
 };
 
-template<class Numeric> class Link;
+template<class Numeric> class Connection;
 template<class Numeric> class Node;
 
 /*! Objects of this class represent links between two neural cells. 
@@ -50,7 +50,7 @@ template<class Numeric> class Node;
  *
  * \tparam Numeric Must be a C++ builtin numeric type or a class that implement all of equivalent functionalities.
  */
-template<class Numeric> class Link{
+template<class Numeric> class Connection{
 
 private:
 	long genetic_marker; /*!< A unique identifier related to position of link in network topology.*/
@@ -62,25 +62,25 @@ private:
 
 public:
 
-	/*! This is a constructor used for creating new Links that do not correspond to any existing topology.
+	/*! This is a constructor used for creating new Connections that do not correspond to any existing topology.
 	 * It will automaticly assing a new uniqe genetic marker as well as random weight between -1.0 and 1.0.
 	 *
 	 * */
-	Link();
+	Connection();
 
-	/*! This is a constructor used for creating new Links that do not correspond to any existing topology.
+	/*! This is a constructor used for creating new Connections that do not correspond to any existing topology.
 	 * It will automaticly assing a new uniqe genetic marker.
 	 *
 	 * \param weight A weight by which signal traveling trough the link will be multiplied.
 	 * */
-	Link(Numeric weight);
+	Connection(Numeric weight);
 
 	/*! This constructor copies other link genetic marker. Actual topological linkage is not copied
 	 *  as new link must connect to node eqivalents in its own graph not to the original ones.
 	 *
 	 * \param source Other link
 	 * */
-	Link(const Link& source);
+	Connection(const Connection& source);
 	
 	/*! Returns genetic marker.
 	 * \return Genetic marker.
@@ -94,7 +94,7 @@ public:
 	void set_target(std::shared_ptr< Node<Numeric>> target);
 
 	/*! Attaches link to source node object.
-	 *  Link to source node is required only during evolution phase.
+	 *  Connection to source node is required only during evolution phase.
 	 *
 	 * \param source Source node
 	 */
@@ -146,7 +146,7 @@ public:
 	/*!
 	 * \return True if unique genetic markers of both links are same.
 	 */
-	bool operator==(const Link<Numeric> &other); 
+	bool operator==(const Connection<Numeric> &other); 
 };
 
 /*! This class represents a neural node, essentialy a cell soma.
@@ -248,13 +248,13 @@ public:
 	 *
 	 * \return Copy of vector of node outbound links
 	 */
-	std::vector< std::shared_ptr< Link<Numeric> > > get_outbound_connections() const;
+	std::vector< std::shared_ptr< Connection<Numeric> > > get_outbound_connections() const;
 
 	/*! Adds a outgoing connection, this function is used for building a network topology.
 	 *
 	 * \param connection An outgoing connection
 	 */
-	void connect_outgoing(std::shared_ptr< Link<Numeric> > connection);
+	void connect_outgoing(std::shared_ptr< Connection<Numeric> > connection);
 
 	/*! Adds an information about inboud connection to node. Information about those connections is 
 	 * recuired only during evolution phase as removal of node must also remove all connections that 
@@ -262,7 +262,7 @@ public:
 	 *
 	 * \param connection An incoming connection
 	 */
-	void connect_incoming(std::shared_ptr< Link<Numeric> > connection);
+	void connect_incoming(std::shared_ptr< Connection<Numeric> > connection);
 
 	/*!
 	 *\return True if both nodes have same genetic marker and therfore same place in network topology.
@@ -320,4 +320,9 @@ struct MutationConfiguration{
 	EnumeratedMutation agregation; /*!< Change of agregation function in node*/
 	NumericMutation weight; /*!< Change of weight value in connection.*/
 	NumericMutation bias; /*!< Change of bias value in node.*/
+};
+
+
+class NeuralAgent{
+
 };
