@@ -348,13 +348,58 @@ private:
 	std::vector< std::shared_ptr< Soma<Numeric> > > motoric; /*!< Vector of neurons which values will be treated as agent reaction. */
 	id_type species_id; /*!< Unique spieces identifier. Agents with same spieces identifier have same topology. */
 	double fitness; /*!< Total fitness value gathered through agent operation. Can be reset alongside with cycle number. */
+
+	/*! This is constructor that creates a network from list of interconnected neural cells (Soma objects).
+	 * Its visibility is set to private as manual creation of topologies is not permitet as it could potentialy impair 
+	 * genetic marker identifier system used in this library. Instead network models should be either generated randomly by 
+	 * dedicated method, created as a copies of existing networks and then mutated or read from file.
+	 *
+	 * \param sensoric  Vector of neurons which values are set according to observation. 
+	 * \param interneurons  Vector of internal neurons that do not interact directly with neither observation nor reaction. 
+	 * \param motoric  Vector of neurons which values will be treated as agent reaction.
+	 */
+	NeuralAgent(std::vector< std::shared_ptr< Soma<Numeric> > > sensoric,std::vector< std::shared_ptr< Soma<Numeric> > > interneurons, std::vector< std::shared_ptr< Soma<Numeric> > > motoric);
+
 public:
 
+	/*! Copy constuctor.
+	 * It copies not only topology but also all other values from original. It creates a deep copy so all objects 
+	 * conneted by pointers will be also copied instead of using same reference.
+	 *
+	 * \parameter agent Agent that will be copied.
+	 */ 
+	NeuralAgent(const NeuralAgent &agent);
+
+	/*! This is main function of neural agent used for interaction with environment.
+	 * Calling it will add values from observation vector into soma of sensoric neurons and 
+	 * then propagate signals trought network. After that values from motoric neurons will be
+	 * returned as a reaction vector. Another thing that will happen is incrementation of cycle
+	 * count by one.
+	 *
+	 * \param observation A numeric vector representing agent observation of environment.
+	 * \return A reaction vector that should be used for influencing environment.
+	 */
 	std::vector<Numeric> activate(const std::vector<Numeric> &observation);
+
+	/*! Resets neural network that control agent behaviour. Reseting include zeroing activation potential
+	 * in all neurons as well as setting cycle number and fitness back to zero.
+	 */ 
 	void reset();
+
+	/*! This function adds a single reward to fitness of agent.  This way of calculating fitness means that genetic
+	 * algorithm target is maximalisation of fitness function. Reward can be a negative value, in such case it
+	 * will be described as a punishment.
+	 *
+	 * \param reward A reward recieved by action resulting from last reaction of agent.
+	 */
 	void add_reward(double reward);
-	std::shared_ptr< NeuralAgent<Numeric> > crossover(std::shared_ptr< NeuralAgent<Numeric> > other) const;
-	void mutate(const MutationConfiguration &config);
+
+	/*! This is part of genetic algorithm that creates a new offspring that copies values from both parents.
+	 *  It is possible to 
+	 */
+	std::vector< std::shared_ptr< NeuralAgent<Numeric> > > crossover(std::shared_ptr< NeuralAgent<Numeric> > other, int litter_size) const;
+	void mutate(const MutationConfiguration &config, bool allow_speciation);
+	static std::shared_ptr< NeuralAgent<Numeric> > generate_new_spieces(size_t observation_size, size_t reaction_size, size_t interlayer_size);
 };
 
 #endif
