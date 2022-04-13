@@ -154,6 +154,26 @@ public:
 	bool operator==(const Connection<Numeric> &other); 
 };
 
+
+template<class Numeric> class SomaTransfer{
+public:
+	ActivationType activation; /*!< Type of activation function used by neuron.*/
+	AgregationType argregation; /*!< Type of agregation function used by neuron.*/
+	Numeric bias; /*!< Bias by which node dampens activation potential.*/
+};
+
+template<class Numeric> class SomaConnections{
+public:
+	std::vector< std::shared_ptr<Numeric> > outbound; /*!< Connections by which signal leaves node.*/
+	std::vector< std::shared_ptr<Numeric> > inbound; /*!< Connections from which signal enters node.*/
+};
+
+template<class Numeric> class SomaState{
+	long cycle; /*!< Number of cycle in which this node operates, reseting activation potential increments cycle.*/
+	Numeric activation_potential; /*!< Activation potential of node.*/
+
+};
+
 /*! This class represents a neural node, essentialy a cell soma.
  *  It contains information about neuron activation potential as well as its bias.
  *
@@ -162,17 +182,13 @@ public:
  */
 template<class Numeric> class Soma{
 private:
-	id_type genetic_marker; /*!< A unique identifier related to position of link in network topology.*/
-	ActivationType activation; /*!< Type of activation function used by neuron.*/
-	AgregationType argregation; /*!< Type of agregation function used by neuron.*/
 	SomaRole role; /*!< Role of node, it can be input, output or hidden.*/
-	std::vector< std::shared_ptr<Numeric> > outbound; /*!< Connections by which signal leaves node.*/
-	std::vector< std::shared_ptr<Numeric> > inbound; /*!< Connections from which signal enters node.*/
-	long cycle; /*!< Number of cycle in which this node operates, reseting activation potential increments cycle.*/
-	Numeric activation_potential; /*!< Activation potential of node.*/
-	Numeric bias; /*!< Bias by which node dampens activation potential.*/
+	SomaTransfer<Numeric> transfer;
+	SomaConnections<Numeric> connections;
+	SomaState<Numeric> state;
 
 	static id_type last_genetic_marker; /*!< Last assigned marker, used for generation of new identifiers*/
+	id_type genetic_marker; /*!< A unique identifier related to position of link in network topology.*/
 
 public:
 
