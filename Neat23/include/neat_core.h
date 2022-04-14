@@ -154,20 +154,29 @@ public:
 	bool operator==(const Connection<Numeric> &other); 
 };
 
-
-template<class Numeric> class SomaTransfer{
-public:
+/*! This stucture gathers all elements relative to neural cell transfer function.
+ *  All non topological mutations will change one of values contained in this 
+ *  structure.
+ */
+template<class Numeric> struct SomaTransfer{
 	ActivationType activation; /*!< Type of activation function used by neuron.*/
 	AgregationType argregation; /*!< Type of agregation function used by neuron.*/
 	Numeric bias; /*!< Bias by which node dampens activation potential.*/
 };
 
-template<class Numeric> class SomaConnections{
+/*! This structure holds information about connections of neural cell. 
+ * Mutations that change the topology of network will influence fields of this structure.
+ *
+ */
+template<class Numeric> struct SomaConnections{
 public:
 	std::vector< std::shared_ptr<Numeric> > outbound; /*!< Connections by which signal leaves node.*/
 	std::vector< std::shared_ptr<Numeric> > inbound; /*!< Connections from which signal enters node.*/
 };
 
+/*! This structure holds information about current state of neural cell. Operations like signal addition,
+ * cell activation or reset will change it state.
+ */
 template<class Numeric> class SomaState{
 	long cycle; /*!< Number of cycle in which this node operates, reseting activation potential increments cycle.*/
 	Numeric activation_potential; /*!< Activation potential of node.*/
