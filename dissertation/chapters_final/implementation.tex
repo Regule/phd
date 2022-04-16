@@ -1,0 +1,154 @@
+%==================================================================================================
+\FloatBarrier
+\chapter{Implementation of the neuroevolution}
+This chapter aims to describe the assumptions and implementation details of the neuroevolution 
+algorithm developed in this project. 
+While the description takes into account the target model functioning on the robot, 
+in this chapter the attention is focused on a higher level of abstraction. 
+The created algorithm should be able to operate largely in isolation from the specific target 
+implementation.
+
+
+
+%==================================================================================================
+\FloatBarrier
+\section{Observation-decision-reaction model}
+
+In each evolutionary model, the concepts of an individual, environment, and fitness function 
+should be clearly defined. 
+In the case of a neural network, the concept of an individual must take into account the 
+manner of interaction with the environment and the representation of the genotype.
+\begin{figure}[htb] 
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/agent_environment}
+	\caption{Interaction between agent and environment in used model.}
+	\label{fig:agent_environment}
+\end{figure}
+
+Due to previous experience in robotics and multi-agent systems, it was decided to use a model 
+based on the concept of an agent interacting with the environment through the 
+observation-decision-reaction cycle. 
+The relationship of the model elements is illustrated in Figure \ref{fig:agent_environment}.
+The decision is sometimes referred to as the correlation, but this is more true of older works.
+In this model, the agent acquires  information about the environment through observation and 
+influences it through reaction. 
+Since time is assumed to be a discrete variable, the observation at time $t_{i}$ corresponds to the 
+state of the environment resulting from the reaction at time $t_{i-1}$. 
+For a more effective description, another layer of abstraction is introduced, separating the 
+decision system (correlator) from the specific features of the environment using receptor and effector 
+objects. 
+The internal structure of the agent described in this way is shown in Figure \ref{agent_internal}.
+\begin{figure}[htb] 
+	\centering
+	\includegraphics[width=0.9\textwidth]{figures/agent_receptor}
+	\caption{Internal model of agent with enviroment interaction endpoints.}
+	\label{fig:agent_internal}
+\end{figure}
+
+In such a model, we distinguish between internal and external observations, and the same applies 
+to the reaction. Internal representations are independent of the physical implementation of the 
+receptors and effectors. 
+This is a significant advantage as it allows you to transfer decision systems from simulation to 
+physical environments.
+
+In the described project, the role of the receptor and the effector will be played by objects 
+implementing the abstract EnvironmentEndpoint class shown in the listing
+
+\begin{lstlisting}[language=C]
+struct EnvironmentMetadata{
+
+	enum ErrorCode{
+		ENV_ERR_OK = 0, 
+		ENV_ERR_UNKNOWN = 1 
+	};
+
+	int cycle;
+	double reward;
+	int running;
+	ErrorCode error_code;
+	std::string error_msg;
+};
+
+template<class Numeric> class Environment{
+
+	virtual std::vector<Numeric> get_observation() const = 0;
+
+	virtual void send_reaction(const std::vector<Numeric> &reaction) const = 0;
+
+	virtual EnvironmentMetadata get_metadata() const = 0;
+
+	virtual bool provides_learning_metadata() const = 0;
+
+};
+\end{lstlisting}
+
+The classes inheriting from Environment must provide the implementation of the 
+get\_observation and send\_reaction functions as both the receptor and the effector. 
+In both cases, the internal representation of the observations and reactions is a vector of 
+numerical values. A more precise definition of the numerical value in terms of this project is 
+given in the section dedicated to this.
+In addition to the basic interaction of the agent with the environment, objects belonging to 
+this class also provide access to the metadata necessary for the operation of the genetic 
+algorithm and the agent's supervisor.
+In the case of a supervisor, this information is whether the point of interaction with the 
+environment is working and whether there was an error in the last cycle. 
+As for the information for the genetic algorithm, it is primarily a reward given for the agent's 
+reaction in the last cycle. 
+Not every point of interaction with the environment provides this information, it concerns only 
+the simulation, therefore the objects of this class also provide the provides\_learning\_metadata 
+function, which informs about whether the mentioned functionality is available.
+
+
+%==================================================================================================
+\FloatBarrier
+\section{Representation of a network graph}
+
+Before starting work on the implementation of the target model, a more conventional model, 
+and thus easier to modify and analyze, should be created.
+However, already at this stage, the limitations related to the target implementation must be 
+taken into account, and they are as follows:
+\begin{enumerate}
+	\item Possibility to use any representation of numerical values in neural network operation.
+    \item Limiting the available types of activation functions to a linear, rectifier, 
+	unipolar and bipolar.
+    \item Limiting the available types of aggregation functions to sum, product, minimum 
+	and maximum
+\end{enumerate}
+To implement the first limitation, it was decided to use the template mechanism available in C++.
+Thanks to this, it became possible to replace a specific implementation of a numerical value with
+an abstract template called Numeric.
+
+The compiler puts the selected implementation of a numeric type into the compilation process 
+and generates the appropriate implementations of all classes and functions. 
+Exactly what features an implementation of a numeric type must have been described in the 
+\textbf{SUBSECTION REFERENCE} section.
+
+The implementation of the second and third constraints is trivial and comes down to 
+enumeration definitions containing only available functionalities and then selecting functions 
+based on them. 
+Note that the activation and aggregation functions must be defined for all implementations of 
+the numeric type.
+Another problem is the representation of individual neurons and their interactions. 
+This problem has indeed been solved in many ways, but the selection of the correct representation 
+largely depends on the application.
+For example, for implementation using graphics card vector processors and neural networks with 
+clear layer breakdowns, it makes the most sense to represent each layer as a link weight matrix 
+plus a threshold value. 
+Thanks to this approach, obtaining the response of a given layer is represented as a single matrix 
+operation and then the application of the function to all elements of the result vector. 
+Both of these operations are highly optimized in the hardware layer of vector processors and enable 
+quick recalculation of even very complex networks.
+
+In the case of the hardware environment used in the discussed project, however, such an 
+implementation is not recommended. 
+Not only the matrix representation does not introduce any performance improvement due to the 
+lack of hardware support for vector calculations, but it also forces the creation of densely 
+connected networks, which causes a significant increase in computational and memory complexity 
+concerning networks with a sparse network of connections.
+Finally, it was decided to use a graph model based on the concept of modeling the signal flow 
+through a neural network where the nodes represent the cell body (soma) and the connections of 
+dendrites and axons. 
+The connections only store information about the target cell to which they send the signal and 
+the weight by which this signal will be multiplied. 
+The entire aggregation and activation mechanism has been placed in the cell body. 
+A more detailed description of these elements can be found in the sections dedicated to them.
