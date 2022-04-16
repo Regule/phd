@@ -152,3 +152,76 @@ The connections only store information about the target cell to which they send 
 the weight by which this signal will be multiplied. 
 The entire aggregation and activation mechanism has been placed in the cell body. 
 A more detailed description of these elements can be found in the sections dedicated to them.
+\begin{figure}[htb] 
+	\centering
+	\includegraphics[width=\textwidth]{figures/signal_model}
+	\caption{A signal flow trough neural cell.}
+	\label{fig:signal_model}
+\end{figure}
+
+Figure \ref{fig:signal_model} shows the signal path for a neuron with three input connections. 
+This type of visualization contains many repetitive elements that do not need to be shown 
+when visualizing specific networks if the recipient is familiar with the assumptions 
+of the model. 
+Therefore, for the network visualization, the notation as in Figure 4 will be used, 
+where the cell body is represented by a function block and the connection by an arrow. 
+Both at the joints and the bodies, there are their identifiers with the notation 
+resembling simple fractions. In the ``numerator'' there is a unique object 
+identifier informing about its position in the topology, the pool of identifiers 
+is separate for bodies and connections, therefore it is normal to have a connection 
+with the same number as soma. In the case of a combination, only the weight is in the 
+``denominator'', while in the cell body there are identifiers of the aggregation type 
+(AGG), activation (ACT), and the threshold value (BIA).
+\begin{figure}[htb] 
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/simple_mode}
+	\caption{A simplified representation of neural cell.}
+	\label{fig:simple_mode}
+\end{figure}
+
+
+The value of identifiers is displayed as an integer, weight, and threshold are treated 
+as floating-point values regardless of the actual implementation of the numeric type. 
+The aggregation field can take one of four values:  
+\begin{itemize}
+	\item SUM - sum 
+	\item MUL - product 
+	\item MIN - minimum 
+	\item MAX - maximum 
+\end{itemize}
+The activation field can take one of four values:
+\begin{itemize}
+	\item LIN - linear
+	\item REC - rectifier
+	\item UNI - unipolar
+	\item BIP - bipolar
+\end{itemize}
+
+
+%--------------------------------------------------------------------------------------------------
+\FloatBarrier
+\subsection{Numeric type - algebra definition}
+
+
+
+%--------------------------------------------------------------------------------------------------
+\FloatBarrier
+\subsection{Soma}
+The soma or cell body is the central part of the network. 
+It is an object storing a state in the form of an activation potential and a cycle identifier. 
+Each cell can have input and output connections, but two specific types of cells have an additional 
+function
+\begin{enumerate}
+	\item sensory neurons - the value of observation is added to their activation potential and 
+	it is from these neurons that the propagation of the signal in the network begins, 
+	\item motor neurons - the activation values of these neurons are used to generate the 
+	reaction vector.
+\end{enumerate}
+Neurons that have no additional function besides signal transmission are called interneurons, 
+or internal neurons. 
+It should be noted that due to the possibility of recursive connections, motor neurons are not 
+necessarily the last elements of the signal sequence. 
+The number of sensory and motor neurons depends on the task with which the network is measured, 
+therefore they cannot be removed or added by topology-modifying mutations. 
+In addition, these neurons must have information about which of the dimensions of observation or 
+response they correspond to.
