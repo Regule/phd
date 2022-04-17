@@ -6,7 +6,9 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-typedef unsigned long id_type;
-typedef unsigned long cycle_type;
+template<class Numeric> RandomNumberGenerator{
+private:
+			
+};
 
 #endif

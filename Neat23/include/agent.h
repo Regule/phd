@@ -77,12 +77,12 @@ public:
 	 * \param source Other link
 	 * */
 	Connection(const Connection& source);
-	
-	/*! Returns genetic marker.
-	 * \return Genetic marker.
-	 */
-	long get_marker() const;
 
+	/*! A destructor, it will attempt to disconnect this connection from source and target
+	 * if those are not null.
+	 */
+	~Connection();
+	
 	/*! Attaches link to target node object.
 	 *
 	 * \param target Target node
@@ -273,6 +273,7 @@ public:
 	 * \param connection An outgoing connection
 	 */
 	void connect_outgoing(std::shared_ptr< Connection<Numeric> > connection);
+	void disconnect_outgoing(const Connection<Numeric> &connection);
 
 	/*! Adds an information about inboud connection to node. Information about those connections is 
 	 * recuired only during evolution phase as removal of node must also remove all connections that 
@@ -281,6 +282,7 @@ public:
 	 * \param connection An incoming connection
 	 */
 	void connect_incoming(std::shared_ptr< Connection<Numeric> > connection);
+	void disconnect_incoming(const Connection<Numeric> &connection);
 
 	/*!
 	 *\return True if both nodes have same genetic marker and therfore same place in network topology.
