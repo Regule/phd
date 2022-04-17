@@ -289,6 +289,19 @@ public:
 
 };
 
+template<class Numeric> struct NeuralNetwork{
+	cycle_type cycle; /*!< Number of current cycle in agent operation, activating agent increments cycle. */
+	std::vector< std::shared_ptr< Soma<Numeric> > > sensoric; /*!< Vector of neurons which values are set according to observation. */
+	std::vector< std::shared_ptr< Soma<Numeric> > > interneurons; /*!< Vector of internal neurons that do not interact directly with neither observation nor reaction. */
+	std::vector< std::shared_ptr< Soma<Numeric> > > motoric; /*!< Vector of neurons which values will be treated as agent reaction. */
+};
+
+struct EvolutionMetadata{
+	unsigned long species_id; /*!< Unique spieces identifier. Agents with same spieces identifier have same topology. */
+	unsigned long parent_spieces; /*!< Identifier of spieces from which this one originated or zero if it was generated from scratch. */
+	double fitness; /*!< Total fitness value gathered through agent operation. Can be reset alongside with cycle number. */
+};
+
 /*! This class represents a single neural network based agent. It recives an observation
  * that sets value on it sensoric neurons. After that network is activated and signal travels
  * trough interneurons to finally reach motoric neurons. Values from those motoric neurons are
@@ -303,13 +316,8 @@ public:
  */
 template<class Numeric> class NeuralAgent{
 private:
-	cycle_type cycle; /*!< Number of current cycle in agent operation, activating agent increments cycle. */
-	std::vector< std::shared_ptr< Soma<Numeric> > > sensoric; /*!< Vector of neurons which values are set according to observation. */
-	std::vector< std::shared_ptr< Soma<Numeric> > > interneurons; /*!< Vector of internal neurons that do not interact directly with neither observation nor reaction. */
-	std::vector< std::shared_ptr< Soma<Numeric> > > motoric; /*!< Vector of neurons which values will be treated as agent reaction. */
-	unsigned long species_id; /*!< Unique spieces identifier. Agents with same spieces identifier have same topology. */
-	unsigned long parent_spieces; /*!< Identifier of spieces from which this one originated or zero if it was generated from scratch. */
-	double fitness; /*!< Total fitness value gathered through agent operation. Can be reset alongside with cycle number. */
+	NeuralNetwork<Numeric> net;
+	EvolutionMetadata genetics;
 
 	/*! This is constructor that creates a network from list of interconnected neural cells (Soma objects).
 	 * Its visibility is set to private as manual creation of topologies is not permitet as it could potentialy impair 

@@ -7,7 +7,6 @@
 #define NEAT_CORE_H
 
 #include<vector>
-#include <memory>
 #include "utils.h"
 
 
@@ -62,12 +61,26 @@ struct MutationConfiguration{
 	NumericMutation bias; /*!< Change of bias value in node.*/
 };
 
+/*! This class is used as a parent for every object that is part of neural network topology.
+ * It provides a mechanism for identification of unique placement of objects in network 
+ * topology which corresponds with their placement on chromosome.
+ * This is required so that crosover operators will be able to compare correct information.
+ *
+ */
 class GenotypeDependant{
 protected:
-	unsigned long genetic_marker;
-	static unsigned long last_genetic_marker;
+	unsigned long genetic_marker; /*!< The unique genetic marker.*/
+	static unsigned long last_genetic_marker; /*!< Base used for generation of markers. */
 
+	/*! A constructor that creates an object with new genetic marker 
+	 * */
 	GenotypeDependant();
+
+	/*! A constructor that creates an objects with copy of marker from
+	 * source object.
+	 *
+	 * \param source A genotype dependant object which marker will be copied.
+	 */
 	GenotypeDependant(const GenotypeDependant &source);
 public:
 	unsigned long get_marker() const;
