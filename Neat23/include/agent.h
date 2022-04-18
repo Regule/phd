@@ -190,7 +190,7 @@ public:
 	 * It generates a new unique maker for it.
 	 *
 	 */
-	Soma(ActivationType activation, AgregationType argregation, SomaRole role, Numeric bias);
+	Soma(ActivationType activation, AgregationType agregation, SomaRole role, Numeric bias);
 
 	/*! This constructor copies other node genetic marker. Actual topological linkage is not copied
 	 *  as new node must connect to links eqivalents in its own graph not to the original ones.
@@ -229,7 +229,7 @@ public:
 	/*! Resets cycle back to zero and sets activation potential back to zero.
 	 * It should be used only when reseting whole network.
 	 */
-	void reset_cycle();
+	void reset_state();
 
 	/*! This method changes activation function randomly. Choice is limited to functions
 	 * included in ActivationType enumeration. It is possible to draw current node function
