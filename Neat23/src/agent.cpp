@@ -84,6 +84,7 @@ template <class Numeric> void Soma<Numeric>::reset_activation_potential(){
 }
 
 template <class Numeric> Numeric Soma<Numeric>::activate() const{
-	return 0; 
+	// FIXME : FOR TESTS ONLY LINEAR ACTIVATION WORKS
+	return this->state.activation_potential - this->transfer.bias; 
 }
 

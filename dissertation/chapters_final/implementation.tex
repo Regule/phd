@@ -225,3 +225,24 @@ The number of sensory and motor neurons depends on the task with which the netwo
 therefore they cannot be removed or added by topology-modifying mutations. 
 In addition, these neurons must have information about which of the dimensions of observation or 
 response they correspond to.
+
+%==================================================================================================
+\FloatBarrier
+\section{Random number generators}
+The basic random number generators are physical generators, such as a coin toss or dice roll.
+These are random devices in the strict sense of the word. 
+However, generators of this type find little practical use and may be useful only for 
+creation of small samples.
+However, there are possibilities to build device of this type of device that work in tamdem with a computer.
+An example of a physical random number generator, cooperating with a digital machine, is a generator using 
+the phenomenon of radioactivity: a radiation counter is placed near the radiation source and the 
+increments of the counter-indications in successive time intervals of a fixed length are treated as
+implementations of certain random variables.
+It is assumed, based on various physical justifications, that the number of molecules radiated by
+a homogeneous isotope is a random variable with the Poisson distribution.
+
+Another method of generating sequences of random numbers can be briefly characterized as follows.
+First build a sequence of random numbers using a physical generator, for simple cases a single truly
+random number can suffice. 
+After that by using arithmetic operations generate a deterministic sequence to obtain the required 
+number of values.
