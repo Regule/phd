@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <memory>
+#include "utils.h"
 #include "neat_core.h"
 
 /*! This enumeration informs about type of agregation operator of neuron.
@@ -139,10 +140,6 @@ public:
 	 */
 	std::shared_ptr< Soma<Numeric> > get_source() const;
 
-	/*!
-	 * \return True if unique genetic markers of both links are same.
-	 */
-	bool operator==(const Connection<Numeric> &other); 
 };
 
 /*! This stucture gathers all elements relative to neural cell transfer function.
@@ -292,7 +289,7 @@ public:
 };
 
 template<class Numeric> struct NeuralNetwork{
-	cycle_type cycle; /*!< Number of current cycle in agent operation, activating agent increments cycle. */
+	unsigned long cycle; /*!< Number of current cycle in agent operation, activating agent increments cycle. */
 	std::vector< std::shared_ptr< Soma<Numeric> > > sensoric; /*!< Vector of neurons which values are set according to observation. */
 	std::vector< std::shared_ptr< Soma<Numeric> > > interneurons; /*!< Vector of internal neurons that do not interact directly with neither observation nor reaction. */
 	std::vector< std::shared_ptr< Soma<Numeric> > > motoric; /*!< Vector of neurons which values will be treated as agent reaction. */
