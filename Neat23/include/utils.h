@@ -24,7 +24,7 @@ public:
 
 	static std::shared_ptr<RandomNumberGenerator> get_generator();
 	double get_value() const;
-	int get_from_distribution() const;
+	int get_from_distribution(std::vector<double> distribution) const;
 };
 
 

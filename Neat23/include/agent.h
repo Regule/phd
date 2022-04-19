@@ -224,7 +224,7 @@ public:
 	 *
 	 * \return True if this node activation potential is set for current cycle
 	 */
-	bool is_current_cycle(long current_cyce) const;
+	bool is_current_cycle(long current_cycel) const;
 
 	/*! Resets cycle back to zero and sets activation potential back to zero.
 	 * It should be used only when reseting whole network.
@@ -280,11 +280,6 @@ public:
 	 */
 	void connect_incoming(std::shared_ptr< Connection<Numeric> > connection);
 	void disconnect_incoming(const Connection<Numeric> &connection);
-
-	/*!
-	 *\return True if both nodes have same genetic marker and therfore same place in network topology.
-	 */
-	bool operator==(const Soma<Numeric> &other); 
 
 };
 

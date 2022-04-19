@@ -88,3 +88,30 @@ template <class Numeric> Numeric Soma<Numeric>::activate() const{
 	return this->state.activation_potential - this->transfer.bias; 
 }
 
+template <class Numeric> bool Soma<Numeric>::is_current_cycle(long current_cycel) const{
+	return this->state.cycle == current_cycel;
+}
+
+template <class Numeric> void Soma<Numeric>::reset_state(){
+	this->state.activation_potential = 0;
+	this->state.cycle = 0;
+}
+
+template <class Numeric> void Soma<Numeric>::mutate_activation(std::vector<double> distribution){
+	this->transfer.activation = (ActivationType)RandomNumberGenerator::get_generator()->get_from_distribution(distribution);
+}
+
+template <class Numeric> void Soma<Numeric>::mutate_agregation(std::vector<double> distribution){
+	this->transfer.agregation = (AgregationType)RandomNumberGenerator::get_generator()->get_from_distribution(distribution);
+}
+
+template <class Numeric> void Soma<Numeric>::mutate_bias(double factor){
+	double random = RandomNumberGenerator::get_generator()->get_value();
+	this->transfer.bias += this->bias*factor*random;
+}
+
+template <class Numeric> void Soma<Numeric>::connect_outgoing(std::shared_ptr< Connection<Numeric> > connection){
+}
+
+template <class Numeric> void Soma<Numeric>::disconnect_outgoing(const Connection<Numeric> &connection){
+}
