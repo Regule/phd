@@ -226,23 +226,225 @@ therefore they cannot be removed or added by topology-modifying mutations.
 In addition, these neurons must have information about which of the dimensions of observation or 
 response they correspond to.
 
+
+\begin{lstlisting}[language=C]
+template<class Numeric> struct SomaTransfer{
+	ActivationType activation; 
+	AgregationType argregation;
+	Numeric bias; 
+};
+
+template<class Numeric> struct SomaConnections{
+public:
+	std::vector< std::shared_ptr<Numeric> > outbound;
+	std::vector< std::shared_ptr<Numeric> > inbound;
+};
+
+template<class Numeric> class SomaState{
+	long cycle;
+	Numeric activation_potential;
+
+};
+
+template<class Numeric> class Soma: public GenotypeDependant{
+private:
+	SomaRole role;
+	SomaTransfer<Numeric> transfer;
+	SomaConnections<Numeric> connections;
+	SomaState<Numeric> state;
+
+public:
+	Soma(ActivationType activation, AgregationType agregation, SomaRole role, Numeric bias);
+	Soma(const Soma<Numeric> &source);
+	void add_signal(Numeric signal);
+	void reset_activation_potential();
+	Numeric activate() const;
+	bool is_current_cycle(long current_cycel) const;
+	void reset_state();
+	void mutate_activation(std::vector<double> distribution);
+	void mutate_agregation(std::vector<double> distribution);
+	void mutate_bias(double factor);
+	std::vector< std::shared_ptr< Connection<Numeric> > > get_outbound_connections() const;
+	void connect_outgoing(std::shared_ptr< Connection<Numeric> > connection);
+	void disconnect_outgoing(const Connection<Numeric> &connection);
+	void connect_incoming(std::shared_ptr< Connection<Numeric> > connection);
+	void disconnect_incoming(const Connection<Numeric> &connection);
+
+};
+\end{lstlisting}
+
+As shown in listing , the cell body contains information about the current state of the cell and 
+its configuration, as well as information about the topology based on the architecture of 
+smart pointers.
+Additionally, it contains an individual identifier referred to herein as a genetic marker that 
+identifies the position of the cell in the topology. Cells with the same identifier can exist in 
+two different networks as long as their positions in the relative topologies are the same. 
+The type of aggregation, activation, and threshold value do not affect the marker.
+The most important functions provided by Soma class objects are add\_signal and activate because 
+they are used to model the signal flow through the cell. 
+The function add\_signal attaches the incoming signal to the activation potential of the cell 
+body according to the defined aggregation function. The activate function, on the other hand, 
+returns the activation value for the current potential according to the determined activation 
+function. 
+Additionally, activation resets the activation potential and increments the cycle counter by one. 
+This means that all signals reaching the neuron after activation will be counted to the potential 
+in the next cycle.  This is important for modeling recursive connections.
+Additionally, the cell provides functionalities related to genetic operators, such as crossing 
+and mutation. 
+A more detailed description of the functioning of these functions can be found in the section on 
+the implementation of genetic operators.
+
+%--------------------------------------------------------------------------------------------------
+\FloatBarrier
+\subsection{Connection}
+The connection is a stateless element of the neural network topology. 
+As its name implies, it connects the bodies of two cells and allows a signal to pass between them. 
+The source of the signal is the activation value of the source cell which is then multiplied by 
+the connection weight and sent to the target cell.
+\begin{lstlisting}[language=C]
+template<class Numeric> class Connection: public GenotypeDependant{
+
+private:
+	Numeric weight;
+	std::shared_ptr< Soma<Numeric> > target;
+	std::shared_ptr< Soma<Numeric> > source;
+
+public:
+	Connection();
+	Connection(Numeric weight);
+	Connection(const Connection& source);
+	~Connection();
+	void set_target(std::shared_ptr< Soma<Numeric>> target);
+	void set_source(std::shared_ptr< Soma<Numeric>> source);
+	Numeric pass_signal(Numeric signal) const;
+	void mutate(double factor);
+	Numeric get_weight() const;
+	bool is_inhibitory() const;
+	std::shared_ptr< Soma<Numeric> > get_target() const;
+	std::shared_ptr< Soma<Numeric> > get_source() const;
+
+};
+\end{lstlisting}
+
+
+As shown in the listing, the connection contains both weight and topology position information.
+As with the cell body, topology information is realized using smart pointers. 
+Another similarity is the presence of a unique genetic marker. These markers are separated from 
+a separate pool than for cell bodies, therefore the connection and the body with the same 
+identifier do not have to be related to each other in any way.
+
+
 %==================================================================================================
 \FloatBarrier
-\section{Random number generators}
-The basic random number generators are physical generators, such as a coin toss or dice roll.
-These are random devices in the strict sense of the word. 
-However, generators of this type find little practical use and may be useful only for 
-creation of small samples.
-However, there are possibilities to build device of this type of device that work in tamdem with a computer.
-An example of a physical random number generator, cooperating with a digital machine, is a generator using 
-the phenomenon of radioactivity: a radiation counter is placed near the radiation source and the 
-increments of the counter-indications in successive time intervals of a fixed length are treated as
-implementations of certain random variables.
-It is assumed, based on various physical justifications, that the number of molecules radiated by
-a homogeneous isotope is a random variable with the Poisson distribution.
+\section{Genetic operators}
 
-Another method of generating sequences of random numbers can be briefly characterized as follows.
-First build a sequence of random numbers using a physical generator, for simple cases a single truly
-random number can suffice. 
-After that by using arithmetic operations generate a deterministic sequence to obtain the required 
-number of values.
+
+%--------------------------------------------------------------------------------------------------
+\FloatBarrier
+\subsection{Initial population generation}
+To create a new population with a sufficiently high degree of diversity, a pool of seed agents 
+for the species is generated. 
+The creation of such an agent is carried out by repeatedly triggering mutations that add cell 
+bodies and connections to the base agent network model.
+The base model contains only sensory and motor cells, the number of which is dictated by the 
+type of receptors and effectors of the agent. 
+These kinds of cells cannot be removed or added through the mutation process. 
+The base model does not contain any connections and cannot by itself be used as an agent 
+control network.
+From the pool of seed agents, target agents are generated by using mutations that do not 
+modify the topology, that is:
+\begin{itemize}
+	\item change of connection weight
+	\item change of cell threshold
+	\item changing the aggregation function of a cell
+	\item changing the cell activation function
+\end{itemize}
+Mutations at this stage occur to a much greater extent than during the mutation stage in the 
+main loop of the algorithm. 
+Not only does a fixed number of mutations take place, but instead of randomizing the probability 
+of their occurrence, all parameters have much higher values.
+The result of this process is an agent population divided into species, each of which 
+represents a specific topology.
+
+%--------------------------------------------------------------------------------------------------
+\FloatBarrier
+\subsection{Calculating fitness values}
+To perform the selection, it is necessary to establish the value of the agents' adaptation to 
+the environment. 
+For this purpose, a special environment is used that can evaluate the actions of the agent 
+and award rewards for each of his reactions. 
+The prizes may have a negative value, in which case they are referred to as penalties.
+Each interaction of the agent with the environment is defined as an episode that has initial 
+conditions, lasts a certain number of cycles, and ends when the stop condition occurs.
+The universal condition of the stop is reaching the cycle limit, while for each environment, 
+additional conditions are defined related to damage to the agent or the loss of the possibility 
+of achieving the goal set for it.
+The value of the agent's adjustment is the sum of the rewards over the entire period, 
+therefore evolution, like its natural counterpart, will reward behavior that ensures survival, 
+regardless of the specific goal of the agent.
+This should be taken into account when determining the reward for achieving the goal, which must 
+be higher than the possible combination of the remaining rewards obtained in the total number of 
+cycles.
+Even in that case, evolution may favor agents striving to achieve their goal as late as possible. 
+One way around this problem is to add a penalty called "the pain of existence", which means that 
+in each cycle the default reward is negative, and only taking some action to bring the agent 
+closer to the goal can avoid the penalty.
+Since the initial conditions and the transition between cycles contain elements of randomness, 
+it is necessary to guide the agent through several episodes and then calculate the average adaptation. 
+The elements of randomness are necessary because otherwise the neural network could only change 
+and adapt to the specific training environment.
+This would be extremely harmful as robotic agents are designed to operate in environments with 
+low predictability and high levels of noise.
+
+%--------------------------------------------------------------------------------------------------
+\FloatBarrier
+\subsection{Selection}
+After the fitness of all agents in the population has been established, the selection of 
+individuals that will enter the reproductive pool begins. As part of this project, the concept 
+of the elite was applied, which means that the group of the best individuals will end up in the 
+reproductive pool and will be transferred unchanged to the next generation. 
+Due to the division into species in the implemented model, the presence of an individual of 
+a given species also guarantees a place in the reproductive pool for a group of other individuals 
+of a given species.
+In the case of agents who are added to the pool due to the representation of the species in 
+the elite, a roulette algorithm is used, while in the case of other agents, a combination of 
+roulette and tournament algorithms is used.
+In the first step of the algorithm, two species are selected, and a roulette algorithm functions 
+here, the weights of which are the total adjustment of individuals of a given species. 
+Then the roulette algorithm is called again for each of the species and a representative is 
+selected on its basis. 
+Representatives of both species are then subject to the tournament algorithm, and the one whose 
+match has the higher value is added along with another individual of his species selected 
+completely randomly to the reproductive pool.
+
+%--------------------------------------------------------------------------------------------------
+\FloatBarrier
+\subsection{Crossover}
+After the generation of a reproductive pool as part of the selection, crossbreeding occurs. 
+Due to the use of the species disaggregated population model, there are several possible approaches 
+to allowed parent combinations. 
+\begin{enumerate}
+	\item Free interspecies mating
+	\item Can only be reproduced between related species
+	\item No possibility of interspecies evaporation.
+\end{enumerate}
+Free association allows the greatest variety of topologies to be created, and at the same time, 
+it is the least stable solution. 
+This is the only variant that allows for the emergence of a new species in the process of 
+crossing. 
+As in the case of the NEAT implementation on which it was modeled, this variant will be used 
+in this project.
+
+%--------------------------------------------------------------------------------------------------
+\FloatBarrier
+\subsection{Mutation}
+The new generation generated by crossbreeding is then mutated. Without this operator, 
+it would be impossible for new information to appear in the model, 
+but only to recombine existing settings.
+In this work, we distinguish two types of mutations. The first is the transmittance mutation 
+and the second is the topology mutation. 
+As part of the transmittance mutation, the aggregation function, activation function, 
+connection weight, or activation threshold can change.
+If the aggregation and activation operators are modified, the new value is selected from a 
+predefined pool according to the probability distribution specified in the configuration.
+In case of mutation of numerical values
